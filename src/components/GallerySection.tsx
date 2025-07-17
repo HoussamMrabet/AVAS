@@ -48,13 +48,13 @@ const GallerySection: React.FC = () => {
   };
 
   return (
-    <section className="py-16">
-      <div className="mx-auto">
-        <div className="space-y-8">
+    <section className="py-8 md:py-16">
+      <div className="mx-auto px-4 md:px-0">
+        <div className="space-y-4 md:space-y-8">
           {/* First Row: 40% left, 60% right */}
-          <div className="flex flex-col lg:flex-row gap-8 h-[600px]">
+          <div className="flex flex-col lg:flex-row gap-4 md:gap-8 h-[400px] md:h-[500px] lg:h-[600px]">
             {/* First Picture - 40% width */}
-            <div className="lg:w-2/5  relative overflow-hidden group">
+            <div className="lg:w-2/5 relative overflow-hidden group">
               <img
                 src={galleryItems[0].image}
                 alt={galleryItems[0].title}
@@ -63,11 +63,11 @@ const GallerySection: React.FC = () => {
               <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
               
               {/* Content Box - Top Left */}
-              <div className={`absolute ${getPositionClasses(galleryItems[0].position)} bg-white shadow-lg border-t-2 border-b-2 border-black p-6 w-56 transform group-hover:scale-105 transition-transform duration-300`}>
-                <h3 className="text-md font-bold text-gray-900 mb-3">
+              <div className={`absolute ${getPositionClasses(galleryItems[0].position)} bg-white shadow-lg border-t-2 border-b-2 border-black p-3 md:p-6 w-48 md:w-56 transform group-hover:scale-105 transition-transform duration-300`}>
+                <h3 className="text-sm md:text-md font-bold text-gray-900 mb-2 md:mb-3">
                   {galleryItems[0].title}
                 </h3>
-                <p className="text-gray-600 text-xs leading-relaxed">
+                <p className="text-gray-600 text-xs leading-relaxed line-clamp-4">
                   {galleryItems[0].description}
                 </p>
               </div>
@@ -83,11 +83,11 @@ const GallerySection: React.FC = () => {
               <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
               
               {/* Content Box - Bottom Left */}
-              <div className={`absolute ${getPositionClasses(galleryItems[1].position)} bg-white shadow-lg border-t-2 border-b-2 border-black p-6 w-56 transform group-hover:scale-105 transition-transform duration-300`}>
-                <h3 className="text-md font-bold text-gray-900 mb-3">
+              <div className={`absolute ${getPositionClasses(galleryItems[1].position)} bg-white shadow-lg border-t-2 border-b-2 border-black p-3 md:p-6 w-48 md:w-56 transform group-hover:scale-105 transition-transform duration-300`}>
+                <h3 className="text-sm md:text-md font-bold text-gray-900 mb-2 md:mb-3">
                   {galleryItems[1].title}
                 </h3>
-                <p className="text-gray-600 text-xs leading-relaxed">
+                <p className="text-gray-600 text-xs leading-relaxed line-clamp-4">
                   {galleryItems[1].description}
                 </p>
               </div>
@@ -95,7 +95,7 @@ const GallerySection: React.FC = () => {
           </div>
 
           {/* Second Row: 60% left, 40% right */}
-          <div className="flex flex-col lg:flex-row gap-8 h-[600px]">
+          <div className="flex flex-col lg:flex-row gap-4 md:gap-8 h-[400px] md:h-[500px] lg:h-[600px]">
             {/* Third Picture - 60% width */}
             <div className="lg:w-3/5 relative overflow-hidden group">
               <img
@@ -106,11 +106,11 @@ const GallerySection: React.FC = () => {
               <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
               
               {/* Content Box - Bottom Right */}
-              <div className={`absolute ${getPositionClasses(galleryItems[2].position)} bg-white shadow-lg border-t-2 border-b-2 border-black p-6 w-56 transform group-hover:scale-105 transition-transform duration-300`}>
-                <h3 className="text-md font-bold text-gray-900 mb-3">
+              <div className={`absolute ${getPositionClasses(galleryItems[2].position)} bg-white shadow-lg border-t-2 border-b-2 border-black p-3 md:p-6 w-48 md:w-56 transform group-hover:scale-105 transition-transform duration-300`}>
+                <h3 className="text-sm md:text-md font-bold text-gray-900 mb-2 md:mb-3">
                   {galleryItems[2].title}
                 </h3>
-                <p className="text-gray-600 text-xs leading-relaxed">
+                <p className="text-gray-600 text-xs leading-relaxed line-clamp-4">
                   {galleryItems[2].description}
                 </p>
               </div>
@@ -126,11 +126,11 @@ const GallerySection: React.FC = () => {
               <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
               
               {/* Content Box - Top Right */}
-              <div className={`absolute ${getPositionClasses(galleryItems[3].position)} bg-white shadow-lg border-t-2 border-b-2 border-black p-6 w-56 transform group-hover:scale-105 transition-transform duration-300`}>
-                <h3 className="text-md font-bold text-gray-900 mb-3">
+              <div className={`absolute ${getPositionClasses(galleryItems[3].position)} bg-white shadow-lg border-t-2 border-b-2 border-black p-3 md:p-6 w-48 md:w-56 transform group-hover:scale-105 transition-transform duration-300`}>
+                <h3 className="text-sm md:text-md font-bold text-gray-900 mb-2 md:mb-3">
                   {galleryItems[3].title}
                 </h3>
-                <p className="text-gray-600 text-xs leading-relaxed">
+                <p className="text-gray-600 text-xs leading-relaxed line-clamp-4">
                   {galleryItems[3].description}
                 </p>
               </div>

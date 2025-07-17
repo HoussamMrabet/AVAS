@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, User, Settings, ShoppingBag, LogOut } from 'lucide-react';
 
 interface NavbarProps {
   isMenuOpen: boolean;
@@ -8,6 +8,11 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  
+  // Mock authentication state - replace with your actual auth logic
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState({ name: 'John Doe', avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop' });
 
   const dropdownItems = [
     { label: 'Jeunesse', href: '/poles/jeunesse' },
@@ -16,6 +21,20 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
     { label: 'Citoyenneté', href: '/poles/citoyennete' },
   ];
 
+  const userDropdownItems = [
+    { label: 'Profile', href: '/profile', icon: User },
+    { label: 'Settings', href: '/settings', icon: Settings },
+    { label: 'Orders', href: '/orders', icon: ShoppingBag },
+  ];
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setIsUserDropdownOpen(false);
+  };
   return (
     <nav className="relative z-50 bg-white">
       <div className="mx-auto px-6 lg:px-8">
@@ -64,7 +83,57 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
               <span className="text-gray-300">|</span>
               <a href="/contact" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Contact</a>
               <span className="text-gray-300">|</span>
-              <a href="/profil" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Profil</a>
+              
+              {/* Authentication Section */}
+              {!isLoggedIn ? (
+                <button 
+                  onClick={handleLogin}
+                  className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium"
+                >
+                  Login
+                </button>
+              ) : (
+                <div className="relative group">
+                  <button 
+                    onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                    className="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium"
+                  >
+                    <img 
+                      src={user.avatar} 
+                      alt={user.name}
+                      className="w-6 h-6 rounded-full mr-2"
+                    />
+                    <span>{user.name}</span>
+                    <ChevronDown size={16} className="ml-1" />
+                  </button>
+                  
+                  {isUserDropdownOpen && (
+                    <div className="absolute top-full right-0 bg-white shadow-lg rounded-md py-2 w-48 z-40">
+                      {userDropdownItems.map((item, idx) => {
+                        const IconComponent = item.icon;
+                        return (
+                          <a
+                            key={idx}
+                            href={item.href}
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            <IconComponent size={16} className="mr-3" />
+                            {item.label}
+                          </a>
+                        );
+                      })}
+                      <hr className="my-1" />
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        <LogOut size={16} className="mr-3" />
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
@@ -119,7 +188,49 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
             <a href="/partenaires" className="text-gray-700 hover:text-blue-600 text-lg">Nos partenaires</a>
             <a href="/equipe" className="text-gray-700 hover:text-blue-600 text-lg">Notre équipe</a>
             <a href="/contact" className="text-gray-700 hover:text-blue-600 text-lg">Contact</a>
-            <a href="/profil" className="text-gray-700 hover:text-blue-600 text-lg">Profil</a>
+            
+            {/* Mobile Authentication */}
+            {!isLoggedIn ? (
+              <button 
+                onClick={handleLogin}
+                className="text-gray-700 hover:text-blue-600 text-lg text-left"
+              >
+                Login
+              </button>
+            ) : (
+              <div className="space-y-2">
+                <div className="flex items-center text-gray-700 text-lg">
+                  <img 
+                    src={user.avatar} 
+                    alt={user.name}
+                    className="w-8 h-8 rounded-full mr-3"
+                  />
+                  <span>{user.name}</span>
+                </div>
+                <div className="pl-11 space-y-1">
+                  {userDropdownItems.map((item, idx) => {
+                    const IconComponent = item.icon;
+                    return (
+                      <a
+                        key={idx}
+                        href={item.href}
+                        className="flex items-center text-gray-600 hover:text-blue-500 text-base py-1"
+                      >
+                        <IconComponent size={16} className="mr-2" />
+                        {item.label}
+                      </a>
+                    );
+                  })}
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center text-gray-600 hover:text-blue-500 text-base py-1"
+                  >
+                    <LogOut size={16} className="mr-2" />
+                    Logout
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -54,36 +54,36 @@ const TestimonialSection: React.FC = () => {
   const currentTestimonial = testimonials[currentIndex];
 
   return (
-    <section className="">
-      <div className="my-10 h-[500px] flex flex-col py-16 mx-auto bg-black">
+    <section className="px-4 md:px-0">
+      <div className="my-6 md:my-10 min-h-[400px] md:min-h-[500px] flex flex-col py-8 md:py-16 mx-auto bg-black">
         {/* Section Title */}
-        <div className="text-center mb-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
+        <div className="text-center mb-8 md:mb-16">
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-8">
             Témoignages
           </h2>
         </div>
 
         {/* Testimonial Slider - Fixed Height Container */}
-        <div className="relative max-w-4xl mx-auto flex-1 flex flex-col">
+        <div className="relative max-w-4xl mx-auto flex-1 flex flex-col px-4 md:px-0">
           {/* Navigation Buttons */}
           <button
             onClick={prevTestimonial}
-            className="absolute left-0 top-1/3 transform -translate-y-1/2 -translate-x-12 text-white hover:text-[#9F9B9B] p-3 z-10"
+            className="absolute left-0 md:-left-12 top-1/3 transform -translate-y-1/2 text-white hover:text-[#9F9B9B] p-2 md:p-3 z-10"
             disabled={isAnimating}
           >
-            <ChevronLeft size={36} />
+            <ChevronLeft size={24} className="md:w-9 md:h-9" />
           </button>
 
           <button
             onClick={nextTestimonial}
-            className="absolute right-0 top-1/3 transform -translate-y-1/2 translate-x-12 text-white hover:text-[#9F9B9B] p-3 z-10"
+            className="absolute right-0 md:-right-12 top-1/3 transform -translate-y-1/2 text-white hover:text-[#9F9B9B] p-2 md:p-3 z-10"
             disabled={isAnimating}
           >
-            <ChevronRight size={36} />
+            <ChevronRight size={24} className="md:w-9 md:h-9" />
           </button>
 
           {/* Testimonial Content */}
-          <div className="text-center px-16">
+          <div className="text-center px-8 md:px-16">
             <div 
               className={`transition-all duration-300 ${
                 isAnimating 
@@ -94,16 +94,16 @@ const TestimonialSection: React.FC = () => {
               }`}
             >
               {/* Comment */}
-              <blockquote className="text-xl md:text-2xl text-white leading-relaxed mb-8 italic">
+              <blockquote className="text-lg md:text-xl lg:text-2xl text-white leading-relaxed mb-6 md:mb-8 italic">
                 "{currentTestimonial.comment}"
               </blockquote>
 
               {/* Author */}
               <div className="text-gray-300">
-                <p className="text-lg font-semibold text-white mb-1">
+                <p className="text-base md:text-lg font-semibold text-white mb-1">
                   {currentTestimonial.author}
                 </p>
-                <p className="text-sm">
+                <p className="text-sm md:text-base">
                   {currentTestimonial.position}
                 </p>
               </div>
@@ -111,7 +111,7 @@ const TestimonialSection: React.FC = () => {
           </div>
 
           {/* Dots Indicator */}
-          <div className="flex justify-center mt-8 space-x-2">
+          <div className="flex justify-center mt-6 md:mt-8 space-x-2">
             {testimonials.map((_, index) => (
               <button
                 key={index}
