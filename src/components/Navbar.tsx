@@ -16,7 +16,7 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
 
   const dropdownItems = [
     { label: 'Jeunesse', href: '/poles/jeunesse' },
-    { label: 'Elle le Vaulx Bien', href: '/poles/elle-le-vaulx-bien' },
+    { label: 'Elle le Vaulx Bien', href: '/poles/Elle-Le-Vaulx-Bien' },
     { label: 'Médiation Urbaine', href: '/poles/mediation-urbaine' },
     { label: 'Citoyenneté', href: '/poles/citoyennete' },
   ];
@@ -24,7 +24,7 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const userDropdownItems = [
     { label: 'Profile', href: '/profile', icon: User },
     { label: 'Settings', href: '/settings', icon: Settings },
-    { label: 'Orders', href: '/orders', icon: ShoppingBag },
+    { label: 'Mes commandes', href: '/commandes', icon: ShoppingBag },
   ];
 
   const handleLogin = () => {

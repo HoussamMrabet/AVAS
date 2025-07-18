@@ -31,9 +31,9 @@ const PoleJeunesse: React.FC = () => {
   ];
 
   const chantiersTypes = [
-    { name: "Entretien", icon: Wrench },
-    { name: "Peinture", icon: Activity },
-    { name: "Piquetage", icon: Target }
+    { name: "Entretien"},
+    { name: "Peinture"},
+    { name: "Piquetage"}
   ];
 
   const programs = [
@@ -198,12 +198,8 @@ const PoleJeunesse: React.FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {chantiersTypes.map((type, index) => {
-            const IconComponent = type.icon;
             return (
               <div key={index} className="text-center p-4 md:p-6 bg-white rounded-lg shadow-lg border-t-4 border-blue-500 hover:shadow-xl transition-shadow duration-300">
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
-                  <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-blue-600" />
-                </div>
                 <h3 className="text-lg md:text-xl font-bold text-gray-900">{type.name}</h3>
               </div>
             );
