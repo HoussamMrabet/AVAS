@@ -12,17 +12,17 @@ const NotFound: React.FC = () => {
     },
     {
       icon: Search,
-      title: 'Nos Actions',
+      title: 'Actualités',
       description: 'Découvrez nos pôles d\'activité',
-      link: '/about',
-      color: 'green'
+      link: '/actualites',
+      color: 'blue'
     },
     {
       icon: Mail,
       title: 'Contact',
       description: 'Contactez notre équipe',
       link: '/contact',
-      color: 'purple'
+      color: 'blue'
     }
   ];
 
@@ -53,9 +53,18 @@ const NotFound: React.FC = () => {
   return (
     <section>
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-red-500 to-pink-600 text-white py-12 md:py-16 lg:py-20">
-        <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 text-center">
-          <div className="text-6xl md:text-7xl lg:text-8xl font-bold mb-4 md:mb-6 opacity-20">404</div>
+      <div className="relative h-[60vh] md:h-[70vh] lg:h-[80vh] flex items-center justify-center text-white">
+        {/* Fixed Background Image */}
+        <div
+          className="absolute inset-0 bg-fixed bg-center bg-cover z-0"
+          style={{ backgroundImage: `url('/notfound-hero.png')` }}
+        />
+
+        {/* Overlay for readability */}
+        <div className="absolute inset-0 bg-black bg-opacity-50 z-10" />
+
+        {/* Content */}
+        <div className="relative z-20 max-w-6xl mx-auto px-4 md:px-6 lg:px-8 text-center">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">Page Introuvable</h1>
           <p className="text-base md:text-lg lg:text-xl leading-relaxed max-w-4xl mx-auto">
             Désolé, la page que vous recherchez n'existe pas ou a été déplacée
@@ -69,14 +78,14 @@ const NotFound: React.FC = () => {
           <div className="w-24 h-24 md:w-32 md:h-32 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 md:mb-8">
             <Search className="w-12 h-12 md:w-16 md:h-16 text-gray-400" />
           </div>
-          
+
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 md:mb-6 lg:mb-8">Oups ! Nous n'avons pas trouvé cette page</h2>
           <p className="text-sm md:text-base lg:text-lg text-gray-600 leading-relaxed max-w-4xl mx-auto mb-6 md:mb-8">
-            Il semble que la page que vous cherchez n'existe pas. Elle a peut-être été supprimée, 
-            déplacée ou vous avez tapé une adresse incorrecte. Pas de panique, nous sommes là pour 
+            Il semble que la page que vous cherchez n'existe pas. Elle a peut-être été supprimée,
+            déplacée ou vous avez tapé une adresse incorrecte. Pas de panique, nous sommes là pour
             vous aider à retrouver votre chemin !
           </p>
-          
+
           {/* Back Button */}
           <button
             onClick={() => window.history.back()}
@@ -94,7 +103,7 @@ const NotFound: React.FC = () => {
             {suggestions.map((suggestion, index) => {
               const IconComponent = suggestion.icon;
               const colors = getColorClasses(suggestion.color);
-              
+
               return (
                 <a
                   key={index}
@@ -116,33 +125,10 @@ const NotFound: React.FC = () => {
           </div>
         </div>
 
-        {/* Additional Help */}
-        <div className="bg-gray-50 rounded-lg p-4 md:p-6 lg:p-8 text-center">
-          <h4 className="text-lg md:text-xl font-bold text-gray-900 mb-3 md:mb-4">Besoin d'aide supplémentaire ?</h4>
-          <p className="text-gray-600 mb-4 md:mb-6 max-w-2xl mx-auto text-sm md:text-base">
-            Si vous ne trouvez toujours pas ce que vous cherchez, notre équipe est là pour vous aider. 
-            N'hésitez pas à nous contacter directement.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-            <a
-              href="/contact"
-              className="bg-blue-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium text-sm md:text-base"
-            >
-              Nous Contacter
-            </a>
-            <a
-              href="mailto:nunialiovas@gmail.com"
-              className="bg-gray-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-gray-700 transition-colors duration-200 font-medium text-sm md:text-base"
-            >
-              Envoyer un Email
-            </a>
-          </div>
-        </div>
-
         {/* Fun Fact */}
         <div className="text-center mt-8 md:mt-12 p-4 md:p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border-l-4 border-blue-500">
           <p className="text-gray-700 italic text-sm md:text-base">
-            <strong>Le saviez-vous ?</strong> AVAS accompagne plus de 500 personnes chaque année 
+            <strong>Le saviez-vous ?</strong> AVAS accompagne plus de 500 personnes chaque année
             à Vaulx-en-Velin à travers ses trois pôles d'activité. Découvrez nos actions sur notre page d\'accueil !
           </p>
         </div>

@@ -14,7 +14,6 @@ interface Article {
   likes: number;
   comments: number;
   image: string;
-  category: string;
   linkedinUrl: string;
 }
 
@@ -35,7 +34,6 @@ const Actualites: React.FC = () => {
       likes: 89,
       comments: 23,
       image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop",
-      category: "Médiation",
       linkedinUrl: "https://linkedin.com/posts/avas-mediation"
     },
     {
@@ -51,7 +49,6 @@ const Actualites: React.FC = () => {
       likes: 156,
       comments: 45,
       image: "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop",
-      category: "Formation",
       linkedinUrl: "https://linkedin.com/posts/avas-formation"
     },
     {
@@ -67,7 +64,6 @@ const Actualites: React.FC = () => {
       likes: 134,
       comments: 67,
       image: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop",
-      category: "Partenariat",
       linkedinUrl: "https://linkedin.com/posts/avas-partenariat"
     },
     {
@@ -83,7 +79,6 @@ const Actualites: React.FC = () => {
       likes: 78,
       comments: 34,
       image: "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop",
-      category: "Événement",
       linkedinUrl: "https://linkedin.com/posts/avas-portes-ouvertes"
     },
     {
@@ -99,7 +94,6 @@ const Actualites: React.FC = () => {
       likes: 112,
       comments: 28,
       image: "https://images.pexels.com/photos/3184317/pexels-photo-3184317.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop",
-      category: "Infrastructure",
       linkedinUrl: "https://linkedin.com/posts/avas-nouveau-local"
     },
     {
@@ -115,23 +109,16 @@ const Actualites: React.FC = () => {
       likes: 203,
       comments: 89,
       image: "https://images.pexels.com/photos/3184394/pexels-photo-3184394.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop",
-      category: "Bilan",
       linkedinUrl: "https://linkedin.com/posts/avas-bilan-2023"
     }
   ];
 
-  const categories = ['all', 'Médiation', 'Formation', 'Partenariat', 'Événement', 'Infrastructure', 'Bilan'];
-
-  const filteredArticles = selectedCategory === 'all' 
-    ? articles 
-    : articles.filter(article => article.category === selectedCategory);
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    return date.toLocaleDateString('fr-FR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     });
   };
 
@@ -145,8 +132,18 @@ const Actualites: React.FC = () => {
   return (
     <section>
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white py-12 md:py-16 lg:py-20">
-        <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 text-center">
+      <div className="relative h-[30vh] md:h-[40vh] lg:h-[50vh] flex items-center justify-center text-white">
+        {/* Fixed Background Image */}
+        <div
+          className="absolute inset-0 bg-fixed bg-center bg-cover z-0"
+          style={{ backgroundImage: `url('/actuality-hero.png')` }}
+        />
+
+        {/* Overlay for readability */}
+        <div className="absolute inset-0 bg-black bg-opacity-50 z-10" />
+
+        {/* Content */}
+        <div className="relative z-20 max-w-6xl mx-auto px-4 md:px-6 lg:px-8 text-center">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">Actualités</h1>
           <p className="text-base md:text-lg lg:text-xl leading-relaxed max-w-4xl mx-auto">
             Découvrez les dernières nouvelles et réalisations d'AVAS
@@ -159,39 +156,22 @@ const Actualites: React.FC = () => {
         <div className="text-center mb-8 md:mb-12 lg:mb-16">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 md:mb-6 lg:mb-8">Restez Informés</h2>
           <p className="text-sm md:text-base lg:text-lg text-gray-600 leading-relaxed max-w-4xl mx-auto mb-4 md:mb-6 lg:mb-8">
-            Suivez l'actualité d'AVAS et découvrez nos dernières réalisations, partenariats et événements. 
-            Nos articles, initialement publiés sur LinkedIn, vous permettent de rester connectés avec 
+            Suivez l'actualité d'AVAS et découvrez nos dernières réalisations, partenariats et événements.
+            Nos articles, initialement publiés sur LinkedIn, vous permettent de rester connectés avec
             notre communauté et de suivre l'évolution de nos projets en temps réel.
           </p>
           <p className="text-sm md:text-base lg:text-lg text-gray-600 leading-relaxed max-w-4xl mx-auto">
-            De la médiation urbaine aux formations professionnelles, en passant par nos événements 
-            communautaires, chaque article témoigne de notre engagement quotidien pour le développement 
+            De la médiation urbaine aux formations professionnelles, en passant par nos événements
+            communautaires, chaque article témoigne de notre engagement quotidien pour le développement
             de Vaulx-en-Velin.
           </p>
-        </div>
-
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-3 md:px-6 py-1 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-200 ${
-                selectedCategory === category
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {category === 'all' ? 'Tous' : category}
-            </button>
-          ))}
         </div>
       </div>
 
       {/* Articles Grid */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-12 md:pb-16 lg:pb-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-          {filteredArticles.map((article) => (
+          {articles.map((article) => (
             <article
               key={article.id}
               className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 group border-t-4 border-blue-500"
@@ -207,21 +187,6 @@ const Actualites: React.FC = () => {
 
               {/* Article Content */}
               <div className="p-4 md:p-6">
-                {/* Category Badge */}
-                <div className="flex items-center justify-between mb-2 md:mb-3">
-                  <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 md:px-3 py-1 rounded-full">
-                    {article.category}
-                  </span>
-                  <a
-                    href={article.linkedinUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-blue-600 transition-colors duration-200"
-                  >
-                    <ExternalLink size={14} className="md:w-4 md:h-4" />
-                  </a>
-                </div>
-
                 {/* Title */}
                 <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 md:mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
                   {article.title}
@@ -266,9 +231,19 @@ const Actualites: React.FC = () => {
                       <span>{article.comments}</span>
                     </div>
                   </div>
-                  <button className="text-gray-400 hover:text-blue-600 transition-colors duration-200">
-                    <Share2 size={10} className="md:w-3 md:h-3" />
-                  </button>
+                  <div className="flex items-center space-x-2 md:space-x-3">
+                    <button className="text-gray-400 hover:text-blue-600 transition-colors duration-200">
+                      <Share2 size={10} className="md:w-3 md:h-3" />
+                    </button>
+                    <a
+                      href={article.linkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-blue-600 transition-colors duration-200"
+                    >
+                      <ExternalLink size={14} className="md:w-4 md:h-4" />
+                    </a>
+                  </div>
                 </div>
               </div>
             </article>

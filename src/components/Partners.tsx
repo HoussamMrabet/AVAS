@@ -5,59 +5,59 @@ const Partners: React.FC = () => {
   const partners = [
     {
       id: 1,
-      name: 'Ville de Vaulx-en-Velin',
-      logo: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
+      name: 'Métropole de Lyon',
+      logo: '/partners/partner1.png',
       category: 'Institutionnel',
-      description: 'Partenaire principal pour le développement local'
+      description: 'Soutien aux projets de développement local'
     },
     {
       id: 2,
-      name: 'Métropole de Lyon',
-      logo: 'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
-      category: 'Institutionnel',
-      description: 'Soutien aux projets de cohésion sociale'
+      name: 'Ville de Vaulx-en-Velin',
+      logo: '/partners/partner2.svg',
+      category: 'Social',
+      description: 'Accompagnement des initiatives citoyennes'
     },
     {
       id: 3,
-      name: 'Région Auvergne-Rhône-Alpes',
-      logo: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
-      category: 'Institutionnel',
-      description: 'Financement des programmes jeunesse'
+      name: 'vaulx en velin grand projet de ville',
+      logo: '/partners/partner3.png',
+      category: 'emploi',
+      description: 'Accompagnement des jeunes dans leur parcours professionnel'
     },
     {
       id: 4,
-      name: 'CAF du Rhône',
-      logo: 'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
+      name: 'ANCT – Agence nationale de la cohésion des territoires',
+      logo: '/partners/partner4.jpeg',
       category: 'Social',
-      description: 'Accompagnement des familles'
+      description: 'Soutien aux projets de cohésion sociale et territoriale'
     },
     {
       id: 5,
-      name: 'Pôle Emploi',
-      logo: 'https://images.pexels.com/photos/3184317/pexels-photo-3184317.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
+      name: 'Maison métropolitaine d’insertion pour l’emploi',
+      logo: '/partners/partner5.jpg',
       category: 'Emploi',
-      description: 'Insertion professionnelle des jeunes'
+      description: 'Accompagnement à l\'insertion professionnelle des jeunes et des demandeurs d\'emploi'
     },
     {
       id: 6,
-      name: 'Fondation de France',
-      logo: 'https://images.pexels.com/photos/3184394/pexels-photo-3184394.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
+      name: 'France Travail',
+      logo: '/partners/partner6.svg',
       category: 'Fondation',
-      description: 'Soutien aux projets citoyens'
+      description: 'Soutien à l\'insertion professionnelle et à la formation des jeunes'
     },
     {
       id: 7,
-      name: 'Centre Social Peyri',
-      logo: 'https://images.pexels.com/photos/3184421/pexels-photo-3184421.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
+      name: 'ENTPE – École de l’aménagement durable',
+      logo: '/partners/partner7.png',
       category: 'Associatif',
-      description: 'Collaboration sur les projets de quartier'
+      description: 'Partenariat pour la médiation urbaine et l\'aménagement du territoire'
     },
     {
       id: 8,
-      name: 'Entreprise Solidaire Lyon',
-      logo: 'https://images.pexels.com/photos/3184448/pexels-photo-3184448.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
+      name: 'UNESCO / Chaire Unesco Politiques Urbaines',
+      logo: '/partners/partner8.png',
       category: 'Entreprise',
-      description: 'Partenariat pour l\'emploi local'
+      description: 'Collaboration sur des projets de recherche et d\'innovation urbaine'
     }
   ];
 
@@ -85,8 +85,18 @@ const Partners: React.FC = () => {
   return (
     <section>
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-12 md:py-16 lg:py-20">
-        <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 text-center">
+      <div className="relative h-[30vh] md:h-[40vh] lg:h-[50vh] flex items-center justify-center text-white">
+        {/* Fixed Background Image */}
+        <div
+          className="absolute inset-0 bg-fixed bg-center bg-cover z-0"
+          style={{ backgroundImage: `url('/partners-hero.png')` }}
+        />
+
+        {/* Overlay for readability */}
+        <div className="absolute inset-0 bg-black bg-opacity-50 z-10" />
+
+        {/* Content */}
+        <div className="relative z-20 max-w-6xl mx-auto px-4 md:px-6 lg:px-8 text-center">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">Nos Partenaires</h1>
           <p className="text-base md:text-lg lg:text-xl leading-relaxed max-w-4xl mx-auto">
             Ensemble, nous construisons un réseau solide pour l'avenir de Vaulx-en-Velin
@@ -99,39 +109,23 @@ const Partners: React.FC = () => {
         <div className="text-center mb-8 md:mb-12 lg:mb-16">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 md:mb-6 lg:mb-8">Un Réseau d'Excellence</h2>
           <p className="text-sm md:text-base lg:text-lg text-gray-600 leading-relaxed max-w-4xl mx-auto mb-4 md:mb-6 lg:mb-8">
-            Depuis 2018, l'Association Vaux Ambitions (AVAS) a tissé des liens durables avec plus de 
-            <span className="font-bold text-blue-600"> 25 partenaires institutionnels, associatifs et privés</span>. 
-            Cette collaboration étroite nous permet de démultiplier notre impact sur le territoire et d'offrir 
+            Depuis 2018, l'Association Vaux Ambitions (AVAS) a tissé des liens durables avec plus de
+            <span className="font-bold text-blue-600"> 25 partenaires institutionnels, associatifs et privés</span>.
+            Cette collaboration étroite nous permet de démultiplier notre impact sur le territoire et d'offrir
             des services de qualité à nos bénéficiaires.
           </p>
           <p className="text-sm md:text-base lg:text-lg text-gray-600 leading-relaxed max-w-4xl mx-auto">
-            Nos partenariats s'articulent autour de nos trois pôles d'activité : Jeunesse, Médiation Urbaine 
-            et Citoyenneté. Chaque collaboration est pensée pour créer une synergie positive et durable, 
+            Nos partenariats s'articulent autour de nos trois pôles d'activité : Jeunesse, Médiation Urbaine
+            et Citoyenneté. Chaque collaboration est pensée pour créer une synergie positive et durable,
             au service des habitants de Vaulx-en-Velin.
           </p>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12 lg:mb-16">
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">25+</div>
-            <p className="text-sm md:text-base text-gray-600">Partenaires Actifs</p>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">6</div>
-            <p className="text-sm md:text-base text-gray-600">Secteurs d'Activité</p>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">100%</div>
-            <p className="text-sm md:text-base text-gray-600">Engagement Local</p>
-          </div>
         </div>
       </div>
 
       {/* Partners Grid */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-12 md:pb-16 lg:pb-20">
         <h3 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8 md:mb-12">Découvrez Nos Partenaires</h3>
-        
+
         {/* Category Legend */}
         <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-12">
           {categories.map((category) => {
@@ -150,7 +144,7 @@ const Partners: React.FC = () => {
           {partners.map((partner) => {
             const category = categories.find(cat => cat.name === partner.category);
             const colorClasses = category ? getColorClasses(category.color) : 'border-gray-400 bg-gray-50';
-            
+
             return (
               <div
                 key={partner.id}
@@ -161,7 +155,7 @@ const Partners: React.FC = () => {
                     <img
                       src={partner.logo}
                       alt={partner.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
                     />
                   </div>
                   <h4 className="font-bold text-gray-900 mb-2 text-xs md:text-sm">{partner.name}</h4>
@@ -186,7 +180,7 @@ const Partners: React.FC = () => {
         <div className="text-center mt-8 md:mt-12 lg:mt-16 bg-gray-50 rounded-lg p-4 md:p-6 lg:p-8">
           <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">Rejoignez Notre Réseau</h3>
           <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6 max-w-2xl mx-auto">
-            Vous souhaitez devenir partenaire d'AVAS et contribuer au développement de Vaulx-en-Velin ? 
+            Vous souhaitez devenir partenaire d'AVAS et contribuer au développement de Vaulx-en-Velin ?
             Contactez-nous pour explorer les opportunités de collaboration.
           </p>
           <button className="bg-blue-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-blue-700 transition-colors duration-200 font-medium text-sm md:text-base">

@@ -9,6 +9,7 @@ import Team from './components/Team';
 import Actualites from './components/Actualites';
 import Contact from './components/Contact';
 import NotFound from './components/NotFound';
+import PoleJeunesse from './components/PoleJeunesse';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -21,6 +22,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/actualites" element={<Actualites />} />
+          <Route path="/poles/jeunesse" element={<PoleJeunesse />} />
           <Route path="/partenaires" element={<Partners />} />
           <Route path="/equipe" element={<Team />} />
           <Route path="/contact" element={<Contact />} />

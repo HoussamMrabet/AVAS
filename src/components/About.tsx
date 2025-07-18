@@ -5,7 +5,7 @@ const About: React.FC = () => {
         <section className='-mx-4 md:-mx-8 lg:-mx-12 xl:-mx-20'>
             {/* Background Section with Intro */}
             <div
-                className="w-full bg-[url('/background-about.png')] h-[400px] md:h-[500px] lg:h-[600px] min-h-[400px] bg-cover bg-no-repeat bg-center py-8 md:py-16"
+                className="w-full bg-[url('/background-about.png')] h-[400px] md:h-[600px] lg:h-[700px] min-h-[400px] bg-contain bg-no-repeat bg-center py-8 md:py-16"
             >
                 <div className='bg-white h-full flex items-center'>
                     <div className="max-w-4xl mx-auto px-4 md:px-6 lg:px-10 text-black text-left">
