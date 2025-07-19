@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
 import { Menu, X, ChevronDown, User, Settings, ShoppingBag, LogOut } from 'lucide-react';
+import { User as UserType } from '../hooks/useAuth';
 
 interface NavbarProps {
   isMenuOpen: boolean;
   setIsMenuOpen: (isOpen: boolean) => void;
+  isAuthenticated?: boolean;
+  user?: UserType | null;
+  onSignOut?: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
+const Navbar: React.FC<NavbarProps> = ({ 
+  isMenuOpen, 
+  setIsMenuOpen, 
+  isAuthenticated = false, 
+  user = null, 
+  onSignOut 
+}) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
-  
-  // Mock authentication state - replace with your actual auth logic
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({ name: 'John Doe', avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=40&h=40&fit=crop' });
 
   const dropdownItems = [
-    { label: 'Jeunesse', href: '/poles/jeunesse' },
-    { label: 'Elle le Vaulx Bien', href: '/poles/Elle-Le-Vaulx-Bien' },
+    { label: 'Jeunesse', href: '/pole-jeunesse' },
+    { label: 'Elle le Vaulx Bien', href: '/poles/elle-le-vaulx-bien' },
     { label: 'Médiation Urbaine', href: '/poles/mediation-urbaine' },
     { label: 'Citoyenneté', href: '/poles/citoyennete' },
   ];
@@ -24,15 +30,17 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const userDropdownItems = [
     { label: 'Profile', href: '/profile', icon: User },
     { label: 'Settings', href: '/settings', icon: Settings },
-    { label: 'Mes commandes', href: '/commandes', icon: ShoppingBag },
+    { label: 'Orders', href: '/orders', icon: ShoppingBag },
   ];
 
   const handleLogin = () => {
-    setIsLoggedIn(true);
+    window.location.href = '/signin';
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    if (onSignOut) {
+      onSignOut();
+    }
     setIsUserDropdownOpen(false);
   };
   return (
@@ -85,7 +93,7 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
               <span className="text-gray-300">|</span>
               
               {/* Authentication Section */}
-              {!isLoggedIn ? (
+              {!isAuthenticated ? (
                 <button 
                   onClick={handleLogin}
                   className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium"
@@ -98,12 +106,16 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
                     onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
                     className="flex items-center text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium"
                   >
-                    <img 
-                      src={user.avatar} 
-                      alt={user.name}
-                      className="w-6 h-6 rounded-full mr-2"
-                    />
-                    <span>{user.name}</span>
+                    {user && (
+                      <>
+                        <img 
+                          src={user.avatar} 
+                          alt={user.name}
+                          className="w-6 h-6 rounded-full mr-2"
+                        />
+                        <span>{user.name}</span>
+                      </>
+                    )}
                     <ChevronDown size={16} className="ml-1" />
                   </button>
                   
@@ -190,7 +202,7 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
             <a href="/contact" className="text-gray-700 hover:text-blue-600 text-lg">Contact</a>
             
             {/* Mobile Authentication */}
-            {!isLoggedIn ? (
+            {!isAuthenticated ? (
               <button 
                 onClick={handleLogin}
                 className="text-gray-700 hover:text-blue-600 text-lg text-left"
@@ -199,14 +211,16 @@ const Navbar: React.FC<NavbarProps> = ({ isMenuOpen, setIsMenuOpen }) => {
               </button>
             ) : (
               <div className="space-y-2">
-                <div className="flex items-center text-gray-700 text-lg">
-                  <img 
-                    src={user.avatar} 
-                    alt={user.name}
-                    className="w-8 h-8 rounded-full mr-3"
-                  />
-                  <span>{user.name}</span>
-                </div>
+                {user && (
+                  <div className="flex items-center text-gray-700 text-lg">
+                    <img 
+                      src={user.avatar} 
+                      alt={user.name}
+                      className="w-8 h-8 rounded-full mr-3"
+                    />
+                    <span>{user.name}</span>
+                  </div>
+                )}
                 <div className="pl-11 space-y-1">
                   {userDropdownItems.map((item, idx) => {
                     const IconComponent = item.icon;
