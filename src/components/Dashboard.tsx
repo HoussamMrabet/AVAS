@@ -21,7 +21,6 @@ interface UserFormData {
 const Dashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState<'all' | 'admin' | 'user'>('all');
-  const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'inactive'>('all');
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -166,16 +165,8 @@ const Dashboard: React.FC = () => {
     setFormError('');
   };
 
-  const getStatusColor = (status: string) => {
-    return status === 'active' ? 'text-green-600 bg-green-100' : 'text-red-600 bg-red-100';
-  };
-
   const getRoleColor = (role: string) => {
     return role === 'admin' ? 'text-blue-600 bg-blue-100' : 'text-gray-600 bg-gray-100';
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('fr-FR');
   };
 
   return (
