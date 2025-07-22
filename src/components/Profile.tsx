@@ -1,23 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { User, Camera, Save, Edit3 } from 'lucide-react';
+import { Camera, Save, Edit3 } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
+import { useUsers } from '../hooks/useUsers';
 
 const Profile: React.FC = () => {
+  const { getCurrentUser, saveUser } = useAuth();
+  const { updateUser } = useUsers();
+
+  const currentUser = getCurrentUser();
   const [isEditing, setIsEditing] = useState(false);
-  const [profileData, setProfileData] = useState({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop'
-  });
-  const [tempData, setTempData] = useState(profileData);
+  const [profileData, setProfileData] = useState(currentUser);
+  const [tempData, setTempData] = useState(currentUser);
   const [isSaving, setIsSaving] = useState(false);
 
+  useEffect(() => {
+    if (currentUser) {
+      setProfileData(currentUser);
+      setTempData(currentUser);
+    }
+  }, [currentUser]);
+
   const handleSave = async () => {
+    if (!profileData) return;
+
     setIsSaving(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setProfileData(tempData);
-    setIsEditing(false);
-    setIsSaving(false);
+    try {
+      if (!tempData) throw new Error('Aucune donnée temporaire à enregistrer');
+      const updated = await updateUser(profileData.id, {
+        name: tempData.name,
+        email: tempData.email,
+        avatar: tempData.avatar,
+        role: tempData.role,
+      });
+
+      setProfileData(updated);
+      setTempData(updated);
+      saveUser(updated); // update localStorage
+      setIsEditing(false);
+    } catch (err) {
+      console.error('Erreur lors de la mise à jour du profil', err);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleCancel = () => {
@@ -30,22 +54,19 @@ const Profile: React.FC = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setTempData(prev => ({
-          ...prev,
-          avatar: e.target?.result as string
-        }));
+        setTempData(prev => prev ? { ...prev, avatar: e.target?.result as string } : prev);
       };
       reader.readAsDataURL(file);
     }
   };
 
+  if (!profileData) return <div className="text-center py-10">Aucun utilisateur connecté.</div>;
+
   return (
     <section>
       {/* Hero Section */}
       <div className="relative h-[30vh] md:h-[40vh] lg:h-[50vh] flex items-center justify-center text-white">
-        <div
-          className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-700 z-0"
-        />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-700 z-0" />
         <div className="absolute inset-0 bg-black bg-opacity-30 z-10" />
         <div className="relative z-20 max-w-6xl mx-auto px-4 md:px-6 lg:px-8 text-center">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">Mon Profil</h1>
@@ -60,11 +81,11 @@ const Profile: React.FC = () => {
         <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 lg:p-10">
           {/* Profile Header */}
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 mb-8 md:mb-12">
-            {/* Avatar Section */}
+            {/* Avatar */}
             <div className="relative">
               <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-gray-200">
                 <img
-                  src={isEditing ? tempData.avatar : profileData.avatar}
+                  src={isEditing ? tempData?.avatar : profileData.avatar}
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />
@@ -82,13 +103,13 @@ const Profile: React.FC = () => {
               )}
             </div>
 
-            {/* Profile Info */}
+            {/* Info */}
             <div className="flex-1 text-center md:text-left">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                 {profileData.name}
               </h2>
               <p className="text-gray-600 mb-4">{profileData.email}</p>
-              
+
               {!isEditing ? (
                 <button
                   onClick={() => setIsEditing(true)}
@@ -122,7 +143,7 @@ const Profile: React.FC = () => {
           {isEditing && (
             <div className="border-t border-gray-200 pt-8">
               <h3 className="text-xl font-bold text-gray-900 mb-6">Modifier les informations</h3>
-              
+
               <div className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -131,8 +152,8 @@ const Profile: React.FC = () => {
                   <input
                     type="text"
                     id="name"
-                    value={tempData.name}
-                    onChange={(e) => setTempData(prev => ({ ...prev, name: e.target.value }))}
+                    value={tempData?.name}
+                    onChange={(e) => setTempData(prev => prev ? { ...prev, name: e.target.value } : prev)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="Votre nom complet"
                   />
@@ -145,8 +166,8 @@ const Profile: React.FC = () => {
                   <input
                     type="email"
                     id="email"
-                    value={tempData.email}
-                    onChange={(e) => setTempData(prev => ({ ...prev, email: e.target.value }))}
+                    value={tempData?.email}
+                    onChange={(e) => setTempData(prev => prev ? { ...prev, email: e.target.value } : prev)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="votre@email.com"
                   />
@@ -155,10 +176,10 @@ const Profile: React.FC = () => {
             </div>
           )}
 
-          {/* Profile Stats */}
+          {/* Stats */}
           <div className="border-t border-gray-200 pt-8 mt-8">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Statistiques</h3>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
               <div className="bg-blue-50 rounded-lg p-4 md:p-6 text-center">
                 <div className="text-2xl md:text-3xl font-bold text-blue-600 mb-2">3</div>
