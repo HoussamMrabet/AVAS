@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { User, Camera, Save, Edit3 } from 'lucide-react';
 
 const Profile: React.FC = () => {

@@ -1,21 +1,5 @@
 import { useState, useEffect } from 'react';
-
-export interface User {
-  _id: string;
-  name: string;
-  email: string;
-  role: 'admin' | 'user';
-  avatar: string;
-  joinDate: string;
-  lastLogin: string;
-}
-
-export interface UserFormData {
-  name: string;
-  email: string;
-  password: string;
-  role: 'admin' | 'user';
-}
+import { User } from './useAuth';
 
 export const useUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -72,7 +56,7 @@ export const useUsers = () => {
   };
 
   // Add new user
-  const addUser = async (userData: UserFormData): Promise<User> => {
+  const addUser = async (userData: User): Promise<User> => {
     try {
       setLoading(true);
       setError('');
@@ -104,7 +88,7 @@ export const useUsers = () => {
   };
 
   // Update user
-  const updateUser = async (userId: string, userData: Partial<UserFormData>): Promise<User> => {
+  const updateUser = async (userId: string, userData: Partial<User>): Promise<User> => {
     try {
       setLoading(true);
       setError('');
@@ -130,7 +114,7 @@ export const useUsers = () => {
       const updatedUser = await response.json();
       setUsers(prevUsers => 
         prevUsers.map(user => 
-          user._id === userId ? { ...user, ...updatedUser } : user
+          user.id === userId ? { ...user, ...updatedUser } : user
         )
       );
       return updatedUser;
@@ -158,7 +142,7 @@ export const useUsers = () => {
         throw new Error('Erreur lors de la suppression de l\'utilisateur');
       }
 
-      setUsers(prevUsers => prevUsers.filter(user => user._id !== userId));
+      setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
     } catch (err) {
       console.error('Error deleting user:', err);
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors de la suppression de l\'utilisateur';
