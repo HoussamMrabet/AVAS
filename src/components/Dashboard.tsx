@@ -1,32 +1,15 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 import { Users, Home, Edit3, Trash2, Plus, Search, Filter, Eye, UserCheck, UserX, X, Save } from 'lucide-react';
+import { useUsers, User, UserFormData } from '../hooks/useUsers';
 
-interface User {
-  _id: string;
-  name: string;
-  email: string;
-  role: 'admin' | 'user';
-  avatar: string;
-  joinDate: string;
-  lastLogin: string;
-}
-
-interface UserFormData {
-  name: string;
-  email: string;
-  password: string;
-  role: 'admin' | 'user';
-}
 const Dashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState<'all' | 'admin' | 'user'>('all');
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [previewUser, setPreviewUser] = useState<User | null>(null);
   const [formData, setFormData] = useState<UserFormData>({
     name: '',
     email: '',
@@ -35,33 +18,9 @@ const Dashboard: React.FC = () => {
   });
   const [formLoading, setFormLoading] = useState(false);
   const [formError, setFormError] = useState('');
-
-  // Fetch users from API
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true);
-        setError('');
-        
-        const response = await fetch('http://localhost:3900/api/users');
-        
-        if (!response.ok) {
-          throw new Error('Erreur lors du chargement des utilisateurs');
-        }
-        
-        const userData = await response.json();
-        console.log(userData);
-        setUsers(userData);
-      } catch (err) {
-        console.error('Error fetching users:', err);
-        setError(err instanceof Error ? err.message : 'Erreur lors du chargement des utilisateurs');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, []);
+  
+  // Use the custom hook
+  const { users, loading, error, addUser, updateUser, deleteUser } = useUsers();
 
   const filteredUsers = users.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -74,18 +33,9 @@ const Dashboard: React.FC = () => {
   const handleDeleteUser = async (userId: string, userName: string) => {
     if (window.confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur "${userName}" ?`)) {
       try {
-        const response = await fetch(`http://localhost:3900/api/users/${userId}`, {
-          method: 'DELETE',
-        });
-
-        if (!response.ok) {
-          throw new Error('Erreur lors de la suppression de l\'utilisateur');
-        }
-
-        setUsers(users.filter(user => user._id !== userId));
+        await deleteUser(userId);
       } catch (err) {
         console.error('Error deleting user:', err);
-        setError(err instanceof Error ? err.message : 'Erreur lors de la suppression');
       }
     }
   };
@@ -108,43 +58,21 @@ const Dashboard: React.FC = () => {
     setShowEditModal(true);
   };
 
+  const handlePreviewUser = (user: User) => {
+    setPreviewUser(user);
+    setShowPreviewModal(true);
+  };
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormLoading(true);
     setFormError('');
 
     try {
-      const url = showEditModal 
-        ? `http://localhost:3900/api/users/${editingUser?._id}`
-        : 'http://localhost:3900/api/users';
-      
-      const method = showEditModal ? 'PUT' : 'POST';
-      
-      const body = showEditModal && !formData.password
-        ? { name: formData.name, email: formData.email, role: formData.role }
-        : formData;
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Erreur lors de l\'opération');
-      }
-
-      const userData = await response.json();
-
       if (showEditModal) {
-        setUsers(users.map(user => 
-          user._id === editingUser?._id ? { ...user, ...userData } : user
-        ));
+        await updateUser(editingUser!._id, formData);
       } else {
-        setUsers([...users, userData]);
+        await addUser(formData);
       }
 
       setShowAddModal(false);
@@ -161,7 +89,9 @@ const Dashboard: React.FC = () => {
   const closeModal = () => {
     setShowAddModal(false);
     setShowEditModal(false);
+    setShowPreviewModal(false);
     setEditingUser(null);
+    setPreviewUser(null);
     setFormError('');
   };
 
@@ -283,18 +213,24 @@ const Dashboard: React.FC = () => {
                     </td>
                     <td className="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-xs md:text-sm font-medium">
                       <div className="flex items-center space-x-2">
-                        <button className="text-blue-600 hover:text-blue-900 transition-colors duration-200">
+                        <button 
+                          onClick={() => handlePreviewUser(user)}
+                          className="text-blue-600 hover:text-blue-900 transition-colors duration-200"
+                          title="Voir les détails"
+                        >
                           <Eye size={16} />
                         </button>
                         <button 
                           onClick={() => handleEditUser(user)}
                           className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
+                          title="Modifier"
                         >
                           <Edit3 size={16} />
                         </button>
                         <button
                           onClick={() => handleDeleteUser(user._id, user.name)}
                           className="text-red-600 hover:text-red-900 transition-colors duration-200"
+                          title="Supprimer"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -421,6 +357,138 @@ const Dashboard: React.FC = () => {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        )}
+
+        {/* User Preview Modal */}
+        {showPreviewModal && previewUser && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between p-6 border-b">
+                <h3 className="text-xl font-bold text-gray-900">Détails de l'utilisateur</h3>
+                <button
+                  onClick={closeModal}
+                  className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              <div className="p-6">
+                {/* User Avatar and Basic Info */}
+                <div className="text-center mb-6">
+                  <div className="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-200 shadow-lg">
+                    <img
+                      src={previewUser.avatar}
+                      alt={previewUser.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <h4 className="text-2xl font-bold text-gray-900 mb-2">{previewUser.name}</h4>
+                  <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getRoleColor(previewUser.role)}`}>
+                    {previewUser.role === 'admin' ? 'Administrateur' : 'Utilisateur'}
+                  </span>
+                </div>
+
+                {/* User Details */}
+                <div className="space-y-4">
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <h5 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">
+                      Informations personnelles
+                    </h5>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium text-gray-700">ID:</span>
+                        <span className="text-sm text-gray-900 font-mono bg-gray-200 px-2 py-1 rounded">
+                          {previewUser._id}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium text-gray-700">Email:</span>
+                        <span className="text-sm text-gray-900">{previewUser.email}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium text-gray-700">Rôle:</span>
+                        <span className="text-sm text-gray-900">
+                          {previewUser.role === 'admin' ? 'Administrateur' : 'Utilisateur'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <h5 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">
+                      Informations de compte
+                    </h5>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium text-gray-700">Date d'inscription:</span>
+                        <span className="text-sm text-gray-900">
+                          {previewUser.joinDate ? new Date(previewUser.joinDate).toLocaleDateString('fr-FR', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          }) : 'Non disponible'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium text-gray-700">Dernière connexion:</span>
+                        <span className="text-sm text-gray-900">
+                          {previewUser.lastLogin ? new Date(previewUser.lastLogin).toLocaleDateString('fr-FR', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          }) : 'Jamais connecté'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* User Stats */}
+                  <div className="bg-blue-50 rounded-lg p-4">
+                    <h5 className="text-sm font-medium text-blue-700 uppercase tracking-wider mb-3">
+                      Statistiques d'activité
+                    </h5>
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                      <div>
+                        <div className="text-2xl font-bold text-blue-600">3</div>
+                        <p className="text-xs text-blue-700">Commandes</p>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-blue-600">2</div>
+                        <p className="text-xs text-blue-700">Formations</p>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-blue-600">5</div>
+                        <p className="text-xs text-blue-700">Événements</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex justify-end space-x-3 mt-6 pt-6 border-t">
+                  <button
+                    onClick={() => {
+                      setShowPreviewModal(false);
+                      handleEditUser(previewUser);
+                    }}
+                    className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                  >
+                    <Edit3 size={16} />
+                    <span>Modifier</span>
+                  </button>
+                  <button
+                    onClick={closeModal}
+                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  >
+                    Fermer
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}
