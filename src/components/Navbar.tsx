@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, ChevronDown, User, Settings, ShoppingBag, LogOut } from 'lucide-react';
+import { Menu, X, ChevronDown, User, Settings, ShoppingBag, LogOut, Grid } from 'lucide-react';
 import { User as UserType } from '../hooks/useAuth';
 
 interface NavbarProps {
@@ -27,11 +27,15 @@ const Navbar: React.FC<NavbarProps> = ({
     { label: 'Citoyenneté', href: '/poles/citoyennete' },
   ];
 
-  const userDropdownItems = [
+  const baseUserDropdownItems = [
     { label: 'Profile', href: '/profile', icon: User },
     { label: 'Settings', href: '/settings', icon: Settings },
     { label: 'Orders', href: '/orders', icon: ShoppingBag },
   ];
+
+  const userDropdownItems = user?.role == 'admin' 
+    ? [{ label: 'Dashboard', href: '/dashboard', icon: Grid }, ...baseUserDropdownItems]
+    : baseUserDropdownItems;
 
   const handleLogin = () => {
     window.location.href = '/signin';
