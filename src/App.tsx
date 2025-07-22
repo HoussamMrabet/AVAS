@@ -18,6 +18,7 @@ import NotFound from './components/NotFound';
 import Profile from './components/Profile';
 import Settings from './components/Settings';
 import Orders from './components/Orders';
+import Dashboard from './components/Dashboard';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -73,6 +74,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
