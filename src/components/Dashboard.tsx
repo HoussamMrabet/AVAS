@@ -9,7 +9,7 @@ interface UserFormData {
   name: string;
   email: string;
   password: string;
-  role: 'admin' | 'user';
+  role: string;
 }
 
 interface TeamFormData {
@@ -790,27 +790,15 @@ const Dashboard: React.FC = () => {
                       <p className="text-gray-700">{previewTeam.description}</p>
                     </div>
                   )}
-
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <h5 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">
-                      Informations
-                    </h5>
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-gray-700">ID:</span>
-                        <span className="text-sm text-gray-900 font-mono bg-gray-200 px-2 py-1 rounded">
-                          {previewTeam._id}
-                        </span>
-                      </div>
-                      {previewTeam.startDate && (
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm font-medium text-gray-700">Depuis:</span>
-                          <span className="text-sm text-gray-900">{previewTeam.startDate}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
                 </div>
+                  {previewTeam.startDate && (
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium text-gray-700">Depuis:</span>
+                        <span className="text-sm text-gray-900">{previewTeam.startDate}</span>
+                      </div>
+                    </div>
+                  )}
 
                 <div className="flex justify-end space-x-3 mt-6 pt-6 border-t">
                   <button
@@ -1172,12 +1160,6 @@ const Dashboard: React.FC = () => {
                     </h5>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-gray-700">ID:</span>
-                        <span className="text-sm text-gray-900 font-mono bg-gray-200 px-2 py-1 rounded">
-                          {previewUser._id}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center">
                         <span className="text-sm font-medium text-gray-700">Email:</span>
                         <span className="text-sm text-gray-900">{previewUser.email}</span>
                       </div>
@@ -1190,56 +1172,6 @@ const Dashboard: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <h5 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">
-                      Informations de compte
-                    </h5>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-gray-700">Date d'inscription:</span>
-                        <span className="text-sm text-gray-900">
-                          {previewUser.joinDate ? new Date(previewUser.joinDate).toLocaleDateString('fr-FR', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                          }) : 'Non disponible'}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-gray-700">Dernière connexion:</span>
-                        <span className="text-sm text-gray-900">
-                          {previewUser.lastLogin ? new Date(previewUser.lastLogin).toLocaleDateString('fr-FR', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          }) : 'Jamais connecté'}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* User Stats */}
-                  <div className="bg-blue-50 rounded-lg p-4">
-                    <h5 className="text-sm font-medium text-blue-700 uppercase tracking-wider mb-3">
-                      Statistiques d'activité
-                    </h5>
-                    <div className="grid grid-cols-3 gap-4 text-center">
-                      <div>
-                        <div className="text-2xl font-bold text-blue-600">3</div>
-                        <p className="text-xs text-blue-700">Commandes</p>
-                      </div>
-                      <div>
-                        <div className="text-2xl font-bold text-blue-600">2</div>
-                        <p className="text-xs text-blue-700">Formations</p>
-                      </div>
-                      <div>
-                        <div className="text-2xl font-bold text-blue-600">5</div>
-                        <p className="text-xs text-blue-700">Événements</p>
-                      </div>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Action Buttons */}

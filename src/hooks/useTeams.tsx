@@ -7,6 +7,7 @@ export interface Team {
   description?: string;
   avatar?: string;
   startDate?: string;
+  isPrimary: Boolean;
 }
 
 export const useTeams = () => {

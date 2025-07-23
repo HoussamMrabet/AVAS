@@ -6,11 +6,8 @@ const Team: React.FC = () => {
   const { teams } = useTeams();
 
 
-    // Permanent team: members with a startDate defined (non-empty)
-    const teamMembers = teams.filter(member => member.startDate && member.startDate.trim() !== '');
-
-    // Volunteers: members without description or empty description
-    const volunteers = teams.filter(member => !member.description || member.description.trim() === '');
+  const teamMembers = teams.filter(member => member.isPrimary === true);
+  const volunteers = teams.filter(member => member.isPrimary !== true);
 
   return (
     <section>
