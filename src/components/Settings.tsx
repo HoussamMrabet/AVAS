@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
-import { Lock, Eye, EyeOff, Shield, Bell, Globe, Save } from 'lucide-react';
+import { Lock, Eye, EyeOff, Shield, Bell, Globe, Save, Trash2, AlertTriangle } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
+import { useUsers } from '../hooks/useUsers';
 
 const Settings: React.FC = () => {
+  const { getCurrentUser, signOut } = useAuth();
+  const { deleteUser } = useUsers();
+  const currentUser = getCurrentUser();
+
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [activeTab, setActiveTab] = useState('security');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
@@ -39,11 +48,51 @@ const Settings: React.FC = () => {
     alert('Préférences sauvegardées !');
   };
 
+  const handleDeleteAccount = async () => {
+    if (!currentUser) return;
+    
+    if (deleteConfirmation !== 'SUPPRIMER') {
+      alert('Veuillez taper "SUPPRIMER" pour confirmer la suppression de votre compte.');
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      await deleteUser(currentUser._id);
+      alert('Votre compte a été supprimé avec succès.');
+      signOut(); // Log out the user
+      window.location.href = '/'; // Redirect to home page
+    } catch (err) {
+      console.error('Error deleting account:', err);
+      alert('Erreur lors de la suppression du compte. Veuillez réessayer.');
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteModal(false);
+      setDeleteConfirmation('');
+    }
+  };
+
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setDeleteConfirmation('');
+  };
+
   const tabs = [
     { id: 'security', label: 'Sécurité', icon: Shield },
     { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'general', label: 'Général', icon: Globe }
+    { id: 'general', label: 'Général', icon: Globe },
+    { id: 'account', label: 'Compte', icon: Trash2 }
   ];
+
+  if (!currentUser) {
+    return (
+      <section className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Vous devez être connecté pour accéder à cette page.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section>
@@ -288,10 +337,128 @@ const Settings: React.FC = () => {
                   </div>
                 </div>
               )}
+
+              {/* Account Tab */}
+              {activeTab === 'account' && (
+                <div>
+                  <div className="flex items-center space-x-3 mb-6 md:mb-8">
+                    <Trash2 className="w-6 h-6 text-red-600" />
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Gestion du Compte</h2>
+                  </div>
+
+                  <div className="space-y-6">
+                    {/* Account Information */}
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                      <h3 className="text-lg font-semibold text-blue-900 mb-3">Informations du compte</h3>
+                      <div className="space-y-2 text-sm text-blue-800">
+                        <p><strong>Nom :</strong> {currentUser.name}</p>
+                        <p><strong>Email :</strong> {currentUser.email}</p>
+                        <p><strong>Rôle :</strong> {currentUser.role}</p>
+                      </div>
+                    </div>
+
+                    {/* Danger Zone */}
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+                      <div className="flex items-center space-x-3 mb-4">
+                        <AlertTriangle className="w-6 h-6 text-red-600" />
+                        <h3 className="text-lg font-semibold text-red-900">Zone de danger</h3>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-medium text-red-900 mb-2">Supprimer mon compte</h4>
+                          <p className="text-sm text-red-800 mb-4">
+                            Cette action est irréversible. Toutes vos données seront définitivement supprimées, 
+                            y compris vos témoignages, commandes et informations personnelles.
+                          </p>
+                          <ul className="text-sm text-red-800 mb-4 space-y-1">
+                            <li>• Suppression de toutes vos données personnelles</li>
+                            <li>• Suppression de vos témoignages</li>
+                            <li>• Suppression de votre historique d'activités</li>
+                            <li>• Déconnexion automatique</li>
+                          </ul>
+                        </div>
+                        
+                        <button
+                          onClick={() => setShowDeleteModal(true)}
+                          className="inline-flex items-center space-x-2 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium"
+                        >
+                          <Trash2 size={16} />
+                          <span>Supprimer mon compte</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Delete Account Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-md w-full">
+            <div className="p-6">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                  <AlertTriangle className="w-6 h-6 text-red-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900">Confirmer la suppression</h3>
+                  <p className="text-sm text-gray-600">Cette action est irréversible</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <p className="text-sm text-red-800 mb-3">
+                    <strong>Attention :</strong> Vous êtes sur le point de supprimer définitivement votre compte.
+                  </p>
+                  <ul className="text-xs text-red-700 space-y-1">
+                    <li>• Toutes vos données seront supprimées</li>
+                    <li>• Vos témoignages seront supprimés</li>
+                    <li>• Cette action ne peut pas être annulée</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <label htmlFor="deleteConfirmation" className="block text-sm font-medium text-gray-700 mb-2">
+                    Pour confirmer, tapez <strong>"SUPPRIMER"</strong> ci-dessous :
+                  </label>
+                  <input
+                    type="text"
+                    id="deleteConfirmation"
+                    value={deleteConfirmation}
+                    onChange={(e) => setDeleteConfirmation(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    placeholder="Tapez SUPPRIMER"
+                  />
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                  <button
+                    onClick={handleDeleteAccount}
+                    disabled={isDeleting || deleteConfirmation !== 'SUPPRIMER'}
+                    className="flex-1 inline-flex items-center justify-center space-x-2 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <Trash2 size={16} />
+                    <span>{isDeleting ? 'Suppression...' : 'Supprimer définitivement'}</span>
+                  </button>
+                  <button
+                    onClick={closeDeleteModal}
+                    disabled={isDeleting}
+                    className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 disabled:opacity-50"
+                  >
+                    Annuler
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
