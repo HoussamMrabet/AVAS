@@ -18,7 +18,7 @@ const Profile: React.FC = () => {
       setProfileData(currentUser);
       setTempData(currentUser);
     }
-  }, [currentUser]);
+  }, []);
 
   const handleSave = async () => {
     if (!profileData) return;
@@ -167,7 +167,7 @@ const Profile: React.FC = () => {
                     type="email"
                     id="email"
                     value={tempData?.email}
-                    onChange={(e) => setTempData(prev => prev ? { ...prev, email: e.target.value } : prev)}
+                    disabled
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="votre@email.com"
                   />

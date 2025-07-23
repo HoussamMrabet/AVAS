@@ -1,108 +1,16 @@
 import React from 'react';
-import { Users, Heart, Award, Mail, Linkedin } from 'lucide-react';
+import { useTeams } from '../hooks/useTeams';
 
 const Team: React.FC = () => {
-  const teamMembers = [
-    {
-      id: 1,
-      name: 'Abdallah Slimani',
-      role: 'Président',
-      image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
-      description: 'Fondateur et visionnaire d\'AVAS, passionné par le développement local',
-      email: 'president@avas.fr',
-      linkedin: '#'
-    },
-    {
-      id: 2,
-      name: 'Naila Nouri',
-      role: 'Directrice Générale',
-      image: 'https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
-      description: 'Coordination des projets et développement stratégique',
-      email: 'n.nailiavas@gmail.com',
-      linkedin: '#'
-    },
-    {
-      id: 3,
-      name: 'Karim Benali',
-      role: 'Responsable Pôle Jeunesse',
-      image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
-      description: 'Animation et accompagnement des jeunes du quartier',
-      email: 'jeunesse@avas.fr',
-      linkedin: '#'
-    },
-    {
-      id: 4,
-      name: 'Fatima Ouali',
-      role: 'Responsable Médiation Urbaine',
-      image: 'https://images.pexels.com/photos/3763152/pexels-photo-3763152.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
-      description: 'Gestion des conflits et médiation de proximité',
-      email: 'mediation@avas.fr',
-      linkedin: '#'
-    },
-    {
-      id: 5,
-      name: 'Ahmed Khoury',
-      role: 'Responsable Pôle Citoyenneté',
-      image: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
-      description: 'Développement de projets collaboratifs citoyens',
-      email: 'citoyennete@avas.fr',
-      linkedin: '#'
-    },
-    {
-      id: 6,
-      name: 'Samira Hadj',
-      role: 'Coordinatrice Administrative',
-      image: 'https://images.pexels.com/photos/3763152/pexels-photo-3763152.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
-      description: 'Gestion administrative et financière',
-      email: 'admin@avas.fr',
-      linkedin: '#'
-    }
-  ];
 
-  const volunteers = [
-    {
-      id: 1,
-      name: 'Amaris De Pilla',
-      role: 'Bénévole Animation',
-      image: 'https://images.pexels.com/photos/3763152/pexels-photo-3763152.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
-      since: '2022'
-    },
-    {
-      id: 2,
-      name: 'Bernard Semeur',
-      role: 'Bénévole Accompagnement',
-      image: 'https://images.pexels.com/photos/2379006/pexels-photo-2379006.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
-      since: '2021'
-    },
-    {
-      id: 3,
-      name: 'Leila Mansouri',
-      role: 'Bénévole Événementiel',
-      image: 'https://images.pexels.com/photos/3763152/pexels-photo-3763152.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
-      since: '2023'
-    },
-    {
-      id: 4,
-      name: 'Youssef Alami',
-      role: 'Bénévole Communication',
-      image: 'https://images.pexels.com/photos/2182971/pexels-photo-2182971.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
-      since: '2022'
-    },
-    {
-      id: 5,
-      name: 'Nadia Cherif',
-      role: 'Bénévole Médiation',
-      image: 'https://images.pexels.com/photos/3763152/pexels-photo-3763152.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop',
-      since: '2020'
-    },
-    {
-      id: 6,
-      name: 'Omar Belkacem',
-      role: 'Bénévole Jeunesse',
-      image: 'https://images.pexels.com/photos/2182971/pexels-photo-2182971.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
-      since: '2023'
-    }
-  ];
+  const { teams } = useTeams();
+
+
+    // Permanent team: members with a startDate defined (non-empty)
+    const teamMembers = teams.filter(member => member.startDate && member.startDate.trim() !== '');
+
+    // Volunteers: members without description or empty description
+    const volunteers = teams.filter(member => !member.description || member.description.trim() === '');
 
   return (
     <section>
@@ -152,35 +60,20 @@ const Team: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {teamMembers.map((member) => (
             <div
-              key={member.id}
+              key={member._id}
               className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 group border-t-4 border-blue-500"
             >
               <div className="aspect-square overflow-hidden">
                 <img
-                  src={member.image}
+                  src={member.avatar}
                   alt={member.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
               <div className="p-4 md:p-6">
                 <h4 className="text-lg md:text-xl font-bold text-gray-900 mb-2">{member.name}</h4>
-                <p className="text-blue-600 font-semibold mb-2 md:mb-3 text-sm md:text-base">{member.role}</p>
+                <p className="text-blue-600 font-semibold mb-2 md:mb-3 text-sm md:text-base">{member.position}</p>
                 <p className="text-gray-600 text-xs md:text-sm leading-relaxed mb-3 md:mb-4 line-clamp-3">{member.description}</p>
-
-                <div className="flex gap-2 md:gap-3">
-                  <a
-                    href={`mailto:${member.email}`}
-                    className="text-gray-400 hover:text-blue-600 transition-colors duration-200"
-                  >
-                    <Mail size={16} className="md:w-5 md:h-5" />
-                  </a>
-                  <a
-                    href={member.linkedin}
-                    className="text-gray-400 hover:text-blue-600 transition-colors duration-200"
-                  >
-                    <Linkedin size={16} className="md:w-5 md:h-5" />
-                  </a>
-                </div>
               </div>
             </div>
           ))}
@@ -201,19 +94,19 @@ const Team: React.FC = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 lg:gap-6">
             {volunteers.map((volunteer) => (
               <div
-                key={volunteer.id}
+                key={volunteer._id}
                 className="bg-white rounded-lg p-3 md:p-4 text-center hover:shadow-lg transition-all duration-300 hover:scale-105 group"
               >
                 <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 md:mb-3 rounded-full overflow-hidden border-2 border-blue-200">
                   <img
-                    src={volunteer.image}
+                    src={volunteer.avatar}
                     alt={volunteer.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
                 <h5 className="font-semibold text-gray-900 text-xs md:text-sm mb-1">{volunteer.name}</h5>
-                <p className="text-blue-600 text-xs font-medium mb-1 line-clamp-2">{volunteer.role}</p>
-                <p className="text-gray-500 text-xs">Depuis {volunteer.since}</p>
+                <p className="text-blue-600 text-xs font-medium mb-1 line-clamp-2">{volunteer.position}</p>
+                <p className="text-gray-500 text-xs">Depuis {volunteer.startDate}</p>
               </div>
             ))}
           </div>

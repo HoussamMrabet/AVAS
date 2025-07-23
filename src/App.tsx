@@ -33,7 +33,7 @@ function App() {
       setUser(savedUser);
       setIsAuthenticated(true);
     }
-  }, [getCurrentUser]);
+  }, []);
 
   const handleSignIn = (userData: User) => {
     saveUser(userData);
