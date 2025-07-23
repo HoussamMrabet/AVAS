@@ -1,31 +1,34 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTestimonials } from '../hooks/useTestimonials';
 
 const TestimonialSection: React.FC = () => {
-  const testimonials = [
-    {
-      id: 1,
-      comment: "Très bon stage avec Kim Bou",
-      author: "Amaris De Pilla",
-      position: "Bénévale"
-    },
-    {
-      id: 2,
-      comment: "Grâce à AVAS, mon fils a repris confiance en lui et s'investit pleinement dans ses études. Un vrai changement !",
-      author: "Mme Zineb A.",
-      position: "Parent"
-    },
-    {
-      id: 3,
-      comment: "AVAS m'a permis de mieux m'organiser dans mes devoirs et découvrir des métiers que je ne connaissais pas. Je me sens plus confiant pour l'avenir.",
-      author: "Bernard Semeur",
-      position: "Éléve"
-    }
-  ];
+  const { getFeaturedTestimonials, loading, error } = useTestimonials();
+  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [loadingTestimonials, setLoadingTestimonials] = useState(true);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
+
+  // Load featured testimonials on component mount
+  React.useEffect(() => {
+    const loadFeaturedTestimonials = async () => {
+      try {
+        setLoadingTestimonials(true);
+        const featuredTestimonials = await getFeaturedTestimonials();
+        setTestimonials(featuredTestimonials);
+      } catch (err) {
+        console.error('Error loading featured testimonials:', err);
+        // Fallback to empty array if error
+        setTestimonials([]);
+      } finally {
+        setLoadingTestimonials(false);
+      }
+    };
+
+    loadFeaturedTestimonials();
+  }, []);
 
   const nextTestimonial = () => {
     if (isAnimating) return;
@@ -53,6 +56,46 @@ const TestimonialSection: React.FC = () => {
 
   const currentTestimonial = testimonials[currentIndex];
 
+  // Show loading state
+  if (loadingTestimonials) {
+    return (
+      <section className="px-4 md:px-0">
+        <div className="my-6 md:my-10 min-h-[400px] md:min-h-[500px] flex flex-col py-8 md:py-16 mx-auto bg-black">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-8">
+              Témoignages
+            </h2>
+          </div>
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-white text-center">
+              <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p>Chargement des témoignages...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show message if no testimonials
+  if (testimonials.length === 0) {
+    return (
+      <section className="px-4 md:px-0">
+        <div className="my-6 md:my-10 min-h-[400px] md:min-h-[500px] flex flex-col py-8 md:py-16 mx-auto bg-black">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-8">
+              Témoignages
+            </h2>
+          </div>
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-white text-center">
+              <p>Aucun témoignage disponible pour le moment.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
   return (
     <section className="px-4 md:px-0">
       <div className="my-6 md:my-10 min-h-[400px] md:min-h-[500px] flex flex-col py-8 md:py-16 mx-auto bg-black">

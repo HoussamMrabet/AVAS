@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Users, Home, Edit3, Trash2, Plus, Search, Filter, Eye, UserCheck, UserX, X, Save, UserPlus, Settings } from 'lucide-react';
+import { Users, Home, Edit3, Trash2, Plus, Search, Filter, Eye, UserCheck, UserX, X, Save, UserPlus, Settings, MessageSquare, Star } from 'lucide-react';
 import { useUsers } from '../hooks/useUsers';
 import { useTeams } from '../hooks/useTeams';
 import { useInfos } from '../hooks/useInfos';
+import { useTestimonials, TestimonialFormData, Testimonial } from '../hooks/useTestimonials';
 import { User } from '../hooks/useAuth';
 
 interface UserFormData {
@@ -36,7 +37,7 @@ interface InfoFormData {
 }
 
 const Dashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'users' | 'teams' | 'infos'>('users');
+  const [activeTab, setActiveTab] = useState<'users' | 'teams' | 'infos' | 'testimonials'>('users');
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState<'all' | 'admin' | 'user'>('all');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -76,6 +77,19 @@ const Dashboard: React.FC = () => {
     }
   });
 
+  // Testimonial states
+  const [showTestimonialModal, setShowTestimonialModal] = useState(false);
+  const [showTestimonialPreview, setShowTestimonialPreview] = useState(false);
+  const [testimonialModalType, setTestimonialModalType] = useState<'add' | 'edit'>('add');
+  const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null);
+  const [previewTestimonial, setPreviewTestimonial] = useState<Testimonial | null>(null);
+  const [testimonialFormData, setTestimonialFormData] = useState<TestimonialFormData>({
+    comment: '',
+    author: '',
+    position: '',
+    featured: false
+  });
+
   const [formData, setFormData] = useState<UserFormData>({
     name: '',
     email: '',
@@ -89,6 +103,14 @@ const Dashboard: React.FC = () => {
   const { users, loading, error, addUser, updateUser, deleteUser } = useUsers();
   const { teams, loading: teamsLoading, error: teamsError, addTeam, updateTeam, deleteTeam } = useTeams();
   const { site, loading: infoLoading, error: infoError, updateSite } = useInfos();
+  const { 
+    testimonials, 
+    loading: testimonialsLoading, 
+    error: testimonialsError, 
+    addTestimonial, 
+    updateTestimonial, 
+    deleteTestimonial 
+  } = useTestimonials();
 
   // Initialize info form data when site data is loaded
   React.useEffect(() => {
@@ -257,6 +279,71 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  // Testimonial management functions
+  const resetTestimonialForm = () => {
+    setTestimonialFormData({
+      comment: '',
+      author: '',
+      position: '',
+      featured: false
+    });
+  };
+
+  const handleAddTestimonial = () => {
+    setTestimonialModalType('add');
+    resetTestimonialForm();
+    setSelectedTestimonial(null);
+    setShowTestimonialModal(true);
+  };
+
+  const handleEditTestimonial = (testimonial: Testimonial) => {
+    setTestimonialModalType('edit');
+    setSelectedTestimonial(testimonial);
+    setTestimonialFormData({
+      comment: testimonial.comment,
+      author: testimonial.author,
+      position: testimonial.position,
+      featured: testimonial.featured
+    });
+    setShowTestimonialModal(true);
+  };
+
+  const handlePreviewTestimonial = (testimonial: Testimonial) => {
+    setPreviewTestimonial(testimonial);
+    setShowTestimonialPreview(true);
+  };
+
+  const handleDeleteTestimonial = async (testimonialId: string) => {
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer ce témoignage ?')) {
+      try {
+        await deleteTestimonial(testimonialId);
+        alert('Témoignage supprimé avec succès !');
+      } catch (err) {
+        alert('Erreur lors de la suppression du témoignage');
+      }
+    }
+  };
+
+  const handleTestimonialSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormLoading(true);
+
+    try {
+      if (testimonialModalType === 'add') {
+        await addTestimonial(testimonialFormData);
+        alert('Témoignage ajouté avec succès !');
+      } else {
+        await updateTestimonial(selectedTestimonial!._id!, testimonialFormData);
+        alert('Témoignage mis à jour avec succès !');
+      }
+      closeModal();
+    } catch (err) {
+      alert(`Erreur lors de ${testimonialModalType === 'add' ? 'l\'ajout' : 'la mise à jour'} du témoignage`);
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
   const closeModal = () => {
     setShowAddModal(false);
     setShowEditModal(false);
@@ -265,11 +352,16 @@ const Dashboard: React.FC = () => {
     setShowEditTeamModal(false);
     setShowPreviewTeamModal(false);
     setShowEditInfoModal(false);
+    setShowTestimonialModal(false);
+    setShowTestimonialPreview(false);
     setEditingUser(null);
     setPreviewUser(null);
     setEditingTeam(null);
     setPreviewTeam(null);
+    setSelectedTestimonial(null);
+    setPreviewTestimonial(null);
     setFormError('');
+    resetTestimonialForm();
   };
 
   const getRoleColor = (role: string) => {
@@ -314,6 +406,16 @@ const Dashboard: React.FC = () => {
             >
               <UserPlus size={16} className="inline mr-2" />
               Équipe
+            </button>
+            <button
+              onClick={() => setActiveTab('testimonials')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${activeTab === 'testimonials'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+            >
+              <MessageSquare size={16} className="inline mr-2" />
+              Témoignages
             </button>
             <button
               onClick={() => setActiveTab('infos')}
@@ -553,6 +655,119 @@ const Dashboard: React.FC = () => {
                     </div>
                   )}
                 </>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* Testimonials Tab */}
+        {activeTab === 'testimonials' && (
+          <>
+            {/* Add Testimonial Button */}
+            <div className="flex justify-end mb-6">
+              <button
+                onClick={handleAddTestimonial}
+                className="inline-flex items-center space-x-2 bg-green-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm md:text-base"
+              >
+                <Plus size={16} />
+                <span>Nouveau témoignage</span>
+              </button>
+            </div>
+
+            {/* Testimonials Table */}
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+              {testimonialsLoading ? (
+                <div className="text-center py-8 md:py-12">
+                  <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                  <p className="text-gray-600">Chargement des témoignages...</p>
+                </div>
+              ) : testimonialsError ? (
+                <div className="text-center py-8">
+                  <p className="text-red-600">{testimonialsError}</p>
+                </div>
+              ) : testimonials.length === 0 ? (
+                <div className="text-center py-8">
+                  <MessageSquare className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-600">Aucun témoignage trouvé</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Auteur
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Commentaire
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Position
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Statut
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {testimonials.map((testimonial) => (
+                        <tr key={testimonial._id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900">{testimonial.author}</div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="text-sm text-gray-900 line-clamp-2 max-w-xs">
+                              {testimonial.comment}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-500">{testimonial.position}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {testimonial.featured ? (
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                <Star size={12} className="mr-1" />
+                                Mis en avant
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                Normal
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div className="flex space-x-2">
+                              <button
+                                onClick={() => handlePreviewTestimonial(testimonial)}
+                                className="text-blue-600 hover:text-blue-900 p-1 rounded"
+                                title="Voir"
+                              >
+                                <Eye size={16} />
+                              </button>
+                              <button
+                                onClick={() => handleEditTestimonial(testimonial)}
+                                className="text-green-600 hover:text-green-900 p-1 rounded"
+                                title="Modifier"
+                              >
+                                <Edit3 size={16} />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteTestimonial(testimonial._id!)}
+                                className="text-red-600 hover:text-red-900 p-1 rounded"
+                                title="Supprimer"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           </>
@@ -1204,6 +1419,210 @@ const Dashboard: React.FC = () => {
                   >
                     Fermer
                   </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Testimonial Modal */}
+        {showTestimonialModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="p-6 md:p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900">
+                    {testimonialModalType === 'add' ? 'Ajouter un témoignage' : 'Modifier le témoignage'}
+                  </h3>
+                  <button
+                    onClick={closeModal}
+                    className="text-gray-400 hover:text-gray-600 p-2"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+
+                <form onSubmit={handleTestimonialSubmit} className="space-y-6">
+                  <div>
+                    <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-2">
+                      Auteur *
+                    </label>
+                    <input
+                      type="text"
+                      id="author"
+                      value={testimonialFormData.author}
+                      onChange={(e) => setTestimonialFormData(prev => ({ ...prev, author: e.target.value }))}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Nom de l'auteur"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="position" className="block text-sm font-medium text-gray-700 mb-2">
+                      Position *
+                    </label>
+                    <input
+                      type="text"
+                      id="position"
+                      value={testimonialFormData.position}
+                      onChange={(e) => setTestimonialFormData(prev => ({ ...prev, position: e.target.value }))}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Position/Rôle"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-2">
+                      Commentaire *
+                    </label>
+                    <textarea
+                      id="comment"
+                      value={testimonialFormData.comment}
+                      onChange={(e) => setTestimonialFormData(prev => ({ ...prev, comment: e.target.value }))}
+                      rows={4}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
+                      placeholder="Témoignage..."
+                      required
+                    />
+                  </div>
+
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="featured"
+                      checked={testimonialFormData.featured}
+                      onChange={(e) => setTestimonialFormData(prev => ({ ...prev, featured: e.target.checked }))}
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor="featured" className="ml-2 block text-sm text-gray-700">
+                      Mettre en avant ce témoignage
+                    </label>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3 pt-6">
+                    <button
+                      type="submit"
+                      disabled={formLoading}
+                      className="flex-1 inline-flex items-center justify-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50"
+                    >
+                      <Save size={16} />
+                      <span>{formLoading ? 'Enregistrement...' : 'Enregistrer'}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={closeModal}
+                      className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      Annuler
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Testimonial Preview Modal */}
+        {showTestimonialPreview && previewTestimonial && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="p-6 md:p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900">Aperçu du témoignage</h3>
+                  <button
+                    onClick={closeModal}
+                    className="text-gray-400 hover:text-gray-600 p-2"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
+
+                <div className="space-y-6">
+                  {/* Status Badge */}
+                  <div className="flex justify-center">
+                    {previewTestimonial.featured ? (
+                      <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                        <Star size={16} className="mr-2" />
+                        Témoignage mis en avant
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                        Témoignage normal
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Testimonial Content */}
+                  <div className="bg-gray-50 rounded-lg p-6 text-center">
+                    <blockquote className="text-lg md:text-xl text-gray-900 leading-relaxed mb-4 italic">
+                      "{previewTestimonial.comment}"
+                    </blockquote>
+                    <div className="text-gray-700">
+                      <p className="font-semibold text-lg">{previewTestimonial.author}</p>
+                      <p className="text-sm">{previewTestimonial.position}</p>
+                    </div>
+                  </div>
+
+                  {/* Metadata */}
+                  <div className="bg-white border rounded-lg p-4">
+                    <h4 className="font-semibold text-gray-900 mb-3">Informations</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">ID:</span>
+                        <span className="font-mono text-gray-900">{previewTestimonial._id}</span>
+                      </div>
+                      {previewTestimonial.createdAt && (
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Créé le:</span>
+                          <span className="text-gray-900">
+                            {new Date(previewTestimonial.createdAt).toLocaleDateString('fr-FR', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </span>
+                        </div>
+                      )}
+                      {previewTestimonial.updatedAt && previewTestimonial.updatedAt !== previewTestimonial.createdAt && (
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Modifié le:</span>
+                          <span className="text-gray-900">
+                            {new Date(previewTestimonial.updatedAt).toLocaleDateString('fr-FR', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      onClick={() => {
+                        closeModal();
+                        handleEditTestimonial(previewTestimonial);
+                      }}
+                      className="flex-1 inline-flex items-center justify-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                    >
+                      <Edit3 size={16} />
+                      <span>Modifier</span>
+                    </button>
+                    <button
+                      onClick={closeModal}
+                      className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      Fermer
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

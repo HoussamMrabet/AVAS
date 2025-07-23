@@ -5,7 +5,7 @@ export interface UserFormData {
   name: string;
   email: string;
   password: string;
-  role: 'admin' | 'user';
+  role: 'admin' | 'professional' | 'benevole' | 'user';
 }
 
 export const useUsers = () => {
@@ -121,7 +121,7 @@ export const useUsers = () => {
       const updatedUser = await response.json();
       setUsers(prevUsers => 
         prevUsers.map(user => 
-          user.id === userId ? { ...user, ...updatedUser } : user
+          user._id === userId ? { ...user, ...updatedUser } : user
         )
       );
       return updatedUser;
@@ -149,7 +149,7 @@ export const useUsers = () => {
         throw new Error('Erreur lors de la suppression de l\'utilisateur');
       }
 
-      setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+      setUsers(prevUsers => prevUsers.filter(user => user._id !== userId));
     } catch (err) {
       console.error('Error deleting user:', err);
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors de la suppression de l\'utilisateur';

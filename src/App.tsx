@@ -19,6 +19,7 @@ import Profile from './components/Profile';
 import Settings from './components/Settings';
 import Orders from './components/Orders';
 import Dashboard from './components/Dashboard';
+import MyTestimonials from './components/MyTestimonials';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -75,6 +76,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/my-testimonials" element={<MyTestimonials />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, ChevronDown, User, Settings, ShoppingBag, LogOut, Grid } from 'lucide-react';
+import { Menu, X, ChevronDown, User, Settings, ShoppingBag, LogOut, Grid, MessageSquare } from 'lucide-react';
 import { User as UserType } from '../hooks/useAuth';
 
 interface NavbarProps {
@@ -31,6 +31,7 @@ const Navbar: React.FC<NavbarProps> = ({
     { label: 'Profile', href: '/profile', icon: User },
     { label: 'Settings', href: '/settings', icon: Settings },
     { label: 'Orders', href: '/orders', icon: ShoppingBag },
+    { label: 'Mes Témoignages', href: '/my-testimonials', icon: MessageSquare },
   ];
 
   const userDropdownItems = user?.role == 'admin' 
