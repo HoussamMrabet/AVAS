@@ -18,6 +18,7 @@ interface TeamFormData {
   description: string;
   avatar: string;
   startDate: string;
+  isPrimary: Boolean;
 }
 
 interface InfoFormData {
@@ -43,7 +44,7 @@ const Dashboard: React.FC = () => {
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [previewUser, setPreviewUser] = useState<User | null>(null);
-  
+
   // Team states
   const [showAddTeamModal, setShowAddTeamModal] = useState(false);
   const [showEditTeamModal, setShowEditTeamModal] = useState(false);
@@ -55,9 +56,10 @@ const Dashboard: React.FC = () => {
     position: '',
     description: '',
     avatar: '',
-    startDate: ''
+    startDate: '',
+    isPrimary: false,
   });
-  
+
   // Info states
   const [showEditInfoModal, setShowEditInfoModal] = useState(false);
   const [infoFormData, setInfoFormData] = useState<InfoFormData>({
@@ -73,7 +75,7 @@ const Dashboard: React.FC = () => {
       linktr: ''
     }
   });
-  
+
   const [formData, setFormData] = useState<UserFormData>({
     name: '',
     email: '',
@@ -82,11 +84,11 @@ const Dashboard: React.FC = () => {
   });
   const [formLoading, setFormLoading] = useState(false);
   const [formError, setFormError] = useState('');
-  
+
   // Use the custom hooks
   const { users, loading, error, addUser, updateUser, deleteUser } = useUsers();
   const { teams, loading: teamsLoading, error: teamsError, addTeam, updateTeam, deleteTeam } = useTeams();
-  const { site, loading: infoLoading, error: infoError } = useInfos();
+  const { site, loading: infoLoading, error: infoError, updateSite } = useInfos();
 
   // Initialize info form data when site data is loaded
   React.useEffect(() => {
@@ -109,9 +111,9 @@ const Dashboard: React.FC = () => {
 
   const filteredUsers = users.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.email.toLowerCase().includes(searchTerm.toLowerCase());
+      user.email.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = filterRole === 'all' || user.role === filterRole;
-    
+
     return matchesSearch && matchesRole;
   });
 
@@ -174,7 +176,7 @@ const Dashboard: React.FC = () => {
 
   // Team management functions
   const handleAddTeam = () => {
-    setTeamFormData({ name: '', position: '', description: '', avatar: '', startDate: '' });
+    setTeamFormData({ name: '', position: '', description: '', avatar: '', startDate: '', isPrimary: false });
     setFormError('');
     setShowAddTeamModal(true);
   };
@@ -186,7 +188,8 @@ const Dashboard: React.FC = () => {
       position: team.position,
       description: team.description || '',
       avatar: team.avatar || '',
-      startDate: team.startDate || ''
+      startDate: team.startDate || '',
+      isPrimary: team.isPrimary || false,
     });
     setFormError('');
     setShowEditTeamModal(true);
@@ -242,9 +245,8 @@ const Dashboard: React.FC = () => {
     setFormError('');
 
     try {
-      // Here you would call an API to update site info
-      // For now, we'll just simulate success
-      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      updateSite(infoFormData);
       setShowEditInfoModal(false);
       alert('Informations mises à jour avec succès !');
     } catch (err) {
@@ -295,39 +297,36 @@ const Dashboard: React.FC = () => {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setActiveTab('users')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
-                activeTab === 'users'
+              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${activeTab === 'users'
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
+                }`}
             >
               <Users size={16} className="inline mr-2" />
               Utilisateurs
             </button>
             <button
               onClick={() => setActiveTab('teams')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
-                activeTab === 'teams'
+              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${activeTab === 'teams'
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
+                }`}
             >
               <UserPlus size={16} className="inline mr-2" />
               Équipe
             </button>
             <button
               onClick={() => setActiveTab('infos')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
-                activeTab === 'infos'
+              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${activeTab === 'infos'
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
+                }`}
             >
               <Settings size={16} className="inline mr-2" />
               Informations
             </button>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <a
               href="/"
@@ -344,7 +343,7 @@ const Dashboard: React.FC = () => {
           <>
             {/* Add User Button */}
             <div className="flex justify-end mb-6">
-              <button 
+              <button
                 onClick={handleAddUser}
                 className="inline-flex items-center space-x-2 bg-green-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm md:text-base"
               >
@@ -430,14 +429,14 @@ const Dashboard: React.FC = () => {
                             </td>
                             <td className="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-xs md:text-sm font-medium">
                               <div className="flex items-center space-x-2">
-                                <button 
+                                <button
                                   onClick={() => handlePreviewUser(user)}
                                   className="text-blue-600 hover:text-blue-900 transition-colors duration-200"
                                   title="Voir les détails"
                                 >
                                   <Eye size={16} />
                                 </button>
-                                <button 
+                                <button
                                   onClick={() => handleEditUser(user)}
                                   className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
                                   title="Modifier"
@@ -477,7 +476,7 @@ const Dashboard: React.FC = () => {
           <>
             {/* Add Team Button */}
             <div className="flex justify-end mb-6">
-              <button 
+              <button
                 onClick={handleAddTeam}
                 className="inline-flex items-center space-x-2 bg-green-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm md:text-base"
               >
@@ -509,21 +508,21 @@ const Dashboard: React.FC = () => {
                             <p className="text-sm text-blue-600">{member.position}</p>
                           </div>
                         </div>
-                        
+
                         {member.description && (
                           <p className="text-sm text-gray-600 mb-3 line-clamp-2">{member.description}</p>
                         )}
-                        
+
                         <div className="flex justify-between items-center">
                           <div className="flex space-x-2">
-                            <button 
+                            <button
                               onClick={() => handlePreviewTeam(member)}
                               className="text-blue-600 hover:text-blue-900 transition-colors duration-200"
                               title="Voir les détails"
                             >
                               <Eye size={16} />
                             </button>
-                            <button 
+                            <button
                               onClick={() => handleEditTeam(member)}
                               className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
                               title="Modifier"
@@ -564,7 +563,7 @@ const Dashboard: React.FC = () => {
           <>
             {/* Edit Info Button */}
             <div className="flex justify-end mb-6">
-              <button 
+              <button
                 onClick={handleEditInfo}
                 className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm md:text-base"
               >
@@ -607,7 +606,7 @@ const Dashboard: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">Réseaux sociaux</h3>
                     <div className="space-y-3">
@@ -730,6 +729,19 @@ const Dashboard: React.FC = () => {
                       placeholder="2024"
                     />
                   </div>
+
+                  <div className="flex items-center space-x-3">
+                    <input
+                      type="checkbox"
+                      id="isPrimary"
+                      checked={teamFormData.isPrimary}
+                      onChange={(e) => setTeamFormData(prev => ({ ...prev, isPrimary: e.target.checked }))}
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <label htmlFor="isPrimary" className="text-sm font-medium text-gray-700">
+                      Membre principal (équipe permanente)
+                    </label>
+                  </div>
                 </div>
 
                 <div className="flex justify-end space-x-3 mt-6 pt-6 border-t">
@@ -791,14 +803,14 @@ const Dashboard: React.FC = () => {
                     </div>
                   )}
                 </div>
-                  {previewTeam.startDate && (
-                    <div className="bg-gray-50 rounded-lg p-4">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-gray-700">Depuis:</span>
-                        <span className="text-sm text-gray-900">{previewTeam.startDate}</span>
-                      </div>
+                {previewTeam.startDate && (
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-gray-700">Depuis:</span>
+                      <span className="text-sm text-gray-900">{previewTeam.startDate}</span>
                     </div>
-                  )}
+                  </div>
+                )}
 
                 <div className="flex justify-end space-x-3 mt-6 pt-6 border-t">
                   <button
@@ -847,7 +859,7 @@ const Dashboard: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <h4 className="text-lg font-semibold text-gray-900">Informations de contact</h4>
-                    
+
                     <div>
                       <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-2">
                         Site web
@@ -921,7 +933,7 @@ const Dashboard: React.FC = () => {
 
                   <div className="space-y-4">
                     <h4 className="text-lg font-semibold text-gray-900">Réseaux sociaux</h4>
-                    
+
                     <div>
                       <label htmlFor="facebook" className="block text-sm font-medium text-gray-700 mb-2">
                         Facebook
@@ -930,8 +942,8 @@ const Dashboard: React.FC = () => {
                         type="url"
                         id="facebook"
                         value={infoFormData.social.facebook}
-                        onChange={(e) => setInfoFormData(prev => ({ 
-                          ...prev, 
+                        onChange={(e) => setInfoFormData(prev => ({
+                          ...prev,
                           social: { ...prev.social, facebook: e.target.value }
                         }))}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
@@ -947,8 +959,8 @@ const Dashboard: React.FC = () => {
                         type="url"
                         id="instagram"
                         value={infoFormData.social.instagram}
-                        onChange={(e) => setInfoFormData(prev => ({ 
-                          ...prev, 
+                        onChange={(e) => setInfoFormData(prev => ({
+                          ...prev,
                           social: { ...prev.social, instagram: e.target.value }
                         }))}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
@@ -964,8 +976,8 @@ const Dashboard: React.FC = () => {
                         type="url"
                         id="twitter"
                         value={infoFormData.social.twitter}
-                        onChange={(e) => setInfoFormData(prev => ({ 
-                          ...prev, 
+                        onChange={(e) => setInfoFormData(prev => ({
+                          ...prev,
                           social: { ...prev.social, twitter: e.target.value }
                         }))}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
@@ -981,8 +993,8 @@ const Dashboard: React.FC = () => {
                         type="url"
                         id="linktr"
                         value={infoFormData.social.linktr}
-                        onChange={(e) => setInfoFormData(prev => ({ 
-                          ...prev, 
+                        onChange={(e) => setInfoFormData(prev => ({
+                          ...prev,
                           social: { ...prev.social, linktr: e.target.value }
                         }))}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
