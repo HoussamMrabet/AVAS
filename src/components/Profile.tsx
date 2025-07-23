@@ -85,7 +85,7 @@ const Profile: React.FC = () => {
             <div className="relative">
               <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-gray-200">
                 <img
-                  src={isEditing ? tempData?.avatar : profileData.avatar}
+                  src={isEditing ? tempData?.avatar || "https://i.pravatar.cc" : profileData.avatar || "https://i.pravatar.cc"}
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />

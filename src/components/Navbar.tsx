@@ -113,7 +113,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     {user && (
                       <>
                         <img 
-                          src={user.avatar} 
+                          src={user.avatar || "https://i.pravatar.cc"} 
                           alt={user.name}
                           className="w-6 h-6 rounded-full mr-2"
                         />
@@ -218,7 +218,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 {user && (
                   <div className="flex items-center text-gray-700 text-lg">
                     <img 
-                      src={user.avatar} 
+                      src={user.avatar || "https://i.pravatar.cc"} 
                       alt={user.name}
                       className="w-8 h-8 rounded-full mr-3"
                     />

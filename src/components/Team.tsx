@@ -62,7 +62,7 @@ const Team: React.FC = () => {
             >
               <div className="aspect-square overflow-hidden">
                 <img
-                  src={member.avatar}
+                  src={member.avatar || "https://i.pravatar.cc"}
                   alt={member.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
@@ -96,7 +96,7 @@ const Team: React.FC = () => {
               >
                 <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 md:mb-3 rounded-full overflow-hidden border-2 border-blue-200">
                   <img
-                    src={volunteer.avatar}
+                    src={volunteer.avatar || "https://i.pravatar.cc"}
                     alt={volunteer.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />

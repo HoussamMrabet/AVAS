@@ -412,7 +412,7 @@ const Dashboard: React.FC = () => {
                             <td className="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                               <div className="flex items-center">
                                 <img
-                                  src={user.avatar}
+                                  src={user.avatar || "https://i.pravatar.cc"}
                                   alt={user.name}
                                   className="w-8 h-8 md:w-10 md:h-10 rounded-full mr-3 md:mr-4"
                                 />
@@ -499,7 +499,7 @@ const Dashboard: React.FC = () => {
                       <div key={member._id} className="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
                         <div className="flex items-center mb-3">
                           <img
-                            src={member.avatar}
+                            src={member.avatar || "https://i.pravatar.cc"}
                             alt={member.name}
                             className="w-12 h-12 rounded-full mr-3"
                           />
@@ -784,7 +784,7 @@ const Dashboard: React.FC = () => {
                 <div className="text-center mb-6">
                   <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-200 shadow-lg">
                     <img
-                      src={previewTeam.avatar}
+                      src={previewTeam.avatar || "https://i.pravatar.cc"}
                       alt={previewTeam.name}
                       className="w-full h-full object-cover"
                     />
@@ -1153,7 +1153,7 @@ const Dashboard: React.FC = () => {
                 <div className="text-center mb-6">
                   <div className="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-200 shadow-lg">
                     <img
-                      src={previewUser.avatar}
+                      src={previewUser.avatar || "https://i.pravatar.cc"}
                       alt={previewUser.name}
                       className="w-full h-full object-cover"
                     />
