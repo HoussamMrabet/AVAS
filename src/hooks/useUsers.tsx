@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react';
 import { User } from './useAuth';
 
+export interface UserFormData {
+  name: string;
+  email: string;
+  password: string;
+  role: 'admin' | 'user';
+}
+
 export const useUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
@@ -56,7 +63,7 @@ export const useUsers = () => {
   };
 
   // Add new user
-  const addUser = async (userData: User): Promise<User> => {
+  const addUser = async (userData: UserFormData): Promise<User> => {
     try {
       setLoading(true);
       setError('');
@@ -88,7 +95,7 @@ export const useUsers = () => {
   };
 
   // Update user
-  const updateUser = async (userId: string, userData: Partial<User>): Promise<User> => {
+  const updateUser = async (userId: string, userData: Partial<UserFormData>): Promise<User> => {
     try {
       setLoading(true);
       setError('');
