@@ -38,12 +38,13 @@ interface InfoFormData {
     donation: string;
   };
 }
+import { MessagesPanel } from './MessagesPanel';
 
 const Dashboard: React.FC = () => {
   const { getCurrentUser } = useAuth();
   const currentUser = getCurrentUser();
 
-  const [activeTab, setActiveTab] = useState<'users' | 'teams' | 'infos' | 'testimonials'>('users');
+  const [activeTab, setActiveTab] = useState<'users' | 'teams' | 'infos' | 'testimonials' | 'messages'>('users');
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState<'all' | 'admin' | 'user'>('all');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -458,6 +459,16 @@ const Dashboard: React.FC = () => {
             >
               <Settings size={16} className="inline mr-2" />
               Informations
+            </button>
+            <button
+              onClick={() => setActiveTab('messages')}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${activeTab === 'messages'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+            >
+              <Settings size={16} className="inline mr-2" />
+              Messages
             </button>
           </div>
 
@@ -893,6 +904,13 @@ const Dashboard: React.FC = () => {
               )}
             </div>
           </>
+        )}
+
+        {/* Infos Tab */}
+        {activeTab === 'messages' && (
+          <div className="flex items-center space-x-4">
+            <MessagesPanel />
+          </div>
         )}
 
         {/* Add/Edit Team Modal */}

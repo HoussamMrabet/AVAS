@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, Facebook, Instagram, Linkedin } from 'lucide-react';
 import { useInfos } from '../hooks/useInfos';
+import { useMessages } from '../hooks/useMessages';
 
 const Contact: React.FC = () => {
   const { site } = useInfos();
+  const { addMessage } = useMessages();
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    type: '',
-    message: ''
+    content: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -22,14 +24,33 @@ const Contact: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: '', email: '', subject: '', type: '', message: '' });
-    }, 3000);
+    
+    setIsSubmitting(true);
+    
+    try {
+      // Create message data for backend
+      const messageData = {
+        fullName: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        content: formData.content,
+      };
+      
+      await addMessage(messageData);
+      
+      setIsSubmitted(true);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({ name: '', email: '', subject: '', content: ''});
+      }, 3000);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('Erreur lors de l\'envoi du message. Veuillez réessayer.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const subjects = [
@@ -134,13 +155,13 @@ const Contact: React.FC = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+                    <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
                       Message *
                     </label>
                     <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
+                      id="content"
+                      name="content"
+                      value={formData.content}
                       onChange={handleInputChange}
                       required
                       rows={4}
@@ -152,10 +173,20 @@ const Contact: React.FC = () => {
                   <div className="mt-auto">
                     <button
                       type="submit"
-                      className="w-full bg-blue-600 text-white py-2 md:py-3 px-4 md:px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium flex items-center justify-center space-x-2 text-sm md:text-base"
+                      disabled={isSubmitting}
+                      className="w-full bg-blue-600 text-white py-2 md:py-3 px-4 md:px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium flex items-center justify-center space-x-2 text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <Send size={16} className="md:w-5 md:h-5" />
-                      <span>Envoyer le message</span>
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span>Envoi en cours...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send size={16} className="md:w-5 md:h-5" />
+                          <span>Envoyer le message</span>
+                        </>
+                      )}
                     </button>
                   </div>
                 </form>
