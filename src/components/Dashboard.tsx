@@ -223,7 +223,7 @@ const Dashboard: React.FC = () => {
       description: team.description || '',
       avatar: team.avatar || '',
       startDate: team.startDate || '',
-      isPrimary: team.isPrimary || false,
+      isPrimary: team.isPrimary,
     });
     setFormError('');
     setShowEditTeamModal(true);
@@ -997,7 +997,9 @@ const Dashboard: React.FC = () => {
                       type="checkbox"
                       id="isPrimary"
                       checked={teamFormData.isPrimary}
-                      onChange={(e) => setTeamFormData(prev => ({ ...prev, isPrimary: e.target.checked }))}
+                      onChange={(e) =>
+                        setTeamFormData(prev => ({ ...prev, isPrimary: e.target.checked }))
+                      }
                       className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     />
                     <label htmlFor="isPrimary" className="text-sm font-medium text-gray-700">

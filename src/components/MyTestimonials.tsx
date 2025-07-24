@@ -114,7 +114,6 @@ const MyTestimonials: React.FC = () => {
 
     try {
       if (modalType === 'add') {
-        console.log(formData);
         await addTestimonial(formData);
         alert('Témoignage ajouté avec succès !');
       } else {
