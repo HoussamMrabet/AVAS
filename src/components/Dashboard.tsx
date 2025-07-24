@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Home, Edit3, Trash2, Plus, Search, Filter, Eye, UserCheck, UserX, X, Save, UserPlus, Settings, MessageSquare, Star } from 'lucide-react';
+import { Users, Home, Edit3, Trash2, Plus, Search, Filter, Eye, UserCheck, UserX, X, Save, UserPlus, Settings, MessageSquare, Star, Mail } from 'lucide-react';
 import { useUsers } from '../hooks/useUsers';
 import { useTeams } from '../hooks/useTeams';
 import { useInfos } from '../hooks/useInfos';
@@ -467,7 +467,7 @@ const Dashboard: React.FC = () => {
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
             >
-              <Settings size={16} className="inline mr-2" />
+              <Mail size={16} className="inline mr-2" />
               Messages
             </button>
           </div>

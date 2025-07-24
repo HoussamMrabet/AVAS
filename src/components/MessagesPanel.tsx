@@ -54,7 +54,8 @@ const MessagesPanel: React.FC = () => {
   }, [messages, searchTerm, filterStatus])
   // Filter and search messages
 
-  const handleMessageClick = (message: Message) => {
+  const handleMessageClick = async (message: Message) => {
+    await markAsRead(message._id, message);
     setSelectedMessage(message);
     setShowPreviewModal(true);
   };
@@ -389,53 +390,11 @@ const MessagesPanel: React.FC = () => {
                         {selectedMessage.createdAt && formatDate(selectedMessage.createdAt)}
                       </div>
                     </div>
-                    <div>
-                      <label className="block font-medium text-gray-700 mb-1">
-                        Statut
-                      </label>
-                      <div className="flex items-center gap-2">
-                        {selectedMessage.isRead == "true" ? (
-                          <>
-                            <CheckCircle className="w-4 h-4 text-green-600" />
-                            <span className="text-green-600">Lu</span>
-                          </>
-                        ) : (
-                          <>
-                            <Circle className="w-4 h-4 text-blue-600" />
-                            <span className="text-blue-600">Non lu</span>
-                          </>
-                        )}
-                      </div>
-                    </div>
                   </div>
                 </div>
 
                 {/* Actions */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
-                  <button
-                    onClick={(e) => {
-                      handleToggleReadStatus(selectedMessage, e);
-                      // Update the selected message state to reflect the change
-                      setSelectedMessage(prev => prev ? { ...prev, isRead: prev.isRead == "true" ? "false" : "true" } : null);
-                    }}
-                    disabled={isUpdating === selectedMessage._id}
-                    className="flex-1 inline-flex items-center justify-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50"
-                  >
-                    {isUpdating === selectedMessage._id ? (
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    ) : selectedMessage.isRead == "true" ? (
-                      <>
-                        <Circle size={16} />
-                        <span>Marquer comme non lu</span>
-                      </>
-                    ) : (
-                      <>
-                        <CheckCircle size={16} />
-                        <span>Marquer comme lu</span>
-                      </>
-                    )}
-                  </button>
-                  
                   <a
                     href={`mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.subject}`}
                     className="flex-1 inline-flex items-center justify-center space-x-2 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-200"
