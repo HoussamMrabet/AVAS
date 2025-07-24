@@ -39,11 +39,11 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Center Logo aligned right */}
-      <div className="flex-1 flex items-center justify-center lg:justify-start p-4 md:p-6 lg:p-8">
+      <div className="flex-1 flex items-center justify-center p-4 md:p-6 lg:p-8">
         <img 
-          src="/logo.png"
+          src="/logo.jpg"
           alt="AVAS Logo"
-          className="h-20 md:h-24 lg:h-32 w-auto"
+          className="h-24 md:h-32 lg:h-48 w-auto"
         />
       </div>
 
@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
         <h3 className="text-base md:text-lg font-semibold mb-2">RESTEZ À JOUR</h3>
         <p className="text-xs md:text-sm">Abonnez-vous à notre <br className="hidden md:block" /> newsletter pour être à jour</p>
         <p className="text-xs md:text-sm mt-3 md:mt-4">
-          Lien <br /> <a href={site?.social?.linktr || "#"} target="_blank" rel="noopener noreferrer" className="border-b-2 pb-1 md:pb-2 border-black break-all">{(site?.social?.linktr?.length > 44 ? site?.social?.linktr?.slice(0, 45) + "..." : site?.social?.linktr) || "#"}</a>
+          Lien <br /> <a href={site?.social?.linktr || "#"} target="_blank" rel="noopener noreferrer" className="border-b-2 pb-1 md:pb-2 border-black break-all">{(site?.social?.linktr && site?.social?.linktr?.length > 44 ? site?.social?.linktr?.slice(0, 45) + "..." : site?.social?.linktr) || "#"}</a>
         </p>
       </div>
     </footer>

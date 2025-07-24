@@ -55,7 +55,7 @@ const ElleLeVaulxBien: React.FC = () => {
             <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
                     <div>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#c088c6] mb-6 md:mb-8">OBJECTIFS</h2>
+                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#c088c6] mb-6 md:mb-8">OBJECTIFS 2024</h2>
 
                         <div className="space-y-4 md:space-y-6">
                             {objectives.map((objective, index) => (
@@ -72,21 +72,12 @@ const ElleLeVaulxBien: React.FC = () => {
                     </div>
 
                     <div className="relative">
-                        <div
-                            className="aspect-square rounded-lg bg-gradient-to-br from-purple-100 to-pink-100 p-6 md:p-8"
-                            style={{
-                                backgroundImage: `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="fabric2" patternUnits="userSpaceOnUse" width="15" height="15"><rect width="15" height="15" fill="%23ffffff" opacity="0.3"/><circle cx="7.5" cy="7.5" r="0.5" fill="%23d8b4fe" opacity="0.4"/></pattern></defs><rect width="100" height="100" fill="url(%23fabric2)"/></svg>')`,
-                                backgroundSize: '30px 30px'
-                            }}
-                        >
-                            <div className="h-full flex items-center justify-center">
-                                <div className="text-center">
-                                    <Target className="w-12 h-12 md:w-16 md:h-16 text-purple-500 mx-auto mb-3 md:mb-4" />
-                                    <p className="text-purple-700 font-medium text-sm md:text-base">
-                                        Objectifs 2024
-                                    </p>
-                                </div>
-                            </div>
+                        <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
+                            <img
+                                src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop"
+                                alt="Groupe de jeunes"
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                            />
                         </div>
                     </div>
                 </div>
@@ -119,6 +110,29 @@ const ElleLeVaulxBien: React.FC = () => {
                                 femmes dans les espaces publics et la création d'espaces mixtes sécurisés où elles peuvent
                                 s'épanouir en toute confiance.
                             </p>
+                        </div>
+                        <div className='flex flex-column justify-between gap-5 mt-10'>
+                            <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
+                                <img
+                                    src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop"
+                                    alt="Groupe de jeunes"
+                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                />
+                            </div>
+                            <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
+                                <img
+                                    src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop"
+                                    alt="Groupe de jeunes"
+                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                />
+                            </div>
+                            <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
+                                <img
+                                    src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop"
+                                    alt="Groupe de jeunes"
+                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

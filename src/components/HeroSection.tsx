@@ -21,8 +21,8 @@ const HeroSection: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto pt-8 md:pt-12 lg:pt-20 px-4 md:px-6 lg:px-8 w-full h-full flex flex-col">
         <div className="text-center flex-1 flex items-center justify-center">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white mb-4 md:mb-6 leading-tight py-6 md:py-10 px-4">
-            Seul, on va plus vite ;
-            <span className="block">ensemble, on va plus loin</span>
+            Par la jeunesse ,Pour la jeunesse 
+            <span className="block">pour les quartiers, pour la ville</span>
           </h1>
         </div>
 

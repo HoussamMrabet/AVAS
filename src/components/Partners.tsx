@@ -1,9 +1,9 @@
 import React from 'react';
-import { Users, Handshake, Building2, Heart, Award, Globe } from 'lucide-react';
-import { useInfos } from '../hooks/useInfos';
+import { useState } from 'react';
+import { Users, Handshake, Building2, Award, Globe, Building } from 'lucide-react';
 
 const Partners: React.FC = () => {
-  const { site } = useInfos();
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const partners = [
     {
@@ -17,21 +17,21 @@ const Partners: React.FC = () => {
       id: 2,
       name: 'Ville de Vaulx-en-Velin',
       logo: '/partners/partner2.svg',
-      category: 'Social',
+      category: 'Académique',
       description: 'Accompagnement des initiatives citoyennes'
     },
     {
       id: 3,
       name: 'vaulx en velin grand projet de ville',
       logo: '/partners/partner3.png',
-      category: 'emploi',
+      category: 'Entreprise',
       description: 'Accompagnement des jeunes dans leur parcours professionnel'
     },
     {
       id: 4,
       name: 'ANCT – Agence nationale de la cohésion des territoires',
       logo: '/partners/partner4.jpeg',
-      category: 'Social',
+      category: 'Académique',
       description: 'Soutien aux projets de cohésion sociale et territoriale'
     },
     {
@@ -66,7 +66,7 @@ const Partners: React.FC = () => {
 
   const categories = [
     { name: 'Institutionnel', icon: Building2, color: 'blue' },
-    { name: 'Social', icon: Heart, color: 'red' },
+    { name: 'Académique', icon: Building, color: 'red' },
     { name: 'Emploi', icon: Users, color: 'green' },
     { name: 'Fondation', icon: Award, color: 'purple' },
     { name: 'Associatif', icon: Handshake, color: 'orange' },
@@ -83,6 +83,14 @@ const Partners: React.FC = () => {
       indigo: 'border-indigo-400 bg-indigo-50'
     };
     return colorMap[color] || 'border-gray-400 bg-gray-50';
+  };
+
+  const filteredPartners = selectedCategory 
+    ? partners.filter(partner => partner.category === selectedCategory)
+    : partners;
+
+  const handleCategoryClick = (categoryName: string) => {
+    setSelectedCategory(selectedCategory === categoryName ? null : categoryName);
   };
 
   return (
@@ -130,21 +138,32 @@ const Partners: React.FC = () => {
         <h3 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-8 md:mb-12">Découvrez Nos Partenaires</h3>
 
         {/* Category Legend */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-12">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-4 md:mb-6">
           {categories.map((category) => {
             const IconComponent = category.icon;
+            const isSelected = selectedCategory === category.name;
             return (
-              <div key={category.name} className="flex items-center gap-1 md:gap-2 px-2 md:px-4 py-1 md:py-2 bg-white rounded-full shadow-sm border">
+              <button
+                key={category.name}
+                onClick={() => handleCategoryClick(category.name)}
+                className={`flex items-center gap-1 md:gap-2 px-2 md:px-4 py-1 md:py-2 rounded-full shadow-sm border transition-all duration-200 hover:shadow-md hover:scale-105 ${
+                  isSelected 
+                    ? `bg-${category.color}-100 border-${category.color}-400`
+                    : 'bg-white border-gray-200 hover:bg-gray-50'
+                }`}
+              >
                 <IconComponent size={16} className={`text-${category.color}-600`} />
-                <span className="text-xs md:text-sm font-medium">{category.name}</span>
-              </div>
+                <span className={`text-xs md:text-sm font-medium ${isSelected ? `text-${category.color}-700` : 'text-gray-700'}`}>
+                  {category.name}
+                </span>
+              </button>
             );
           })}
         </div>
 
         {/* Partners Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-          {partners.map((partner) => {
+          {filteredPartners.map((partner) => {
             const category = categories.find(cat => cat.name === partner.category);
             const colorClasses = category ? getColorClasses(category.color) : 'border-gray-400 bg-gray-50';
 
@@ -178,6 +197,25 @@ const Partners: React.FC = () => {
             );
           })}
         </div>
+
+        {/* No Results Message */}
+        {filteredPartners.length === 0 && selectedCategory && (
+          <div className="text-center py-12">
+            <div className="text-gray-400 mb-4">
+              <Building2 size={48} className="mx-auto" />
+            </div>
+            <h4 className="text-lg font-medium text-gray-900 mb-2">Aucun partenaire trouvé</h4>
+            <p className="text-gray-600 mb-4">
+              Aucun partenaire ne correspond à la catégorie "{selectedCategory}".
+            </p>
+            <button
+              onClick={() => setSelectedCategory(null)}
+              className="text-blue-600 hover:text-blue-800 underline"
+            >
+              Voir tous les partenaires
+            </button>
+          </div>
+        )}
 
         {/* Call to Action */}
         <div className="text-center mt-8 md:mt-12 lg:mt-16 bg-gray-50 rounded-lg p-4 md:p-6 lg:p-8">
