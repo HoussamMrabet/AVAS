@@ -11,6 +11,7 @@ export interface SiteData {
     instagram?: string;
     twitter?: string;
     linktr?: string
+    donation?: string;
   };
 }
 

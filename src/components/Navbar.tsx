@@ -30,7 +30,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const baseUserDropdownItems = [
     { label: 'Profile', href: '/profile', icon: User },
     { label: 'Settings', href: '/settings', icon: Settings },
-    { label: 'Orders', href: '/orders', icon: ShoppingBag },
+    // { label: 'Orders', href: '/orders', icon: ShoppingBag },
     { label: 'Mes Témoignages', href: '/my-testimonials', icon: MessageSquare },
   ];
 

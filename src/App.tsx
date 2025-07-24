@@ -74,7 +74,7 @@ function App() {
           <Route path="/poles/citoyennete" element={<PoleCitoyennete />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/orders" element={<Orders />} />
+          {/* <Route path="/orders" element={<Orders />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-testimonials" element={<MyTestimonials />} />
           <Route path="*" element={<NotFound />} />

@@ -28,7 +28,8 @@ const MyTestimonials: React.FC = () => {
     comment: '',
     author: currentUser?.name || '',
     position: '',
-    featured: false
+    featured: false,
+    userId: currentUser.id,
   });
 
   // Load user testimonials on component mount
@@ -36,14 +37,14 @@ const MyTestimonials: React.FC = () => {
     if (currentUser) {
       loadUserTestimonials();
     }
-  }, [currentUser]);
-
+  }, []);
+  
   const loadUserTestimonials = async () => {
     if (!currentUser) return;
     
     try {
       setLoadingTestimonials(true);
-      const userTestimonials = await getTestimonialsByUserId(currentUser._id);
+      const userTestimonials = await getTestimonialsByUserId(currentUser.id);
       setTestimonials(userTestimonials);
     } catch (err) {
       console.error('Error loading user testimonials:', err);
@@ -57,7 +58,8 @@ const MyTestimonials: React.FC = () => {
       comment: '',
       author: currentUser?.name || '',
       position: '',
-      featured: false
+      featured: false,
+      userId: currentUser.id,
     });
   };
 
@@ -83,7 +85,8 @@ const MyTestimonials: React.FC = () => {
       comment: testimonial.comment,
       author: testimonial.author,
       position: testimonial.position,
-      featured: testimonial.featured
+      featured: testimonial.featured,
+      userId: testimonial.userId,
     });
     setShowModal(true);
   };
@@ -111,6 +114,7 @@ const MyTestimonials: React.FC = () => {
 
     try {
       if (modalType === 'add') {
+        console.log(formData);
         await addTestimonial(formData);
         alert('Témoignage ajouté avec succès !');
       } else {

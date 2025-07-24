@@ -4,7 +4,7 @@ import { useUsers } from '../hooks/useUsers';
 import { useTeams } from '../hooks/useTeams';
 import { useInfos } from '../hooks/useInfos';
 import { useTestimonials, TestimonialFormData, Testimonial } from '../hooks/useTestimonials';
-import { User } from '../hooks/useAuth';
+import { User, useAuth } from '../hooks/useAuth';
 
 interface UserFormData {
   name: string;
@@ -33,10 +33,14 @@ interface InfoFormData {
     instagram: string;
     twitter: string;
     linktr: string;
+    donation: string;
   };
 }
 
 const Dashboard: React.FC = () => {
+  const { getCurrentUser } = useAuth();
+  const currentUser = getCurrentUser();
+
   const [activeTab, setActiveTab] = useState<'users' | 'teams' | 'infos' | 'testimonials'>('users');
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState<'all' | 'admin' | 'user'>('all');
@@ -73,7 +77,8 @@ const Dashboard: React.FC = () => {
       facebook: '',
       instagram: '',
       twitter: '',
-      linktr: ''
+      linktr: '',
+      donation: '',
     }
   });
 
@@ -125,7 +130,8 @@ const Dashboard: React.FC = () => {
           facebook: site.social?.facebook || '',
           instagram: site.social?.instagram || '',
           twitter: site.social?.twitter || '',
-          linktr: site.social?.linktr || ''
+          linktr: site.social?.linktr || '',
+          donation: site.social?.donation || '',
         }
       });
     }
@@ -365,8 +371,28 @@ const Dashboard: React.FC = () => {
   };
 
   const getRoleColor = (role: string) => {
-    return role === 'admin' ? 'text-blue-600 bg-blue-100' : 'text-gray-600 bg-gray-100';
+    return role == 'admin' ? 'text-yellow-600 bg-yellow-100' : role == 'professionnel' ? 'text-blue-600 bg-blue-100' : role == 'benevole' ? 'text-purple-600 bg-purple-100' : 'text-gray-600 bg-gray-100';
   };
+
+  if (!currentUser) {
+    return (
+      <section className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Vous devez être connecté pour accéder à cette page.</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (currentUser.role != "admin") {
+    return (
+      <section className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Vous devez être admin pour accéder à cette page.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section>
@@ -478,7 +504,9 @@ const Dashboard: React.FC = () => {
                   >
                     <option value="all">Tous les rôles</option>
                     <option value="admin">Administrateurs</option>
-                    <option value="user">Utilisateurs</option>
+                    <option value="professionnel">Professionnel</option>
+                    <option value="benevole">Bénévole</option>
+                    <option value="global">Global</option>
                   </select>
                 </div>
               </div>
@@ -526,7 +554,7 @@ const Dashboard: React.FC = () => {
                             </td>
                             <td className="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                               <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleColor(user.role)}`}>
-                                {user.role === 'admin' ? 'Administrateur' : 'Utilisateur'}
+                                {user.role}
                               </span>
                             </td>
                             <td className="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-xs md:text-sm font-medium">
@@ -840,6 +868,10 @@ const Dashboard: React.FC = () => {
                       <div>
                         <label className="text-sm font-medium text-gray-500">Linktree</label>
                         <p className="text-gray-900">{site?.social?.linktr || 'Non défini'}</p>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">donation link</label>
+                        <p className="text-gray-900">{site?.social?.donation || 'Non défini'}</p>
                       </div>
                     </div>
                   </div>
@@ -1216,6 +1248,23 @@ const Dashboard: React.FC = () => {
                         placeholder="https://linktr.ee/avas"
                       />
                     </div>
+
+                    <div>
+                      <label htmlFor="donation" className="block text-sm font-medium text-gray-700 mb-2">
+                        donation link
+                      </label>
+                      <input
+                        type="url"
+                        id="donation"
+                        value={infoFormData.social.donation}
+                        onChange={(e) => setInfoFormData(prev => ({
+                          ...prev,
+                          social: { ...prev.social, donation: e.target.value }
+                        }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        placeholder="https://donation.ee/avas"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -1321,8 +1370,10 @@ const Dashboard: React.FC = () => {
                       required
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     >
-                      <option value="user">Utilisateur</option>
-                      <option value="admin">Administrateur</option>
+                      <option value="admin">Administrateurs</option>
+                      <option value="professionnel">Professionnel</option>
+                      <option value="benevole">Bénévole</option>
+                      <option value="global">Global</option>
                     </select>
                   </div>
                 </div>
@@ -1393,7 +1444,7 @@ const Dashboard: React.FC = () => {
                       <div className="flex justify-between items-center">
                         <span className="text-sm font-medium text-gray-700">Rôle:</span>
                         <span className="text-sm text-gray-900">
-                          {previewUser.role === 'admin' ? 'Administrateur' : 'Utilisateur'}
+                          {previewUser.role}
                         </span>
                       </div>
                     </div>

@@ -16,6 +16,11 @@ const Settings: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+  const [passwordErrors, setPasswordErrors] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
 
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
@@ -23,31 +28,114 @@ const Settings: React.FC = () => {
     confirmPassword: ''
   });
 
-  const [preferences, setPreferences] = useState({
-    emailNotifications: true,
-    smsNotifications: false,
-    language: 'fr',
-    theme: 'light'
-  });
+  const validatePasswords = () => {
+    const errors = {
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: ''
+    };
+
+    // Check if new password is different from current password
+    if (passwordData.newPassword && passwordData.currentPassword && 
+        passwordData.newPassword === passwordData.currentPassword) {
+      errors.newPassword = 'Le nouveau mot de passe doit être différent du mot de passe actuel';
+    }
+
+    // Check if new password and confirm password match
+    if (passwordData.newPassword && passwordData.confirmPassword && 
+        passwordData.newPassword !== passwordData.confirmPassword) {
+      errors.confirmPassword = 'Les mots de passe ne correspondent pas';
+    }
+
+    setPasswordErrors(errors);
+    return !errors.newPassword && !errors.confirmPassword;
+  };
+
+  const handlePasswordInputChange = (field: string, value: string) => {
+    setPasswordData(prev => ({ ...prev, [field]: value }));
+    
+    // Clear errors when user starts typing
+    if (passwordErrors.currentPassword || passwordErrors.newPassword || passwordErrors.confirmPassword) {
+      setPasswordErrors({ currentPassword: '', newPassword: '', confirmPassword: '' });
+    }
+  };
+
+  const validateCurrentPassword = async (userId: string, currentPassword: string): Promise<boolean> => {
+    const res = await fetch(`http://localhost:3900/api/users/validate-password/${userId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: currentPassword }),
+    });
+  
+    if (!res.ok) {
+      const errorData = await res.json();
+      console.error('Password validation failed:', errorData.message);
+      return false;
+    }
+  
+    return true;
+  };
+
+  const updateUserPassword = async (userId: string, newPassword: string): Promise<void> => {
+    const res = await fetch(`http://localhost:3900/api/users/${userId}/password`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: newPassword }),
+    });
+  
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || 'Failed to update password');
+    }
+  };  
 
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate passwords before submitting
+    if (!validatePasswords()) {
+      return;
+    }
+  
     setIsSaving(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
-    setIsSaving(false);
-    alert('Mot de passe modifié avec succès !');
+  
+    try {
+      // Step 1: Validate current password with the backend
+      const currentUser = getCurrentUser(); // Assuming you have a `getCurrentUser()` method to get the logged-in user.
+      if (!currentUser) {
+        alert('Utilisateur non authentifié');
+        return;
+      }
+  
+      const isCurrentPasswordValid = await validateCurrentPassword(currentUser.id, passwordData.currentPassword);
+      if (!isCurrentPasswordValid) {
+        const errors = {
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        };
+    
+        errors.currentPassword = 'Mot de passe actuel incorrect';
+        setPasswordErrors(errors);
+        setIsSaving(false);
+        return;
+      }
+  
+      // Step 2: Update the password in the backend
+      await updateUserPassword(currentUser.id, passwordData.newPassword);
+  
+      // Step 3: Reset password fields
+      setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      setPasswordErrors({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      alert('Mot de passe modifié avec succès !');
+    } catch (error) {
+      console.error('Error updating password:', error);
+      alert('Une erreur est survenue lors de la modification du mot de passe');
+    } finally {
+      setIsSaving(false);
+    }
   };
-
-  const handlePreferencesChange = async () => {
-    setIsSaving(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setIsSaving(false);
-    alert('Préférences sauvegardées !');
-  };
-
+  
   const handleDeleteAccount = async () => {
     if (!currentUser) return;
     
@@ -58,7 +146,7 @@ const Settings: React.FC = () => {
 
     setIsDeleting(true);
     try {
-      await deleteUser(currentUser._id);
+      await deleteUser(currentUser.id);
       alert('Votre compte a été supprimé avec succès.');
       signOut(); // Log out the user
       window.location.href = '/'; // Redirect to home page
@@ -79,8 +167,6 @@ const Settings: React.FC = () => {
 
   const tabs = [
     { id: 'security', label: 'Sécurité', icon: Shield },
-    { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'general', label: 'Général', icon: Globe },
     { id: 'account', label: 'Compte', icon: Trash2 }
   ];
 
@@ -157,7 +243,7 @@ const Settings: React.FC = () => {
                           type={showCurrentPassword ? 'text' : 'password'}
                           id="currentPassword"
                           value={passwordData.currentPassword}
-                          onChange={(e) => setPasswordData(prev => ({ ...prev, currentPassword: e.target.value }))}
+                          onChange={(e) => handlePasswordInputChange('currentPassword', e.target.value)}
                           className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                           placeholder="Votre mot de passe actuel"
                           required
@@ -170,6 +256,9 @@ const Settings: React.FC = () => {
                           {showCurrentPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                         </button>
                       </div>
+                      {passwordErrors.currentPassword && (
+                        <p className="mt-1 text-sm text-red-600">{passwordErrors.currentPassword}</p>
+                      )}
                     </div>
 
                     <div>
@@ -181,8 +270,12 @@ const Settings: React.FC = () => {
                           type={showNewPassword ? 'text' : 'password'}
                           id="newPassword"
                           value={passwordData.newPassword}
-                          onChange={(e) => setPasswordData(prev => ({ ...prev, newPassword: e.target.value }))}
-                          className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                          onChange={(e) => handlePasswordInputChange('newPassword', e.target.value)}
+                          className={`w-full px-4 py-3 pr-12 border rounded-lg focus:ring-2 focus:border-transparent transition-all duration-200 ${
+                            passwordErrors.newPassword 
+                              ? 'border-red-300 focus:ring-red-500' 
+                              : 'border-gray-300 focus:ring-blue-500'
+                          }`}
                           placeholder="Nouveau mot de passe"
                           required
                         />
@@ -194,6 +287,9 @@ const Settings: React.FC = () => {
                           {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                         </button>
                       </div>
+                      {passwordErrors.newPassword && (
+                        <p className="mt-1 text-sm text-red-600">{passwordErrors.newPassword}</p>
+                      )}
                     </div>
 
                     <div>
@@ -205,8 +301,12 @@ const Settings: React.FC = () => {
                           type={showConfirmPassword ? 'text' : 'password'}
                           id="confirmPassword"
                           value={passwordData.confirmPassword}
-                          onChange={(e) => setPasswordData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                          className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                          onChange={(e) => handlePasswordInputChange('confirmPassword', e.target.value)}
+                          className={`w-full px-4 py-3 pr-12 border rounded-lg focus:ring-2 focus:border-transparent transition-all duration-200 ${
+                            passwordErrors.confirmPassword 
+                              ? 'border-red-300 focus:ring-red-500' 
+                              : 'border-gray-300 focus:ring-blue-500'
+                          }`}
                           placeholder="Confirmer le nouveau mot de passe"
                           required
                         />
@@ -218,6 +318,9 @@ const Settings: React.FC = () => {
                           {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                         </button>
                       </div>
+                      {passwordErrors.confirmPassword && (
+                        <p className="mt-1 text-sm text-red-600">{passwordErrors.confirmPassword}</p>
+                      )}
                     </div>
 
                     <button
@@ -229,112 +332,6 @@ const Settings: React.FC = () => {
                       <span>{isSaving ? 'Modification...' : 'Modifier le mot de passe'}</span>
                     </button>
                   </form>
-                </div>
-              )}
-
-              {/* Notifications Tab */}
-              {activeTab === 'notifications' && (
-                <div>
-                  <div className="flex items-center space-x-3 mb-6 md:mb-8">
-                    <Bell className="w-6 h-6 text-blue-600" />
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Notifications</h2>
-                  </div>
-
-                  <div className="space-y-6">
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div>
-                        <h3 className="text-lg font-medium text-gray-900">Notifications par email</h3>
-                        <p className="text-sm text-gray-600">Recevoir les actualités et événements par email</p>
-                      </div>
-                      <label className="relative inline-flex items-center cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={preferences.emailNotifications}
-                          onChange={(e) => setPreferences(prev => ({ ...prev, emailNotifications: e.target.checked }))}
-                          className="sr-only peer"
-                        />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                      </label>
-                    </div>
-
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div>
-                        <h3 className="text-lg font-medium text-gray-900">Notifications SMS</h3>
-                        <p className="text-sm text-gray-600">Recevoir les alertes importantes par SMS</p>
-                      </div>
-                      <label className="relative inline-flex items-center cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={preferences.smsNotifications}
-                          onChange={(e) => setPreferences(prev => ({ ...prev, smsNotifications: e.target.checked }))}
-                          className="sr-only peer"
-                        />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                      </label>
-                    </div>
-
-                    <button
-                      onClick={handlePreferencesChange}
-                      disabled={isSaving}
-                      className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-200 disabled:opacity-50"
-                    >
-                      <Save size={16} />
-                      <span>{isSaving ? 'Sauvegarde...' : 'Sauvegarder'}</span>
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* General Tab */}
-              {activeTab === 'general' && (
-                <div>
-                  <div className="flex items-center space-x-3 mb-6 md:mb-8">
-                    <Globe className="w-6 h-6 text-blue-600" />
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Général</h2>
-                  </div>
-
-                  <div className="space-y-6">
-                    <div>
-                      <label htmlFor="language" className="block text-sm font-medium text-gray-700 mb-2">
-                        Langue
-                      </label>
-                      <select
-                        id="language"
-                        value={preferences.language}
-                        onChange={(e) => setPreferences(prev => ({ ...prev, language: e.target.value }))}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      >
-                        <option value="fr">Français</option>
-                        <option value="en">English</option>
-                        <option value="ar">العربية</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label htmlFor="theme" className="block text-sm font-medium text-gray-700 mb-2">
-                        Thème
-                      </label>
-                      <select
-                        id="theme"
-                        value={preferences.theme}
-                        onChange={(e) => setPreferences(prev => ({ ...prev, theme: e.target.value }))}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      >
-                        <option value="light">Clair</option>
-                        <option value="dark">Sombre</option>
-                        <option value="auto">Automatique</option>
-                      </select>
-                    </div>
-
-                    <button
-                      onClick={handlePreferencesChange}
-                      disabled={isSaving}
-                      className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-200 disabled:opacity-50"
-                    >
-                      <Save size={16} />
-                      <span>{isSaving ? 'Sauvegarde...' : 'Sauvegarder'}</span>
-                    </button>
-                  </div>
                 </div>
               )}
 

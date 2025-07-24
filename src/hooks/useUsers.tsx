@@ -5,7 +5,7 @@ export interface UserFormData {
   name: string;
   email: string;
   password: string;
-  role: 'admin' | 'professional' | 'benevole' | 'user';
+  role: 'admin' | 'professionnel' | 'benevole' | 'global';
 }
 
 export const useUsers = () => {

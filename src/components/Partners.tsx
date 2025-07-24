@@ -1,7 +1,10 @@
 import React from 'react';
 import { Users, Handshake, Building2, Heart, Award, Globe } from 'lucide-react';
+import { useInfos } from '../hooks/useInfos';
 
 const Partners: React.FC = () => {
+  const { site } = useInfos();
+
   const partners = [
     {
       id: 1,
@@ -183,9 +186,14 @@ const Partners: React.FC = () => {
             Vous souhaitez devenir partenaire d'AVAS et contribuer au développement de Vaulx-en-Velin ?
             Contactez-nous pour explorer les opportunités de collaboration.
           </p>
-          <button className="bg-blue-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-blue-700 transition-colors duration-200 font-medium text-sm md:text-base">
+          <a 
+            href={site?.social?.donation || '#'} // Replace with your real donation link
+            target="_blank"
+            rel="noopener noreferrer" 
+            className="bg-blue-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-blue-700 transition-colors duration-200 font-medium text-sm md:text-base"
+          >
             Devenir Partenaire
-          </button>
+          </a>
         </div>
       </div>
     </section>

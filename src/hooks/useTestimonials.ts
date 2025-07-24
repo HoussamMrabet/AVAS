@@ -6,7 +6,7 @@ export interface Testimonial {
   author: string;
   position: string;
   featured: boolean;
-  userId?: string;
+  userId: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -16,6 +16,7 @@ export interface TestimonialFormData {
   author: string;
   position: string;
   featured: boolean;
+  userId: string;
 }
 
 export const useTestimonials = () => {

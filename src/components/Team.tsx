@@ -1,7 +1,10 @@
 import React from 'react';
 import { useTeams } from '../hooks/useTeams';
+import { useInfos } from '../hooks/useInfos';
 
 const Team: React.FC = () => {
+
+  const { site } = useInfos();
 
   const { teams } = useTeams();
 
@@ -115,9 +118,14 @@ const Team: React.FC = () => {
               Vous souhaitez contribuer à nos actions et faire partie de l'aventure AVAS ?
               Rejoignez nos bénévoles et participez activement au développement de votre quartier.
             </p>
-            <button className="bg-blue-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-blue-700 transition-colors duration-200 font-medium text-sm md:text-base">
+            <a
+              href={site?.social?.donation || '#'} // Replace with your real donation link
+              target="_blank"
+              rel="noopener noreferrer" 
+              className="bg-blue-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-blue-700 transition-colors duration-200 font-medium text-sm md:text-base"
+            >
               Devenir Bénévole
-            </button>
+            </a>
           </div>
         </div>
       </div>

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { useInfos } from '../hooks/useInfos';
 
 const Contact: React.FC = () => {
+  const { site } = useInfos();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -169,7 +172,7 @@ const Contact: React.FC = () => {
                     Chaque contribution compte et fait une réelle différence.
                   </p>
                   <a
-                    href="#donation-link" // Replace with your real donation link
+                    href={site?.social?.donation || '#'} // Replace with your real donation link
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block bg-white text-blue-700 font-semibold px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-gray-100 transition-colors duration-200 text-sm md:text-base"
@@ -187,7 +190,23 @@ const Contact: React.FC = () => {
                 </p>
               </div>
             </div>
+
           </div>
+          {/* Map Container */}
+          <div className="relative mt-5 h-64 md:h-80 lg:h-96 w-full shadow-lg">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2782.8234567890123!2d4.9234567890123456!3d45.78901234567890!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDXCsDQ3JzIwLjQiTiA0wrA1NSczMC4wIkU!5e0!3m2!1sfr!2sfr!4v1234567890123"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Localisation AVAS - 9 chemin de la ferme, Vaulx-en-Velin"
+              className="w-full h-full"
+            />
+          </div>
+
         </div>
       </div>
     </section>

@@ -60,7 +60,13 @@ const Profile: React.FC = () => {
     }
   };
 
-  if (!profileData) return <div className="text-center py-10">Aucun utilisateur connecté.</div>;
+  if (!profileData) return (
+    <section className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <p className="text-gray-600">Vous devez être connecté pour accéder à cette page.</p>
+      </div>
+    </section>
+  );
 
   return (
     <section>
