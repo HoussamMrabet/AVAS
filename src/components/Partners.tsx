@@ -187,9 +187,7 @@ const Partners: React.FC = () => {
             Contactez-nous pour explorer les opportunités de collaboration.
           </p>
           <a 
-            href={site?.social?.donation || '#'} // Replace with your real donation link
-            target="_blank"
-            rel="noopener noreferrer" 
+            href="/contact"
             className="bg-blue-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-blue-700 transition-colors duration-200 font-medium text-sm md:text-base"
           >
             Devenir Partenaire

@@ -68,7 +68,7 @@ function App() {
           <Route path="/partenaires" element={<Partners />} />
           <Route path="/equipe" element={<Team />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/pole-jeunesse" element={<PoleJeunesse />} />
+          <Route path="/poles/pole-jeunesse" element={<PoleJeunesse />} />
           <Route path="/poles/elle-le-vaulx-bien" element={<ElleLeVaulxBien />} />
           <Route path="/poles/mediation-urbaine" element={<PoleMediation />} />
           <Route path="/poles/citoyennete" element={<PoleCitoyennete />} />

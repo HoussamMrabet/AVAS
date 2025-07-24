@@ -65,7 +65,7 @@ const Team: React.FC = () => {
             >
               <div className="aspect-square overflow-hidden">
                 <img
-                  src={member.avatar || "https://i.pravatar.cc"}
+                  src={member.avatar || "https://i.ibb.co/0RxMKYM8/l60Hf.png"}
                   alt={member.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
@@ -99,7 +99,7 @@ const Team: React.FC = () => {
               >
                 <div className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 md:mb-3 rounded-full overflow-hidden border-2 border-blue-200">
                   <img
-                    src={volunteer.avatar || "https://i.pravatar.cc"}
+                    src={volunteer.avatar || "https://i.ibb.co/0RxMKYM8/l60Hf.png"}
                     alt={volunteer.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
@@ -119,9 +119,7 @@ const Team: React.FC = () => {
               Rejoignez nos bénévoles et participez activement au développement de votre quartier.
             </p>
             <a
-              href={site?.social?.donation || '#'} // Replace with your real donation link
-              target="_blank"
-              rel="noopener noreferrer" 
+              href="/contact"
               className="bg-blue-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-blue-700 transition-colors duration-200 font-medium text-sm md:text-base"
             >
               Devenir Bénévole

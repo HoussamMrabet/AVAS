@@ -37,7 +37,7 @@ const ElleLeVaulxBien: React.FC = () => {
                 <div className="relative z-20 max-w-6xl mx-auto px-4 md:px-6 lg:px-8 text-center">
                     <div className="mb-4 md:mb-6">
                         <div className="inline-flex items-center bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-4 md:px-6 py-2 md:py-3 mb-4 md:mb-6">
-                            <div className="w-3 h-3 md:w-4 md:h-4 bg-red-300 rounded-full mr-2 md:mr-3"></div>
+                            <div className="w-3 h-3 md:w-4 md:h-4 bg-purple-300 rounded-full mr-2 md:mr-3"></div>
                             <span className="text-sm md:text-base font-medium">AVAS Elle le Vaulx Bien</span>
                         </div>
                     </div>
@@ -55,13 +55,13 @@ const ElleLeVaulxBien: React.FC = () => {
             <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
                     <div>
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#f16564] mb-6 md:mb-8">OBJECTIFS</h2>
+                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#c088c6] mb-6 md:mb-8">OBJECTIFS</h2>
 
                         <div className="space-y-4 md:space-y-6">
                             {objectives.map((objective, index) => (
                                 <div key={index} className="flex items-start">
-                                    <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 bg-red-100 rounded-full flex items-center justify-center mr-3 md:mr-4">
-                                        <span className="text-[#f16564] font-bold text-sm md:text-base">{index + 1}</span>
+                                    <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3 md:mr-4">
+                                        <span className="text-[#c088c6] font-bold text-sm md:text-base">{index + 1}</span>
                                     </div>
                                     <p className="text-sm md:text-base lg:text-lg text-gray-700 leading-relaxed pt-1 md:pt-2">
                                         {objective}
@@ -73,7 +73,7 @@ const ElleLeVaulxBien: React.FC = () => {
 
                     <div className="relative">
                         <div
-                            className="aspect-square rounded-lg bg-gradient-to-br from-red-100 to-pink-100 p-6 md:p-8"
+                            className="aspect-square rounded-lg bg-gradient-to-br from-purple-100 to-pink-100 p-6 md:p-8"
                             style={{
                                 backgroundImage: `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="fabric2" patternUnits="userSpaceOnUse" width="15" height="15"><rect width="15" height="15" fill="%23ffffff" opacity="0.3"/><circle cx="7.5" cy="7.5" r="0.5" fill="%23d8b4fe" opacity="0.4"/></pattern></defs><rect width="100" height="100" fill="url(%23fabric2)"/></svg>')`,
                                 backgroundSize: '30px 30px'
@@ -81,8 +81,8 @@ const ElleLeVaulxBien: React.FC = () => {
                         >
                             <div className="h-full flex items-center justify-center">
                                 <div className="text-center">
-                                    <Target className="w-12 h-12 md:w-16 md:h-16 text-red-500 mx-auto mb-3 md:mb-4" />
-                                    <p className="text-red-700 font-medium text-sm md:text-base">
+                                    <Target className="w-12 h-12 md:w-16 md:h-16 text-purple-500 mx-auto mb-3 md:mb-4" />
+                                    <p className="text-purple-700 font-medium text-sm md:text-base">
                                         Objectifs 2024
                                     </p>
                                 </div>
@@ -128,7 +128,7 @@ const ElleLeVaulxBien: React.FC = () => {
             <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
                 <div className="text-center mb-8 md:mb-12">
                     <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-6 md:mb-8">
-                        <div className="bg-red-100 text-red-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-medium">
+                        <div className="bg-purple-100 text-purple-700 px-3 md:px-4 py-1 md:py-2 rounded-full text-xs md:text-sm font-medium">
                             AVAS Elle le Vaulx Bien
                         </div>
                     </div>
@@ -143,7 +143,7 @@ const ElleLeVaulxBien: React.FC = () => {
                     </p>
                 </div>
 
-                <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 lg:p-10 border-l-4 border-red-500">
+                <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 lg:p-10 border-l-4 border-purple-500">
                     <h4 className="text-lg md:text-xl font-bold text-gray-900 mb-4 md:mb-6">
                         Centre de Protection de l'Enfance - Fès
                     </h4>
@@ -171,15 +171,15 @@ const ElleLeVaulxBien: React.FC = () => {
             </div>
 
             {/* Section 5: Vocational Training */}
-            <div className="bg-red-50 py-8 md:py-12 lg:py-16">
+            <div className="bg-purple-50 py-8 md:py-12 lg:py-16">
                 <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8">
                     <div className="text-center mb-8 md:mb-12">
-                        <div className="inline-flex items-center bg-[#f16564] text-white px-4 md:px-6 py-2 md:py-3 rounded-full mb-4 md:mb-6">
-                            <span className="w-6 h-6 md:w-8 md:h-8 bg-white text-[#f16564] rounded-full flex items-center justify-center text-sm md:text-base font-bold mr-2 md:mr-3">3</span>
+                        <div className="inline-flex items-center bg-[#c088c6] text-white px-4 md:px-6 py-2 md:py-3 rounded-full mb-4 md:mb-6">
+                            <span className="w-6 h-6 md:w-8 md:h-8 bg-white text-[#c088c6] rounded-full flex items-center justify-center text-sm md:text-base font-bold mr-2 md:mr-3">3</span>
                             <span className="font-medium text-sm md:text-base">Formations Professionnelles</span>
                         </div>
 
-                        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#f16564] mb-4 md:mb-6">
+                        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#c088c6] mb-4 md:mb-6">
                             Accompagnement Professionnel
                         </h3>
                     </div>
@@ -189,8 +189,8 @@ const ElleLeVaulxBien: React.FC = () => {
                             const IconComponent = formation.icon;
                             return (
                                 <div key={index} className="bg-white rounded-lg shadow-lg p-4 md:p-6 text-center hover:shadow-xl transition-shadow duration-300">
-                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
-                                        <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-[#f16564]" />
+                                    <div className="w-12 h-12 md:w-16 md:h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                                        <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-[#c088c6]" />
                                     </div>
                                     <h4 className="text-lg md:text-xl font-bold text-gray-900 mb-2 md:mb-3">{formation.name}</h4>
                                     <p className="text-xs md:text-sm text-gray-600">{formation.description}</p>
@@ -199,7 +199,7 @@ const ElleLeVaulxBien: React.FC = () => {
                         })}
                     </div>
 
-                    <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 border-l-4 border-red-500">
+                    <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 border-l-4 border-purple-500">
                         <p className="text-sm md:text-base text-gray-600 leading-relaxed">
                             La situation de la cuisine nécessite une attention particulière. AVAS prévoit d'apporter
                             son soutien à travers la fourniture de kits de formation, de vêtements professionnels,
@@ -213,37 +213,37 @@ const ElleLeVaulxBien: React.FC = () => {
             <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
                     {/* Left Box - Pink background */}
-                    <div className="bg-gradient-to-br from-red-100 to-red-200 rounded-lg p-6 md:p-8 shadow-lg">
-                        <h4 className="text-lg md:text-xl font-bold text-red-800 mb-4 md:mb-6">
+                    <div className="bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg p-6 md:p-8 shadow-lg">
+                        <h4 className="text-lg md:text-xl font-bold text-purple-800 mb-4 md:mb-6">
                             Bénéfices pour les jeunes filles
                         </h4>
 
                         <div className="space-y-3 md:space-y-4">
                             {benefits.map((benefit, index) => (
                                 <div key={index} className="flex items-start">
-                                    <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                                    <p className="text-sm md:text-base text-red-800 leading-relaxed">{benefit}</p>
+                                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                                    <p className="text-sm md:text-base text-purple-800 leading-relaxed">{benefit}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
 
                     {/* Right Box - White background */}
-                    <div className="bg-white rounded-lg p-6 md:p-8 shadow-lg border-2 border-red-200">
-                        <h4 className="text-lg md:text-xl font-bold text-[#f16564] mb-4 md:mb-6">
+                    <div className="bg-white rounded-lg p-6 md:p-8 shadow-lg border-2 border-purple-200">
+                        <h4 className="text-lg md:text-xl font-bold text-[#c088c6] mb-4 md:mb-6">
                             Initiative Locale : ProjCouture
                         </h4>
 
                         <div className="space-y-3 md:space-y-4">
                             <div className="flex items-start">
-                                <Heart className="w-5 h-5 text-red-500 mt-1 mr-3 flex-shrink-0" />
+                                <Heart className="w-5 h-5 text-purple-500 mt-1 mr-3 flex-shrink-0" />
                                 <p className="text-sm md:text-base text-gray-700 leading-relaxed">
                                     Enseigne la création de produits menstruels réutilisables
                                 </p>
                             </div>
 
                             <div className="flex items-start">
-                                <Globe className="w-5 h-5 text-red-500 mt-1 mr-3 flex-shrink-0" />
+                                <Globe className="w-5 h-5 text-purple-500 mt-1 mr-3 flex-shrink-0" />
                                 <p className="text-sm md:text-base text-gray-700 leading-relaxed">
                                     Encourage l'économie circulaire et la réduction des déchets
                                 </p>
@@ -254,7 +254,7 @@ const ElleLeVaulxBien: React.FC = () => {
             </div>
 
             {/* Section 7: Common Vision & Final Message */}
-            <div className="bg-[#f16564] text-white py-8 md:py-12 lg:py-16">
+            <div className="bg-[#c088c6] text-white py-8 md:py-12 lg:py-16">
                 <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 text-center">
                     <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 md:mb-8">
                         Vision Commune & Solidarité

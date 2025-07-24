@@ -31,7 +31,9 @@ interface InfoFormData {
   social: {
     facebook: string;
     instagram: string;
-    twitter: string;
+    tiktok: string;
+    snap: string;
+    linkedin: string;
     linktr: string;
     donation: string;
   };
@@ -76,7 +78,9 @@ const Dashboard: React.FC = () => {
     social: {
       facebook: '',
       instagram: '',
-      twitter: '',
+      snap: '',
+      tiktok: '',
+      linkedin: '',
       linktr: '',
       donation: '',
     }
@@ -108,13 +112,13 @@ const Dashboard: React.FC = () => {
   const { users, loading, error, addUser, updateUser, deleteUser } = useUsers();
   const { teams, loading: teamsLoading, error: teamsError, addTeam, updateTeam, deleteTeam } = useTeams();
   const { site, loading: infoLoading, error: infoError, updateSite } = useInfos();
-  const { 
-    testimonials, 
-    loading: testimonialsLoading, 
-    error: testimonialsError, 
-    addTestimonial, 
-    updateTestimonial, 
-    deleteTestimonial 
+  const {
+    testimonials,
+    loading: testimonialsLoading,
+    error: testimonialsError,
+    addTestimonial,
+    updateTestimonial,
+    deleteTestimonial
   } = useTestimonials();
 
   // Initialize info form data when site data is loaded
@@ -129,7 +133,9 @@ const Dashboard: React.FC = () => {
         social: {
           facebook: site.social?.facebook || '',
           instagram: site.social?.instagram || '',
-          twitter: site.social?.twitter || '',
+          snap: site.social?.snap || '',
+          tiktok: site.social?.tiktok || '',
+          linkedin: site.social?.linkedin || '',
           linktr: site.social?.linktr || '',
           donation: site.social?.donation || '',
         }
@@ -416,8 +422,8 @@ const Dashboard: React.FC = () => {
             <button
               onClick={() => setActiveTab('users')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${activeTab === 'users'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
             >
               <Users size={16} className="inline mr-2" />
@@ -426,8 +432,8 @@ const Dashboard: React.FC = () => {
             <button
               onClick={() => setActiveTab('teams')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${activeTab === 'teams'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
             >
               <UserPlus size={16} className="inline mr-2" />
@@ -436,8 +442,8 @@ const Dashboard: React.FC = () => {
             <button
               onClick={() => setActiveTab('testimonials')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${activeTab === 'testimonials'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
             >
               <MessageSquare size={16} className="inline mr-2" />
@@ -446,8 +452,8 @@ const Dashboard: React.FC = () => {
             <button
               onClick={() => setActiveTab('infos')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${activeTab === 'infos'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
             >
               <Settings size={16} className="inline mr-2" />
@@ -542,7 +548,7 @@ const Dashboard: React.FC = () => {
                             <td className="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                               <div className="flex items-center">
                                 <img
-                                  src={user.avatar || "https://i.pravatar.cc"}
+                                  src={user.avatar || "https://i.ibb.co/0RxMKYM8/l60Hf.png"}
                                   alt={user.name}
                                   className="w-8 h-8 md:w-10 md:h-10 rounded-full mr-3 md:mr-4"
                                 />
@@ -629,7 +635,7 @@ const Dashboard: React.FC = () => {
                       <div key={member._id} className="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
                         <div className="flex items-center mb-3">
                           <img
-                            src={member.avatar || "https://i.pravatar.cc"}
+                            src={member.avatar || "https://i.ibb.co/0RxMKYM8/l60Hf.png"}
                             alt={member.name}
                             className="w-12 h-12 rounded-full mr-3"
                           />
@@ -847,6 +853,10 @@ const Dashboard: React.FC = () => {
                         <label className="text-sm font-medium text-gray-500">SIRET</label>
                         <p className="text-gray-900">{site?.siret || 'Non défini'}</p>
                       </div>
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">donation link</label>
+                        <p className="text-gray-900">{site?.social?.donation && site?.social?.donation.length > 30 ? site?.social?.donation.slice(0, 30) + "..." : site?.social?.donation || 'Non défini'}</p>
+                      </div>
                     </div>
                   </div>
 
@@ -855,23 +865,27 @@ const Dashboard: React.FC = () => {
                     <div className="space-y-3">
                       <div>
                         <label className="text-sm font-medium text-gray-500">Facebook</label>
-                        <p className="text-gray-900">{site?.social?.facebook || 'Non défini'}</p>
+                        <p className="text-gray-900">{site?.social?.facebook && site?.social?.facebook.length > 30 ? site?.social?.facebook.slice(0, 30) + "..." : site?.social?.facebook || 'Non défini'}</p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-500">Instagram</label>
-                        <p className="text-gray-900">{site?.social?.instagram || 'Non défini'}</p>
+                        <p className="text-gray-900">{site?.social?.instagram && site?.social?.instagram.length > 30 ? site?.social?.instagram.slice(0, 30) + "..." : site?.social?.instagram || 'Non défini'}</p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-500">Twitter</label>
-                        <p className="text-gray-900">{site?.social?.twitter || 'Non défini'}</p>
+                        <label className="text-sm font-medium text-gray-500">Snapchat</label>
+                        <p className="text-gray-900">{site?.social?.snap && site?.social?.snap.length > 30 ? site?.social?.snap.slice(0, 30) + "..." : site?.social?.snap || 'Non défini'}</p>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Tiktok</label>
+                        <p className="text-gray-900">{site?.social?.tiktok && site?.social?.tiktok.length > 30 ? site?.social?.tiktok.slice(0, 30) + "..." : site?.social?.tiktok || 'Non défini'}</p>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Linkedin</label>
+                        <p className="text-gray-900">{site?.social?.linkedin && site?.social?.linkedin.length > 30 ? site?.social?.linkedin.slice(0, 30) + "..." : site?.social?.linkedin || 'Non défini'}</p>
                       </div>
                       <div>
                         <label className="text-sm font-medium text-gray-500">Linktree</label>
-                        <p className="text-gray-900">{site?.social?.linktr || 'Non défini'}</p>
-                      </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-500">donation link</label>
-                        <p className="text-gray-900">{site?.social?.donation || 'Non défini'}</p>
+                        <p className="text-gray-900">{site?.social?.linktr && site?.social?.linktr.length > 30 ? site?.social?.linktr.slice(0, 30) + "..." : site?.social?.linktr || 'Non défini'}</p>
                       </div>
                     </div>
                   </div>
@@ -977,6 +991,7 @@ const Dashboard: React.FC = () => {
                     />
                   </div>
 
+                  {/* TO BE FIXED */}
                   <div className="flex items-center space-x-3">
                     <input
                       type="checkbox"
@@ -1031,7 +1046,7 @@ const Dashboard: React.FC = () => {
                 <div className="text-center mb-6">
                   <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-200 shadow-lg">
                     <img
-                      src={previewTeam.avatar || "https://i.pravatar.cc"}
+                      src={previewTeam.avatar || "https://i.ibb.co/0RxMKYM8/l60Hf.png"}
                       alt={previewTeam.name}
                       className="w-full h-full object-cover"
                     />
@@ -1176,6 +1191,23 @@ const Dashboard: React.FC = () => {
                         placeholder="889 352 753 00012"
                       />
                     </div>
+                    <div>
+                      <label htmlFor="donation" className="block text-sm font-medium text-gray-700 mb-2">
+                        donation link
+                      </label>
+                      <input
+                        type="url"
+                        id="donation"
+                        value={infoFormData.social.donation}
+                        onChange={(e) => setInfoFormData(prev => ({
+                          ...prev,
+                          social: { ...prev.social, donation: e.target.value }
+                        }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        placeholder="https://donation.ee/avas"
+                      />
+                    </div>
+
                   </div>
 
                   <div className="space-y-4">
@@ -1216,19 +1248,53 @@ const Dashboard: React.FC = () => {
                     </div>
 
                     <div>
-                      <label htmlFor="twitter" className="block text-sm font-medium text-gray-700 mb-2">
-                        Twitter
+                      <label htmlFor="snap" className="block text-sm font-medium text-gray-700 mb-2">
+                        Snapchat
                       </label>
                       <input
                         type="url"
-                        id="twitter"
-                        value={infoFormData.social.twitter}
+                        id="snap"
+                        value={infoFormData.social.snap}
                         onChange={(e) => setInfoFormData(prev => ({
                           ...prev,
-                          social: { ...prev.social, twitter: e.target.value }
+                          social: { ...prev.social, snap: e.target.value }
                         }))}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                        placeholder="https://twitter.com/avas"
+                        placeholder="https://snapchat.com/avas"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="tiktok" className="block text-sm font-medium text-gray-700 mb-2">
+                        Tiktok
+                      </label>
+                      <input
+                        type="url"
+                        id="tiktok"
+                        value={infoFormData.social.tiktok}
+                        onChange={(e) => setInfoFormData(prev => ({
+                          ...prev,
+                          social: { ...prev.social, tiktok: e.target.value }
+                        }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        placeholder="https://tiktok.com/avas"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="linkedin" className="block text-sm font-medium text-gray-700 mb-2">
+                        Linkedin
+                      </label>
+                      <input
+                        type="url"
+                        id="linkedin"
+                        value={infoFormData.social.linkedin}
+                        onChange={(e) => setInfoFormData(prev => ({
+                          ...prev,
+                          social: { ...prev.social, linkedin: e.target.value }
+                        }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        placeholder="https://linkedin.com/in/avas"
                       />
                     </div>
 
@@ -1246,23 +1312,6 @@ const Dashboard: React.FC = () => {
                         }))}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                         placeholder="https://linktr.ee/avas"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="donation" className="block text-sm font-medium text-gray-700 mb-2">
-                        donation link
-                      </label>
-                      <input
-                        type="url"
-                        id="donation"
-                        value={infoFormData.social.donation}
-                        onChange={(e) => setInfoFormData(prev => ({
-                          ...prev,
-                          social: { ...prev.social, donation: e.target.value }
-                        }))}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                        placeholder="https://donation.ee/avas"
                       />
                     </div>
                   </div>
@@ -1419,7 +1468,7 @@ const Dashboard: React.FC = () => {
                 <div className="text-center mb-6">
                   <div className="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gray-200 shadow-lg">
                     <img
-                      src={previewUser.avatar || "https://i.pravatar.cc"}
+                      src={previewUser.avatar || "https://i.ibb.co/0RxMKYM8/l60Hf.png"}
                       alt={previewUser.name}
                       className="w-full h-full object-cover"
                     />

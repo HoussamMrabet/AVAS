@@ -68,6 +68,16 @@ const Profile: React.FC = () => {
     </section>
   );
 
+  if (!currentUser) {
+    return (
+      <section className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Vous devez être connecté pour accéder à cette page.</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section>
       {/* Hero Section */}
@@ -91,7 +101,7 @@ const Profile: React.FC = () => {
             <div className="relative">
               <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-gray-200">
                 <img
-                  src={isEditing ? tempData?.avatar || "https://i.pravatar.cc" : profileData.avatar || "https://i.pravatar.cc"}
+                  src={isEditing ? tempData?.avatar || "https://i.ibb.co/0RxMKYM8/l60Hf.png" : profileData.avatar || "https://i.ibb.co/0RxMKYM8/l60Hf.png"}
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />

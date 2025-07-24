@@ -153,14 +153,14 @@ const PoleJeunesse: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {dailyActivities.map((activity, index) => (
-            <div key={index} className="border-l-4 border-yellow-400 bg-yellow-50 p-4 md:p-6 rounded-r-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+            <div key={index} className="border-l-4 border-blue-400 bg-blue-50 p-4 md:p-6 rounded-r-lg shadow-sm hover:shadow-md transition-shadow duration-300">
               <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 md:mb-3">{activity.title}</h3>
               <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-3 md:mb-4">{activity.description}</p>
               {activity.subPoints && (
                 <ul className="space-y-1 md:space-y-2">
                   {activity.subPoints.map((point, idx) => (
                     <li key={idx} className="flex items-center text-xs md:text-sm text-gray-700">
-                      <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full mr-2"></div>
+                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></div>
                       {point}
                     </li>
                   ))}

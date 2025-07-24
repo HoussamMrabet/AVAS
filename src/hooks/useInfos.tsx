@@ -9,7 +9,9 @@ export interface SiteData {
   social?: {
     facebook?: string;
     instagram?: string;
-    twitter?: string;
+    snap?: string;
+    tiktok?: string;
+    linkedin?: string;
     linktr?: string
     donation?: string;
   };

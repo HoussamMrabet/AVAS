@@ -21,7 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
   const dropdownItems = [
-    { label: 'Jeunesse', href: '/pole-jeunesse' },
+    { label: 'Jeunesse', href: '/poles/pole-jeunesse' },
     { label: 'Elle le Vaulx Bien', href: '/poles/elle-le-vaulx-bien' },
     { label: 'Médiation Urbaine', href: '/poles/mediation-urbaine' },
     { label: 'Citoyenneté', href: '/poles/citoyennete' },
@@ -114,7 +114,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     {user && (
                       <>
                         <img 
-                          src={user.avatar || "https://i.pravatar.cc"} 
+                          src={user.avatar || "https://i.ibb.co/0RxMKYM8/l60Hf.png"} 
                           alt={user.name}
                           className="w-6 h-6 rounded-full mr-2"
                         />
@@ -219,7 +219,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 {user && (
                   <div className="flex items-center text-gray-700 text-lg">
                     <img 
-                      src={user.avatar || "https://i.pravatar.cc"} 
+                      src={user.avatar || "https://i.ibb.co/0RxMKYM8/l60Hf.png"} 
                       alt={user.name}
                       className="w-8 h-8 rounded-full mr-3"
                     />

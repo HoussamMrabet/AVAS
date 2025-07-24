@@ -1,5 +1,6 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram } from 'lucide-react';
+import { FiFacebook, FiInstagram, FiLinkedin } from "react-icons/fi";
+import { FaSnapchat, FaTiktok } from "react-icons/fa6";
 import { useInfos } from '../hooks/useInfos'; // Adjust path
 
 const Footer: React.FC = () => {
@@ -22,9 +23,11 @@ const Footer: React.FC = () => {
           <div className="pt-2">
             <p className="text-white font-semibold text-sm md:text-base">{site?.email || "..."}</p>
             <div className="flex gap-2 md:gap-3 mt-2 text-gray-400">
-              <a href={site?.social?.facebook || "#"} target="_blank" rel="noopener noreferrer"><Facebook size={16} /></a>
-              <a href={site?.social?.twitter || "#"} target="_blank" rel="noopener noreferrer"><Twitter size={16} /></a>
-              <a href={site?.social?.instagram || "#"} target="_blank" rel="noopener noreferrer"><Instagram size={16} /></a>
+              <a href={site?.social?.facebook || "#"} target="_blank" rel="noopener noreferrer"><FiFacebook size={16} /></a>
+              <a href={site?.social?.instagram || "#"} target="_blank" rel="noopener noreferrer"><FiInstagram size={16} /></a>
+              <a href={site?.social?.snap || "#"} target="_blank" rel="noopener noreferrer"><FaSnapchat size={16} /></a>
+              <a href={site?.social?.tiktok || "#"} target="_blank" rel="noopener noreferrer"><FaTiktok size={16} /></a>
+              <a href={site?.social?.linkedin || "#"} target="_blank" rel="noopener noreferrer"><FiLinkedin size={16} /></a>
             </div>
           </div>
           <div className="text-xs space-y-1 text-gray-400 mt-3 md:mt-4">
@@ -49,7 +52,7 @@ const Footer: React.FC = () => {
         <h3 className="text-base md:text-lg font-semibold mb-2">RESTEZ À JOUR</h3>
         <p className="text-xs md:text-sm">Abonnez-vous à notre <br className="hidden md:block" /> newsletter pour être à jour</p>
         <p className="text-xs md:text-sm mt-3 md:mt-4">
-          Lien <br /> <a href={site?.social?.linktr || "#"} target="_blank" rel="noopener noreferrer" className="border-b-2 pb-1 md:pb-2 border-black break-all">{site?.social?.linktr || "#"}</a>
+          Lien <br /> <a href={site?.social?.linktr || "#"} target="_blank" rel="noopener noreferrer" className="border-b-2 pb-1 md:pb-2 border-black break-all">{(site?.social?.linktr?.length > 44 ? site?.social?.linktr?.slice(0, 45) + "..." : site?.social?.linktr) || "#"}</a>
         </p>
       </div>
     </footer>
