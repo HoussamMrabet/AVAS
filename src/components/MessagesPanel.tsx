@@ -31,23 +31,28 @@ const MessagesPanel: React.FC = () => {
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState<string | null>(null);
+  const [filteredMessages, setFiltredMessages] = useState<Message[]>([]);
 
+  useEffect(() => {
+    const filters = messages.filter(message => {
+      // Search filter
+      const searchMatch = searchTerm === '' || 
+        message.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        message.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        message.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        message.content.toLowerCase().includes(searchTerm.toLowerCase());
+  
+      // Status filter
+      const statusMatch = filterStatus === 'all' || 
+        (filterStatus === 'read' && message.isRead == "true") ||
+        (filterStatus === 'unread' && message.isRead == "false");
+  
+      return searchMatch && statusMatch;
+    });
+
+    setFiltredMessages(filters);
+  }, [messages, searchTerm, filterStatus])
   // Filter and search messages
-  const filteredMessages = messages.filter(message => {
-    // Search filter
-    const searchMatch = searchTerm === '' || 
-      message.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      message.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      message.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      message.content.toLowerCase().includes(searchTerm.toLowerCase());
-
-    // Status filter
-    const statusMatch = filterStatus === 'all' || 
-      (filterStatus === 'read' && message.isRead == "true") ||
-      (filterStatus === 'unread' && message.isRead == "false");
-
-    return searchMatch && statusMatch;
-  });
 
   const handleMessageClick = (message: Message) => {
     setSelectedMessage(message);
@@ -214,9 +219,9 @@ const MessagesPanel: React.FC = () => {
           </div>
         ) : (
           <div className="divide-y divide-gray-200">
-            {filteredMessages.map((message) => (
+            {filteredMessages.map((message, index) => (
               <div
-                key={message._id}
+                key={index}
                 onClick={() => handleMessageClick(message)}
                 className={`p-4 hover:bg-gray-50 cursor-pointer transition-colors duration-200 ${
                   message.isRead == "false" ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''

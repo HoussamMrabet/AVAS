@@ -111,16 +111,13 @@ export const useMessages = () => {
     try {
       setLoading(true);
       setError('');
-      delete message._id;
-      delete message.createdAt;
-      delete message.updatedAt;
-      delete message.__v;
+      const { _id, createdAt, updatedAt, __v, ...newMessage } = message;
       const response = await fetch(`${baseUrl}/${messageId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify( message ),
+        body: JSON.stringify( newMessage ),
       });
 
       if (!response.ok) {
