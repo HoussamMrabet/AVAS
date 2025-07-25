@@ -29,7 +29,7 @@ const MyTestimonials: React.FC = () => {
     author: currentUser?.name || '',
     position: '',
     featured: false,
-    userId: currentUser.id,
+    userId: currentUser?.id || 0,
   });
 
   // Load user testimonials on component mount
