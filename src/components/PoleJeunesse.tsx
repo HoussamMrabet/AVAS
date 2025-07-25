@@ -19,6 +19,23 @@ const PoleJeunesse: React.FC = () => {
         "Relations école-parents",
         "Mentorat jeunesse"
       ]
+    },
+    {
+      title: "Les Chantiers Jeunes",
+      description: "Projets collectifs permettant aux jeunes de s'engager dans des actions concrètes au service de leur quartier.",
+      subPoints: [
+        "Travaux d'entretien",
+        "Projets de rénovation",
+        "Sensibilisation à l'environnement"
+      ]
+    },
+    {
+      title: "Un Été aux Noirettes",
+      description: "Programme estival proposant des activités nautiques et de plein air pour renforcer la cohésion sociale.",
+    },
+    {
+      title: "A Vaulx Tours",
+      description: "Programme immersif pour les jeunes de Vaulx-en-Velin, renfrorçant l'identité, la fierté et le leadership",
     }
   ];
 
