@@ -285,7 +285,7 @@ const PoleCitoyennete: React.FC = () => {
             </div>
             <div className="pt-4">
               <p className="text-gray-700 leading-relaxed">
-                Médiatiser l'écosystème inspirant de l’engagement vaudais pour dynamiser lesinitiativessolidaires locales.
+                Médiatiser l'écosystème inspirant de l’engagement vaudais pour dynamiser les initiatives solidaires locales.
               </p>
             </div>
           </div>
@@ -297,7 +297,7 @@ const PoleCitoyennete: React.FC = () => {
             </div>
             <div className="pt-4">
               <p className="text-gray-700 leading-relaxed">
-                Développer un Groupe de Travail dédié à la promotion de la citoyennetéetdesinitiativesissues des quartiers populaires de la métropole lyonnaise.
+                Développer un Groupe de Travail dédié à la promotion de la citoyenneté et des initiatives issues des quartiers populaires de la métropole lyonnaise.
               </p>
             </div>
           </div>
