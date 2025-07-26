@@ -8,59 +8,340 @@ const Partners: React.FC = () => {
   const partners = [
     {
       id: 1,
-      name: 'Métropole de Lyon',
-      logo: '/partners/partner1.png',
-      category: 'Institutionnel',
-      description: 'Soutien aux projets de développement local'
+      name: "Mairie de Vaulx en Velin",
+      logo: "/partners/partner2.png",
+      category: "Institutionnel",
+      description: "Soutient les initiatives locales en faveur du développement social, éducatif, culturel et citoyen sur le territoire communal."
     },
     {
       id: 2,
-      name: 'Ville de Vaulx-en-Velin',
-      logo: '/partners/partner2.svg',
-      category: 'Académique',
-      description: 'Accompagnement des initiatives citoyennes'
+      name: "Métropole de Lyon",
+      logo: "/partners/partner1.png",
+      category: "Institutionnel",
+      description: "Soutien aux projets de développement local sur le territoire de la métropole lyonnaise."
     },
     {
       id: 3,
-      name: 'vaulx en velin grand projet de ville',
-      logo: '/partners/partner3.png',
-      category: 'Entreprise',
-      description: 'Accompagnement des jeunes dans leur parcours professionnel'
+      name: "ANCT – Agence nationale de la cohésion des territoires",
+      logo: "/partners/partner4.png",
+      category: "Institutionnel",
+      description: "Soutien aux actions innovantes en faveur du développement territorial et de la cohésion des territoires."
     },
     {
       id: 4,
-      name: 'ANCT – Agence nationale de la cohésion des territoires',
-      logo: '/partners/partner4.jpeg',
-      category: 'Académique',
-      description: 'Soutien aux projets de cohésion sociale et territoriale'
+      name: "FDVA – Ministère de l'Éducation Nationale",
+      logo: "/partners/fdva.png",
+      category: "Institutionnel",
+      description: "Appuie les projets visant à renforcer la vie associative et l'engagement citoyen à travers le territoire."
     },
     {
       id: 5,
-      name: 'Maison métropolitaine d’insertion pour l’emploi',
-      logo: '/partners/partner5.jpg',
-      category: 'Emploi',
-      description: 'Accompagnement à l\'insertion professionnelle des jeunes et des demandeurs d\'emploi'
+      name: "Préfète du Rhône",
+      logo: "/partners/partner13.png",
+      category: "Institutionnel",
+      description: "Accompagne et soutient les actions locales en faveur de la cohésion sociale et du développement territorial."
     },
     {
       id: 6,
-      name: 'France Travail',
-      logo: '/partners/partner6.svg',
-      category: 'Fondation',
-      description: 'Soutien à l\'insertion professionnelle et à la formation des jeunes'
+      name: "CAF - Allocations Familiales",
+      logo: "/partners/caf.png",
+      category: "Institutionnel",
+      description: "Soutient les initiatives en faveur des familles, de la jeunesse et du lien social sur le territoire."
     },
     {
       id: 7,
-      name: 'ENTPE – École de l’aménagement durable',
-      logo: '/partners/partner7.png',
-      category: 'Associatif',
-      description: 'Partenariat pour la médiation urbaine et l\'aménagement du territoire'
+      name: "LAET – Laboratoire Aménagement Économie Transports",
+      logo: "/partners/partner11.png",
+      category: "Académique",
+      description: "Participe à la recherche et à l’innovation autour des enjeux territoriaux et de mobilité."
     },
     {
       id: 8,
-      name: 'UNESCO / Chaire Unesco Politiques Urbaines',
-      logo: '/partners/partner8.png',
+      name: "Université de Chine - East China Normal University",
+      logo: "/partners/east_china_university.png",
+      category: "Académique",
+      description: "Partenaire académique international engagé dans les échanges interculturels et la coopération éducative."
+    },
+    {
+      id: 9,
+      name: "Laboratoire EVS – Environnement Ville Société",
+      logo: "/partners/partner10.jpeg",
+      category: "Académique",
+      description: "Contribue à la recherche pluridisciplinaire sur les dynamiques territoriales, sociales et environnementales."
+    },
+    {
+      id: 10,
+      name: "Collège Henri Barbusse",
+      logo: "/partners/partner12.png",
+      category: "Académique",
+      description: "Implique les jeunes dans des projets éducatifs et citoyens ancrés dans leur territoire."
+    },
+    {
+      id: 11,
+      name: "ENTPE – École de l’aménagement durable",
+      logo: "/partners/partner7.png",
+      category: "Académique",
+      description: "Forme des ingénieurs et experts engagés pour un aménagement durable, solidaire et innovant des territoires."
+    },
+
+    {
+      id: 12,
+      name: 'Maison de l\'insertion et de l\'emploi',
+      logo: '/partners/partner5.png',
+      category: 'Emploi',
+      description: 'Accompagne les publics vers l’insertion sociale et professionnelle à travers des actions de proximité.'
+    },
+    {
+      id: 13,
+      name: 'France Travail',
+      logo: '/partners/partner6.png',
+      category: 'Emploi',
+      description: 'Accompagne les demandeurs d’emploi et les entreprises dans leurs démarches d’insertion et de recrutement.'
+    },
+    {
+      id: 14,
+      name: 'Alliés',
+      logo: '/partners/allies.png',
+      category: 'Emploi',
+      description: 'Soutient les dynamiques locales en favorisant l\'engagement citoyen et le pouvoir d\'agir des habitant·es.'
+    },
+    {
+      id: 15,
+      name: 'Fondation masalina',
+      logo: '/partners/masalina.png',
+      category: 'Fondation',
+      description: 'Encourage les initiatives solidaires et culturelles au service du vivre-ensemble.'
+    },
+    {
+      id: 16,
+      name: 'Fondation de France',
+      logo: '/partners/fondation_france.png',
+      category: 'Fondation',
+      description: 'Soutient des projets d’intérêt général pour une société plus juste, solidaire et innovante.'
+    },
+    {
+      id: 17,
+      name: 'Le Next Level',
+      logo: '/partners/next_level.png',
+      category: 'Associatif',
+      description: 'Favorise l\'expression et l’engagement des jeunes à travers des projets artistiques et culturels.'
+    },
+    {
+      id: 18,
+      name: 'SHL (Social Hacker Lab)',
+      logo: '/partners/shl.png',
+      category: 'Associatif',
+      description: 'Stimule l’innovation sociale en accompagnant les initiatives citoyennes et collaboratives.'
+    },
+    {
+      id: 19,
+      name: 'Msports',
+      logo: '/partners/msports.png',
+      category: 'Associatif',
+      description: 'Utilise le sport comme levier d’inclusion, de cohésion sociale et de développement personnel.'
+    },
+    {
+      id: 20,
+      name: 'Coeur Banlieu Zhar',
+      logo: '/partners/coeur_banlieu.png',
+      category: 'Associatif',
+      description: 'Valorise les talents et initiatives des quartiers à travers des actions culturelles, sociales et solidaires.'
+    },
+    {
+      id: 21,
+      name: 'est métropole habitat',
+      logo: '/partners/est_metropole_habitat.png',
       category: 'Entreprise',
-      description: 'Collaboration sur des projets de recherche et d\'innovation urbaine'
+      description: 'Favorise l’accès à un logement de qualité et soutient les dynamiques sociales au sein des quartiers.'
+    },
+    {
+      id: 22,
+      name: 'Carrion',
+      logo: '/partners/carrion.jpeg',
+      category: 'Entreprise',
+      description: 'Participe à l’amélioration du cadre de vie à travers des projets d’aménagement et de construction responsables.'
+    },
+    {
+      id: 23,
+      name: 'Colas',
+      logo: '/partners/colas.png',
+      category: 'Entreprise',
+      description: 'Contribue au développement des infrastructures durables et à l’aménagement du territoire.'
+    },
+    {
+      id: 24,
+      name: 'Pétavit',
+      logo: '/partners/petavit.jpeg',
+      category: 'Entreprise',
+      description: 'Intervient dans les travaux publics pour soutenir le développement et la transformation des espaces urbains.'
+    },
+    {
+      id: 25,
+      name: 'Perrier',
+      logo: '/partners/perrier.png',
+      category: 'Entreprise',
+      description: 'Acteur local engagé dans des projets d’aménagement et de valorisation du territoire.'
+    },
+    {
+      id: 26,
+      name: 'Keolis',
+      logo: '/partners/keolis.png',
+      category: 'Entreprise',
+      description: 'Opérateur de mobilité durable, engagé pour un transport accessible et adapté aux besoins des territoires.'
+    },
+    {
+      id: 27,
+      name: 'JCDecaux',
+      logo: '/partners/jcdecaux.png',
+      category: 'Entreprise',
+      description: 'Participe à l’aménagement urbain et à la communication de proximité à travers ses mobiliers publicitaires.'
+    },
+    {
+      id: 28,
+      name: 'SOGEA',
+      logo: '/partners/sogea.png',
+      category: 'Entreprise',
+      description: 'Contribue à la réalisation d’infrastructures durables au service des territoires et de leurs habitants.'
+    },
+    {
+      id: 29,
+      name: 'ANGE – Association Nouvelle Génération Engagée',
+      logo: '/partners/ange.jpeg',
+      category: 'Associatif',
+      description: 'Encourage l’engagement des jeunes à travers des actions solidaires, éducatives et citoyennes.'
+    },
+    {
+      id: 30,
+      name: 'Voasis – Nos Cultures Partagées',
+      logo: '/partners/voasis.png',
+      category: 'Associatif',
+      description: 'Accompagne les jeunes dans leurs projets en valorisant la créativité, l’expression et l’engagement.'
+    },
+    {
+      id: 31,
+      name: 'À Partir de Maintenant',
+      logo: '/partners/a_partir_de_maintenant.jpeg',
+      category: 'Associatif',
+      description: 'Agit pour l’émancipation des jeunes en soutenant leurs initiatives citoyennes, culturelles et sociales.'
+    },
+    {
+      id: 32,
+      name: 'Air Play Rhone Alpes',
+      logo: '/partners/air_play.png',
+      category: 'Associatif',
+      description: 'Déploie des actions sportives et ludiques pour favoriser le vivre-ensemble, l’inclusion et la cohésion sociale.'
+    },
+    {
+      id: 33,
+      name: 'Une Voie pour Tous',
+      logo: '/partners/une_voie_pour_tous.png',
+      category: 'Associatif',
+      description: 'Œuvre pour l’insertion sociale et professionnelle des personnes en situation de précarité ou d’exclusion.'
+    },
+    {
+      id: 34,
+      name: 'MAN (Mouvement pour une Alternative Non violente)',
+      logo: '/partners/man.png',
+      category: 'Associatif',
+      description: 'Sensibilise et forme à la non-violence active pour favoriser la paix, la justice sociale et la citoyenneté responsable.'
+    },
+    {
+      id: 35,
+      name: 'Matrice Prod',
+      logo: '/partners/matrice_prod.png',
+      category: 'Associatif',
+      description: 'Accompagne la création audiovisuelle et numérique au service des initiatives culturelles, sociales et citoyennes.'
+    },
+    {
+      id: 36,
+      name: 'Les racines de demain',
+      logo: '/partners/racines_demain.png',
+      category: 'Associatif',
+      description: 'Favorise l’éducation à l’environnement, le lien social et l’engagement citoyen à travers des actions ancrées dans le territoire.'
+    },
+    {
+      id: 37,
+      name: 'Espace projet interassociatifs',
+      logo: '/partners/espace_interassociatif.jpeg',
+      category: 'Associatif',
+      description: 'Facilite la coopération entre associations et soutient les dynamiques collectives au service du territoire.'
+    },
+    {
+      id: 38,
+      name: 'NECC – Nouveau Cirque du Collectif Chapiteau',
+      logo: '/partners/necc.png',
+      category: 'Associatif',
+      description: 'Favorise l’inclusion et l’expression artistique à travers les arts du cirque et les pratiques culturelles partagées.'
+    },
+    {
+      id: 39,
+      name: 'Association Voltaire',
+      logo: '/partners/voltaire.png',
+      category: 'Associatif',
+      description: 'Soutient l’émancipation et la participation citoyenne par des actions éducatives, culturelles et sociales.'
+    },
+    {
+      id: 40,
+      name: 'Smile Paradise',
+      logo: '/partners/smile_paradise.png',
+      category: 'Associatif',
+      description: 'Crée des espaces bienveillants pour l’épanouissement des jeunes à travers des projets éducatifs, culturels et solidaires.'
+    },
+    {
+      id: 41,
+      name: 'dojo',
+      logo: '/partners/dojo.png',
+      category: 'Associatif',
+      description: 'Favorise le développement personnel et le vivre-ensemble à travers la pratique des arts martiaux et des disciplines de bien-être.'
+    },
+    {
+      id: 42,
+      name: 'Human Distreat',
+      logo: '/partners/human_distreat.jpeg',
+      category: 'Associatif',
+      description: 'Sensibilise aux enjeux sociaux et environnementaux à travers des créations artistiques engagées et des actions collectives.'
+    },
+    {
+      id: 43,
+      name: 'Centre Social Gisèle Halimi et Centre Social Mermoz',
+      logo: '/partners/centres_sociaux.png',
+      category: 'Associatif',
+      description: 'Ancrés dans leur quartier, ils renforcent le lien social, soutiennent les familles et accompagnent les initiatives des habitant·es.'
+    },
+    {
+      id: 44,
+      name: 'Institut Alinsky – Démocratie d’interpellation',
+      logo: '/partners/alinsky.png',
+      category: 'Associatif',
+      description: 'Favorise l’organisation collective et la participation citoyenne pour faire entendre la voix des habitant·es dans l’espace public.'
+    },
+    {
+      id: 45,
+      name: 'Citizens UK',
+      logo: '/partners/citizens_uk.png',
+      category: 'Associatif',
+      description: 'Mobilise les citoyen·nes pour agir collectivement sur les enjeux locaux et faire avancer la justice sociale par l’organisation communautaire.'
+    },
+    {
+      id: 46,
+      name: 'AMAFI – Association française des marchés financiers',
+      logo: '/partners/amafi.png',
+      category: 'Associatif',
+      description: 'Représente les acteurs des marchés financiers en France et en Europe, et œuvre pour une finance au service de l’économie réelle.'
+    },
+    {
+      id: 47,
+      name: "surp'rize",
+      logo: '/partners/surprize.png',
+      category: 'Associatif',
+      description: 'Mobilise les Encourage l’expression artistique et l’engagement des jeunes à travers des projets culturels, éducatifs et participatifs. pour agir collectivement sur les enjeux locaux et faire avancer la justice sociale par l’organisation communautaire.'
+    },
+    {
+      id: 48,
+      name: 'Noum',
+      logo: '/partners/noum.png',
+      category: 'Associatif',
+      description: 'Soutient les dynamiques collectives en accompagnant les habitant·es dans la mise en œuvre de projets citoyens, solidaires et émancipateurs.'
     }
   ];
 
@@ -85,7 +366,7 @@ const Partners: React.FC = () => {
     return colorMap[color] || 'border-gray-400 bg-gray-50';
   };
 
-  const filteredPartners = selectedCategory 
+  const filteredPartners = selectedCategory
     ? partners.filter(partner => partner.category === selectedCategory)
     : partners;
 
@@ -146,11 +427,10 @@ const Partners: React.FC = () => {
               <button
                 key={category.name}
                 onClick={() => handleCategoryClick(category.name)}
-                className={`flex items-center gap-1 md:gap-2 px-2 md:px-4 py-1 md:py-2 rounded-full shadow-sm border transition-all duration-200 hover:shadow-md hover:scale-105 ${
-                  isSelected 
+                className={`flex items-center gap-1 md:gap-2 px-2 md:px-4 py-1 md:py-2 rounded-full shadow-sm border transition-all duration-200 hover:shadow-md hover:scale-105 ${isSelected
                     ? `bg-${category.color}-100 border-${category.color}-400`
                     : 'bg-white border-gray-200 hover:bg-gray-50'
-                }`}
+                  }`}
               >
                 <IconComponent size={16} className={`text-${category.color}-600`} />
                 <span className={`text-xs md:text-sm font-medium ${isSelected ? `text-${category.color}-700` : 'text-gray-700'}`}>
@@ -224,7 +504,7 @@ const Partners: React.FC = () => {
             Vous souhaitez devenir partenaire d'AVAS et contribuer au développement de Vaulx-en-Velin ?
             Contactez-nous pour explorer les opportunités de collaboration.
           </p>
-          <a 
+          <a
             href="/contact"
             className="bg-blue-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-blue-700 transition-colors duration-200 font-medium text-sm md:text-base"
           >
