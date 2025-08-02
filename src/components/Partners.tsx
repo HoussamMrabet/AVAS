@@ -402,7 +402,7 @@ const Partners: React.FC = () => {
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 md:mb-6 lg:mb-8">Un Réseau d'Excellence</h2>
           <p className="text-sm md:text-base lg:text-lg text-gray-600 leading-relaxed max-w-4xl mx-auto mb-4 md:mb-6 lg:mb-8">
             Depuis 2018, l'Association Vaux Ambitions (AVAS) a tissé des liens durables avec plus de
-            <span className="font-bold text-blue-600"> 25 partenaires institutionnels, associatifs et privés</span>.
+            <span className="font-bold text-blue-600"> 48 partenaires institutionnels, associatifs et privés</span>.
             Cette collaboration étroite nous permet de démultiplier notre impact sur le territoire et d'offrir
             des services de qualité à nos bénéficiaires.
           </p>

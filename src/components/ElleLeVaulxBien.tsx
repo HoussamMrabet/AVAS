@@ -3,9 +3,10 @@ import { Target, Users, Globe, Heart, Scissors, ChefHat, Palette } from 'lucide-
 
 const ElleLeVaulxBien: React.FC = () => {
     const objectives = [
-        "Encourager la présence féminine dans les espaces publics",
-        "Promouvoir l'équilibre des genres et la compréhension mutuelle",
-        "Favoriser l'engagement des jeunes et le développement des compétences"
+        "Encourager l’appropriation de l'espace public dans les quartiers pour les femmes.",
+        "Créer une mixité saine et équilibrée entre les jeunes filles et garçons, en facilitant une meilleure compréhension entre eux.",
+        "Encourager l'engagement citoyen de ces jeunes femmes par la réalisation de projets collectifs.",
+        "Développer l’autonomie des participantes dans l’organisation de projets, en veillant à ce qu'elles acquièrent de nouvelles compétences utiles pour leur futur."
     ];
 
     const formations = [
@@ -15,9 +16,9 @@ const ElleLeVaulxBien: React.FC = () => {
     ];
 
     const benefits = [
-        "Apprendre à gérer des projets de solidarité",
-        "Travailler en coopération avec des acteurs locaux et internationaux",
-        "Acquérir des habitudes éco-responsables"
+        "Elles apprennent à monter des projets de solidarité",
+        "Elles apprennent à travailler en coopération avec des acteurs locaux",
+        "Elles se forment à des pratiques respectueuses de l'environnement."
     ];
 
     return (
@@ -45,8 +46,13 @@ const ElleLeVaulxBien: React.FC = () => {
                     <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">Elle le Vaulx Bien</h1>
 
                     <p className="text-base md:text-lg lg:text-xl leading-relaxed max-w-4xl mx-auto">
-                        Lancé en 2022 par AVAS, ce projet vise à soutenir les jeunes femmes dans les espaces publics
-                        de Vaulx-en-Velin et à promouvoir leur épanouissement personnel et professionnel.
+                        Le projet “Elle le Vaulx Bien”, initié par l’Association Vaulx AmbitionS (AVAS) en 2022, est
+                        né d'un constat préoccupant : la disparition progressive de la présence féminine dans
+                        l'espace public du quartier du Grand Mas et plus largement dans la ville de Vaulx-en-
+                        Velin. Face à cette situation, AVAS a décidé de créer un programme spécifiquement
+                        dédié aux jeunes filles, avec pour objectif de favoriser leur insertion sociale, de les
+                        encourager à réinvestir l'espace public et de les accompagner dans leur parcours
+                        d'épanouissement personnel.
                     </p>
                 </div>
             </div>
@@ -74,7 +80,7 @@ const ElleLeVaulxBien: React.FC = () => {
                     <div className="relative">
                         <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
                             <img
-                                src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop"
+                                src="/vaux-section1.jpeg"
                                 alt="Groupe de jeunes"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                             />
@@ -93,42 +99,40 @@ const ElleLeVaulxBien: React.FC = () => {
 
                         <div className="space-y-4 md:space-y-6 text-sm md:text-base lg:text-lg text-gray-600 leading-relaxed">
                             <p>
-                                Depuis novembre 2022, notre programme organise des sorties de groupe et des activités
-                                de cohésion qui ont créé un véritable lien de confiance entre les participantes.
-                                Ces moments partagés ont permis de construire une dynamique positive et d'encourager
-                                l'expression personnelle de chaque jeune femme.
+                                Depuis sa création, le groupe a participé à diverses sorties et séjours, favorisant la
+                                création de liens solides entre ses membres. Dès la première sortie datant de novembre
+                                2022 autour d'un diner, les jeunes filles ont commencé à tisser des relations de
+                                confiance entre elles et à s'engager dans des activités collectives. Cette première
+                                expérience a marqué le début d'un processus qui les a vues gagner en assurance et en
+                                maturité au sein de l'association AVAS.
                             </p>
 
                             <p>
-                                L'impact positif se ressent dans le développement de la confiance en soi, de la maturité
-                                et de l'autonomie des participantes. Nous observons une progression remarquable dans leur
-                                capacité à s'exprimer et à prendre des initiatives.
-                            </p>
-
-                            <p>
-                                En 2023, nous avons franchi une nouvelle étape avec une présence plus active des jeunes
-                                femmes dans les espaces publics et la création d'espaces mixtes sécurisés où elles peuvent
-                                s'épanouir en toute confiance.
+                                En 2023, une étape significative a été franchie. Le groupe de jeunes filles a su s'affirmer
+                                au sein de l'association, passant d’une simple participation à une présence active et
+                                reconnue. Cela a permis de transformer un local, auparavant largement fréquenté par
+                                des garçons, en un espace de mixité équilibrée et enrichissante, où les jeunes femmes
+                                se sentent à l'aise et participent pleinement aux activités.
                             </p>
                         </div>
                         <div className='flex flex-column justify-between gap-5 mt-10'>
                             <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
                                 <img
-                                    src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop"
+                                    src="/vaux-parcours1.jpeg"
                                     alt="Groupe de jeunes"
                                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
                             <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
                                 <img
-                                    src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop"
+                                    src="/vaux-parcours2.jpeg"
                                     alt="Groupe de jeunes"
                                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
                             <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
                                 <img
-                                    src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&fit=crop"
+                                    src="/vaux-parcours3.jpeg"
                                     alt="Groupe de jeunes"
                                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                 />
@@ -152,8 +156,9 @@ const ElleLeVaulxBien: React.FC = () => {
                     </h3>
 
                     <p className="text-sm md:text-base lg:text-lg text-gray-600 leading-relaxed max-w-4xl mx-auto mb-6 md:mb-8">
-                        Les jeunes ont choisi de participer à un projet de solidarité au Maroc,
-                        en soutenant le Centre de Protection de l'Enfance à Fès.
+                        Les jeunes filles ont décidé de s'engager dans un projet de solidarité
+                        internationale en venant en aide à un Centre de Protection de I'Enfance
+                        situé à Fès, au Maroc.
                     </p>
                 </div>
 
@@ -198,6 +203,17 @@ const ElleLeVaulxBien: React.FC = () => {
                         </h3>
                     </div>
 
+                    <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 border-l-4 border-purple-500 mb-8 md:mb-12">
+                        <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                            La cuisine du centre ne dispose d'aucun équipement nécessaire
+                            à une formation de qualité. Ce centre ne survit que grâce à
+                            quelques subventions de l'Etat, qui restent insuffisantes. C'est
+                            pourquoi nous avons décidé d'œuvrer pour fournir des vêtements
+                            décents, des kits d’hygiène et de soin et aider à la rénovation de
+                            la cuisine.
+                        </p>
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-8 md:mb-12">
                         {formations.map((formation, index) => {
                             const IconComponent = formation.icon;
@@ -215,9 +231,10 @@ const ElleLeVaulxBien: React.FC = () => {
 
                     <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 border-l-4 border-purple-500">
                         <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                            La situation de la cuisine nécessite une attention particulière. AVAS prévoit d'apporter
-                            son soutien à travers la fourniture de kits de formation, de vêtements professionnels,
-                            de produits d'hygiène, et la participation à la rénovation des espaces de formation.
+                            Au-delà de la simple aide matérielle, le véritable enjeu du projet est d'accompagner les
+                            jeunes dans une démarche durable, I'objectif étant de créer des activités économiques
+                            responsables autour de l’'upcycling et de sensibiliser à l'économie circulaire, notamment
+                            sur la gestion des déchets textiles.
                         </p>
                     </div>
                 </div>
@@ -250,16 +267,15 @@ const ElleLeVaulxBien: React.FC = () => {
 
                         <div className="space-y-3 md:space-y-4">
                             <div className="flex items-start">
-                                <Heart className="w-5 h-5 text-purple-500 mt-1 mr-3 flex-shrink-0" />
                                 <p className="text-sm md:text-base text-gray-700 leading-relaxed">
-                                    Enseigne la création de produits menstruels réutilisables
-                                </p>
-                            </div>
-
-                            <div className="flex items-start">
-                                <Globe className="w-5 h-5 text-purple-500 mt-1 mr-3 flex-shrink-0" />
-                                <p className="text-sm md:text-base text-gray-700 leading-relaxed">
-                                    Encourage l'économie circulaire et la réduction des déchets
+                                    ProjCouture, nous accompagne dans la
+                                    formation à la création de serviettes
+                                    hygiéniques en tissu, un moyen innovant de
+                                    lutter contre la précarité menstruelle tout
+                                    en limitant les déchets textiles. Ces
+                                    compétences, acquises grâce à des acteurs
+                                    du territoire, sont ensuite partagées au
+                                    Maroc dans le cadre de ce projet.
                                 </p>
                             </div>
                         </div>
@@ -276,9 +292,12 @@ const ElleLeVaulxBien: React.FC = () => {
 
                     <div className="max-w-4xl mx-auto space-y-4 md:space-y-6 text-sm md:text-base lg:text-lg leading-relaxed">
                         <p>
-                            Ce projet révèle les valeurs partagées entre les jeunes françaises et marocaines :
-                            la responsabilité, l'action collective, la conscience locale et globale,
-                            et les partenariats solidaires.
+                            Le projet met en lumiére une dynamique commune entre ici et là bas
+                            : comment, à travers des projets partagés, nous pouvons encourager les jeunes filles à
+                            prendre conscience des enjeux locaux et internationaux, tout en les dotant d'outils
+                            concrets pour agir. En réunissant des jeunes autour dune démarche de
+                            responsabilisation, nous souhaitons les impliquer dans des actions qui ont du sens,
+                            aussi bien pour leur avenir personnel que pour le bien commun.
                         </p>
 
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 my-6 md:my-8">

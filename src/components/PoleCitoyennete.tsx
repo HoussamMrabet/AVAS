@@ -58,7 +58,7 @@ const PoleCitoyennete: React.FC = () => {
         {/* Full-width Picture */}
         <div className="mb-12">
           <img
-            src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            src="/citoyennete1.jpeg"
             alt="Modern office space with team collaboration"
             className="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
           />
@@ -173,21 +173,21 @@ const PoleCitoyennete: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-center md:justify-between gap-8 mb-12">
           {/* First Image */}
           <img
-            src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+            src="/citoyennete2.jpeg"
             alt="Team collaboration workshop"
             className="w-80 h-80 object-cover rounded-sm shadow-custom"
           />
 
           {/* Second Image */}
           <img
-            src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+            src="/citoyennete3.jpeg"
             alt="Professional development session"
             className="w-80 h-80 object-cover rounded-sm shadow-custom"
           />
 
           {/* Third Image */}
           <img
-            src="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+            src="/citoyennete4.png"
             alt="Community engagement activities"
             className="w-80 h-80 object-cover rounded-sm shadow-custom"
           />
@@ -391,7 +391,7 @@ const PoleCitoyennete: React.FC = () => {
           </div>
           <div className='w-1/3 mx-auto md:mx-0'>
             <img
-              src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+              src="/cit-p1.png"
               alt="Team collaboration workshop"
               className="w-80 h-80 object-cover rounded-sm shadow-custom2"
             />
@@ -438,7 +438,7 @@ const PoleCitoyennete: React.FC = () => {
           </div>
           <div className='w-1/3 mx-auto md:mx-0'>
             <img
-              src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+              src="/cit-p3.png"
               alt="Team collaboration workshop"
               className="w-80 h-80 object-cover rounded-sm shadow-custom2"
             />
@@ -465,21 +465,21 @@ const PoleCitoyennete: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-center md:justify-between gap-8 mb-12">
             {/* First Image */}
             <img
-              src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+              src="/cit-p41.jpeg"
               alt="Team collaboration workshop"
               className="w-80 h-80 object-cover rounded-sm shadow-custom"
             />
 
             {/* Second Image */}
             <img
-              src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+              src="/cit-p42.jpeg"
               alt="Professional development session"
               className="w-80 h-80 object-cover rounded-sm shadow-custom"
             />
 
             {/* Third Image */}
             <img
-              src="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+              src="/cit-p43.jpeg"
               alt="Community engagement activities"
               className="w-80 h-80 object-cover rounded-sm shadow-custom"
             />
@@ -531,19 +531,19 @@ const PoleCitoyennete: React.FC = () => {
               <li className='my-4'>En <span className="bg-yellow-300 p-1 inline">5 mois, 4 temps d'échange à </span>Vaulx en Velin avec le Sénateur Henri Cabanel & sa Directrice.</li>
             </ul>
           </div>
-          <div className="flex flex-col md:flex-row justify-center md:justify-center gap-8 mb-12">
+          <div className="flex flex-col md:flex-row justify-center md:justify-start gap-8 mb-12">
             {/* First Image */}
             <img
-              src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+              src="/cit-p61.jpeg"
               alt="Team collaboration workshop"
-              className="w-full object-cover rounded-sm shadow-custom"
+              className="w-[400px] h-[300px] object-cover rounded-sm shadow-custom"
             />
 
             {/* Second Image */}
             <img
-              src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+              src="/cit-p62.jpeg"
               alt="Professional development session"
-              className="w-full object-cover rounded-sm shadow-custom"
+              className="w-[400] h-[300px] object-cover rounded-sm shadow-custom"
             />
           </div>
         </div>
@@ -567,7 +567,7 @@ const PoleCitoyennete: React.FC = () => {
           </div>
           <div className='w-1/3 mx-auto md:mx-0'>
             <img
-              src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+              src="/cit-p7.jpeg"
               alt="Team collaboration workshop"
               className="w-80 h-80 object-cover rounded-sm shadow-custom2"
             />
@@ -595,7 +595,7 @@ const PoleCitoyennete: React.FC = () => {
           </div>
           <div className='w-1/3 mx-auto md:mx-0'>
             <img
-              src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&dpr=1"
+              src="/cit-p8.png"
               alt="Team collaboration workshop"
               className="w-80 h-80 object-cover rounded-sm shadow-custom2"
             />
