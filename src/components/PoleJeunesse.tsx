@@ -135,22 +135,13 @@ const PoleJeunesse: React.FC = () => {
 
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-            <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
+            <div className="w-72 mx-auto aspect-square overflow-hidden rounded-lg shadow-lg">
               <img
                 src="/jeunesse_presentation1.jpeg"
                 alt="Groupe de jeunes"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
-              <img
-                src="/jeunesse_presentation2.jpeg"
-                alt="Jeunes en action"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-          </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center pt-2">
           <div>
@@ -169,23 +160,13 @@ const PoleJeunesse: React.FC = () => {
             </p>
 
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-            <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
-              <img
-                src="/jeunesse_presentation1.jpeg"
-                alt="Groupe de jeunes"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div className="aspect-square overflow-hidden rounded-lg shadow-lg">
+            <div className="w-72 mx-auto aspect-square overflow-hidden rounded-lg shadow-lg">
               <img
                 src="/jeunesse_presentation2.jpeg"
                 alt="Jeunes en action"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
               />
             </div>
-          </div>
         </div>
       </div>
 

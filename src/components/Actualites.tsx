@@ -1,25 +1,8 @@
 import React from 'react';
-import {
-  Calendar, Eye, Heart, MessageCircle, ExternalLink, Share2
-} from 'lucide-react';
 import { usePosts } from '../hooks/usePosts';
 
 const Actualites: React.FC = () => {
   const { posts, isLoading, error } = usePosts();
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  const formatNumber = (num: number) => {
-    if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
-    return num.toString();
-  };
 
   const mappedArticles = posts.map((post, index): any => ({
     id: index + 1,
